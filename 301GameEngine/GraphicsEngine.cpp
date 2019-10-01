@@ -78,7 +78,6 @@ normalMatLoc,
 grassTexLoc,
 skyTexLoc,
 nightSkyTexLoc,
-fenceTexLoc,
 objectLoc,
 light0coordsLoc,
 alphaLoc,
@@ -165,10 +164,10 @@ void GraphicsEngine::setup()
 	image[0] = getbmp("Textures/grass.bmp");
 	image[1] = getbmp("Textures/sky.bmp");
 	image[2] = getbmp("Textures/nightSky.bmp");
-	//image[3] = getbmp("Textures/wooden.bmp");
+	
 
 	// Create texture ids.
-	glGenTextures(4, texture);
+	glGenTextures(3, texture);
 
 	// Bind grass image.
 	glActiveTexture(GL_TEXTURE0);
