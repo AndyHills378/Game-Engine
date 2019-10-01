@@ -1,8 +1,9 @@
 #pragma once
 #include "GameObject.h"
+#include "GameEngine.h"
 #define PI 3.14159265358979324
 
-class GraphicsEngine
+class GraphicsEngine : public GameEngine
 {
 private:
 	static int oldTimeSinceStart; ///<The old time since the start of the game (from previous frame) for delta time calculation.
@@ -23,7 +24,7 @@ public:
 	static void initEngine(int argc, char **argv);
 	static void addGameObject(GameObject *gameobject);
 	static void startEngine();
-	static glm::vec3 cameraPos;
-	static glm::vec3 cameraFront;
+	//static glm::vec3 cameraPos;
+	//static glm::vec3 cameraFront;
 };
 

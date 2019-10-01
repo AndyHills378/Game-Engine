@@ -1,23 +1,13 @@
 #include "GraphicsEngine.h"
+#include "GameEngine.h"
 #include "sphere.h"
+#include "UIManager.h"
+
 int cameraMode = 0;
-bool debugMode = false;
 float cX = 0, cY = 10.0f, cZ = 15.0f;
 int GraphicsEngine::oldTimeSinceStart; ///<The old time since the start of the game (from previous frame) for delta time calculation.
 int GraphicsEngine::newTimeSinceStart; ///<The time since the start of the game for delta time calculation.
 vector<GameObject*> GraphicsEngine::gameobjects;
-std::map <int, bool> GameObject::specialKeys;
-std::map <char, bool> GameObject::keys;
-glm::vec3 GraphicsEngine::cameraPos = glm::vec3(0.0f, 5.0f, 0.0f);
-glm::vec3 GraphicsEngine::cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
-glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
-bool firstMouse = true;
-float GraphicsEngine::yaw = 90.0f;
-float GraphicsEngine::pitch = 0.0f;
-float lastX = 800.0f / 2.0f;
-float lastY = 600.0f / 2.0f;
-float fov = 45.0f;
-int GraphicsEngine::sphereToDraw = 0;
 
 GraphicsEngine::GraphicsEngine()
 {
@@ -206,52 +196,6 @@ void GraphicsEngine::setup()
 	glUniform1i(nightSkyTexLoc, 2);
 }
 
-void GraphicsEngine::mouseMove(int x, int y)
-{
-	if (firstMouse)
-	{
-		lastX = x;
-		lastY = y;
-		firstMouse = false;
-	}
-	float xoffset = x - lastX;
-	float yoffset = lastY - y;
-	lastX = x;
-	lastY = y;
-
-	float sensitivity = 0.3f;
-	xoffset *= sensitivity;
-	yoffset *= sensitivity;
-
-	GraphicsEngine::yaw += xoffset;
-	GraphicsEngine::pitch += yoffset;
-
-	if (GraphicsEngine::pitch > 89.0f) GraphicsEngine::pitch = 89.0f;
-	if (GraphicsEngine::pitch < -89.0f) GraphicsEngine::pitch = -89.0f;
-
-	glm::vec3 front;
-	front.x = cos(glm::radians(GraphicsEngine::yaw)) * cos(glm::radians(GraphicsEngine::pitch));
-	front.y = sin(glm::radians(GraphicsEngine::pitch));
-	front.z = sin(glm::radians(GraphicsEngine::yaw)) * cos(glm::radians(GraphicsEngine::pitch));
-	GraphicsEngine::cameraFront = glm::normalize(front);
-	
-	//forces mouse to stay in the window
-	int win_w = glutGet(GLUT_WINDOW_WIDTH);
-	int win_h = glutGet(GLUT_WINDOW_HEIGHT);
-	if (x < 100 || x > win_w - 100)
-	{
-		lastX = win_w / 2;
-		lastY = win_h / 2;
-		glutWarpPointer(win_w / 2, win_h / 2);
-	}
-	else if (y < 100 || win_h - 100)
-	{
-		lastX = win_w / 2;
-		lastY = win_h / 2;
-		glutWarpPointer(win_w / 2, win_h / 2);
-	}
-}
-
 // Drawing routine.
 void GraphicsEngine::drawScene()
 {
@@ -269,7 +213,7 @@ void GraphicsEngine::drawScene()
 
 	// Calculate and update modelview matrix.
 	viewMat = mat4(1.0);
-	viewMat = lookAt(GraphicsEngine::cameraPos, GraphicsEngine::cameraPos + GraphicsEngine::cameraFront, cameraUp);
+	viewMat = lookAt(UIManager::getCameraPos(), UIManager::getCameraPos() + UIManager::getCameraFront(), UIManager::getCameraUp());
 	//viewMat = lookAt(vec3(cX, cY, cZ), vec3(0.0, 10.0, 0.0), vec3(0.0, 1.0, 0.0));
 	glUniformMatrix4fv(viewMatLoc, 1, GL_FALSE, value_ptr(viewMat));
 
@@ -325,58 +269,6 @@ void resize(int w, int h)
 	glViewport(0, 0, w, h);
 }
 
-// Keyboard input processing routine.
-void keyInput(unsigned char key, int x, int y)
-{
-	int id = 0;
-	float cameraSpeed = 0.5f;
-	switch (key)
-	{
-	case 27:
-		exit(0);
-		break;
-	case 't':
-		if (debugMode) debugMode = false;
-		else debugMode = true;
-		break;
-	case 'w':
-		GraphicsEngine::cameraPos += cameraSpeed * GraphicsEngine::cameraFront;
-		break;
-	case 'a':
-		GraphicsEngine::cameraPos -= glm::normalize(glm::cross(GraphicsEngine::cameraFront, cameraUp))*cameraSpeed;
-		break;
-	case 's':
-		GraphicsEngine::cameraPos -= cameraSpeed * GraphicsEngine::cameraFront;
-		break;
-	case 'd':
-		GraphicsEngine::cameraPos += glm::normalize(glm::cross(GraphicsEngine::cameraFront, cameraUp)) * cameraSpeed;
-		break;
-	case 'g':
-		id++;
-	}
-
-}
-
-// Callback routine for non-ASCII key entry.
-void specialKeyInput(int key, int x, int y)
-{
-	GameObject::specialKeys[key] = true;
-	if (GameObject::specialKeys[GLUT_KEY_RIGHT])
-	{
-		GraphicsEngine::linetheta--;
-	}
-	if (GameObject::specialKeys[GLUT_KEY_LEFT])
-	{
-		GraphicsEngine::linetheta++;
-	}
-	glutPostRedisplay();
-}
-
-void specialKeyUp(int key, int x, int y)
-{
-	GameObject::specialKeys[key] = false;
-}
-
 void GraphicsEngine::updateGame()
 {
 	oldTimeSinceStart = newTimeSinceStart;
@@ -389,7 +281,7 @@ void GraphicsEngine::updateGame()
 		newTimeSinceStart = glutGet(GLUT_ELAPSED_TIME);
 		deltaTime = newTimeSinceStart - oldTimeSinceStart;
 	}
-	if (debugMode) {
+	if (GameEngine::debugMode) {
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	}
 	else {
@@ -441,25 +333,10 @@ void GraphicsEngine::initEngine(int argc, char ** argv)
 	glutDisplayFunc(drawScene);
 	glutIdleFunc([]() {GraphicsEngine::updateGame(); }); //idle function
 	glutReshapeFunc(resize);
-	glutPassiveMotionFunc(mouseMove);
-	glutKeyboardFunc(keyInput);
-	glutSpecialFunc(specialKeyInput);
-	glutSpecialUpFunc(specialKeyUp);
 
 	glewExperimental = GL_TRUE;
 	glewInit();
 
-	/*glutKeyboardUpFunc([](unsigned char key, int x, int y) {
-		GameObject::keys[key] = false;
-	});
-
-	glutSpecialFunc([](int key, int x, int y) {
-		GameObject::specialKeys[key] = true;
-	});
-
-	glutSpecialUpFunc([](int key, int x, int y) {
-		GameObject::specialKeys[key] = false;
-	});*/
 	setup();
 }
 
@@ -467,12 +344,6 @@ void GraphicsEngine::addGameObject(GameObject *gameobject) {
 	gameobjects.push_back(gameobject);
 	gameobject->modelMatLoc = modelMatLoc;
 	gameobject->setupDrawing();
-}
-
-void GraphicsEngine::startEngine()
-{
-	cout << "press ESC to close" << endl;
-	glutMainLoop();
 }
 
 

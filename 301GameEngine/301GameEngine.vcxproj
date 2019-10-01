@@ -131,6 +131,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GameEngine.cpp" />
     <ClCompile Include="GraphicsEngine.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="getbmp.cpp" />
@@ -138,9 +139,11 @@
     <ClCompile Include="shader.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
+    <ClCompile Include="UIManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Collider.h" />
+    <ClInclude Include="GameEngine.h" />
     <ClInclude Include="GraphicsEngine.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="getbmp.h" />
@@ -150,6 +153,7 @@
     <ClInclude Include="PhysicsEngine.h" />
     <ClInclude Include="shader.h" />
     <ClInclude Include="SphereCollider.h" />
+    <ClInclude Include="UIManager.h" />
     <ClInclude Include="vertex.h" />
   </ItemGroup>
   <ItemGroup>

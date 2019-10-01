@@ -3,7 +3,7 @@
 int main(int argc, char ** argv)
 {
 	GameObject::debugMode = true;
-	GraphicsEngine::initEngine(argc, argv);
+	GameEngine::initEngine(argc, argv);
 
-	GraphicsEngine::startEngine();
+	
 }
