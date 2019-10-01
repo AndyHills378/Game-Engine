@@ -1,7 +1,7 @@
 #include "UIManager.h"
 
-std::map <int, bool> GameObject::specialKeys;
-std::map <char, bool> GameObject::keys;
+std::map <int, bool> GameEngine::specialKeys;
+std::map <char, bool> GameEngine::keys;
 glm::vec3 UIManager::cameraPos = glm::vec3(0.0f, 5.0f, 0.0f);
 glm::vec3 UIManager::cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
@@ -96,7 +96,7 @@ void UIManager::setSpecialKeyInput(int key, int x, int y)
 
 void UIManager::setSpecialKeyUp(int key, int x, int y)
 {
-	GameObject::specialKeys[key] = false;
+	GameEngine::specialKeys[key] = false;
 }
 
 UIManager::UIManager()
@@ -109,6 +109,7 @@ UIManager::~UIManager()
 
 void UIManager::initEngine(int argc, char** argv)
 {
+	
 	glutPassiveMotionFunc(setMouseMove);
 	glutKeyboardFunc(setKeyInput);
 	glutSpecialFunc(setSpecialKeyInput);

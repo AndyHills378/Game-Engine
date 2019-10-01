@@ -8,6 +8,7 @@ float cX = 0, cY = 10.0f, cZ = 15.0f;
 int GraphicsEngine::oldTimeSinceStart; ///<The old time since the start of the game (from previous frame) for delta time calculation.
 int GraphicsEngine::newTimeSinceStart; ///<The time since the start of the game for delta time calculation.
 vector<GameObject*> GraphicsEngine::gameobjects;
+static int frameCount = 0;
 
 GraphicsEngine::GraphicsEngine()
 {
@@ -336,7 +337,7 @@ void GraphicsEngine::initEngine(int argc, char ** argv)
 
 	glewExperimental = GL_TRUE;
 	glewInit();
-
+	//glutTimerFunc(0, []() {GraphicsEngine::frameCounter(); }, 0);
 	setup();
 }
 

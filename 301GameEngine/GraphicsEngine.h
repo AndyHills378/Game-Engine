@@ -3,6 +3,7 @@
 #include "GameEngine.h"
 #define PI 3.14159265358979324
 
+
 class GraphicsEngine : public GameEngine
 {
 private:
@@ -16,15 +17,10 @@ public:
 	static float yaw;
 	static float pitch;
 	static void setup(void);
-	static void mouseMove(int x, int y);
 	static void drawScene();
 	static void updateGame();
 	GraphicsEngine();
 	~GraphicsEngine();
 	static void initEngine(int argc, char **argv);
 	static void addGameObject(GameObject *gameobject);
-	static void startEngine();
-	//static glm::vec3 cameraPos;
-	//static glm::vec3 cameraFront;
 };
-

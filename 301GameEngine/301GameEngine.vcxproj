@@ -137,7 +137,7 @@
     <ClCompile Include="getbmp.cpp" />
     <ClCompile Include="PhysicsEngine.cpp" />
     <ClCompile Include="shader.cpp" />
-    <ClCompile Include="Source.cpp" />
+    <ClCompile Include="EntryPoint.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="UIManager.cpp" />
   </ItemGroup>
