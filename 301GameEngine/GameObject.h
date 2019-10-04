@@ -8,9 +8,6 @@
 #include "Collider.h"
 #include "Header.h"
 
-using namespace std;
-using namespace glm;
-
 struct Colour {
 	float r, g, b;
 };

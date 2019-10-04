@@ -109,7 +109,6 @@ UIManager::~UIManager()
 
 void UIManager::initEngine(int argc, char** argv)
 {
-	
 	glutPassiveMotionFunc(setMouseMove);
 	glutKeyboardFunc(setKeyInput);
 	glutSpecialFunc(setSpecialKeyInput);

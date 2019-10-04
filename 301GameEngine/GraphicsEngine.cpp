@@ -3,12 +3,9 @@
 #include "sphere.h"
 #include "UIManager.h"
 
-int cameraMode = 0;
-float cX = 0, cY = 10.0f, cZ = 15.0f;
 int GraphicsEngine::oldTimeSinceStart; ///<The old time since the start of the game (from previous frame) for delta time calculation.
 int GraphicsEngine::newTimeSinceStart; ///<The time since the start of the game for delta time calculation.
 vector<GameObject*> GraphicsEngine::gameobjects;
-static int frameCount = 0;
 
 GraphicsEngine::GraphicsEngine()
 {
@@ -156,7 +153,6 @@ void GraphicsEngine::setup()
 	image[1] = getbmp("Textures/sky.bmp");
 	image[2] = getbmp("Textures/nightSky.bmp");
 	
-
 	// Create texture ids.
 	glGenTextures(3, texture);
 
@@ -297,7 +293,7 @@ void GraphicsEngine::updateGame()
 	}
 
 	//Test collisions in a naive way for every pair of gameobjects (note calculations will explode when you increase the amount of gameobjects. Can you think of a better way?
-	for (std::vector<GameObject*>::size_type i = 0; i != gameobjects.size(); i++) {
+	/*for (std::vector<GameObject*>::size_type i = 0; i != gameobjects.size(); i++) {
 		for (std::vector<GameObject*>::size_type j = i + 1; j != gameobjects.size(); j++) {
 			if (gameobjects[i]->collider != NULL) {
 				if (gameobjects[i]->collider->collidesWith(gameobjects[j]->collider)) {
@@ -306,7 +302,7 @@ void GraphicsEngine::updateGame()
 				}
 			}
 		}
-	}
+	}*/
 	glutPostRedisplay();
 }
 

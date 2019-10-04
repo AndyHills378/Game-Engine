@@ -132,9 +132,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="GameEngine.cpp" />
+    <ClCompile Include="GamePad.cpp" />
     <ClCompile Include="GraphicsEngine.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="getbmp.cpp" />
+    <ClCompile Include="KyM.cpp" />
     <ClCompile Include="PhysicsEngine.cpp" />
     <ClCompile Include="shader.cpp" />
     <ClCompile Include="EntryPoint.cpp" />
@@ -144,10 +146,12 @@
   <ItemGroup>
     <ClInclude Include="Collider.h" />
     <ClInclude Include="GameEngine.h" />
+    <ClInclude Include="GamePad.h" />
     <ClInclude Include="GraphicsEngine.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="getbmp.h" />
     <ClInclude Include="Header.h" />
+    <ClInclude Include="KyM.h" />
     <ClInclude Include="light.h" />
     <ClInclude Include="material.h" />
     <ClInclude Include="PhysicsEngine.h" />
