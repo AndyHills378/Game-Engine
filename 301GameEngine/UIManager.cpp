@@ -1,8 +1,9 @@
 #include "UIManager.h"
+//#include "event.h"
 
 std::map <int, bool> GameEngine::specialKeys;
 std::map <char, bool> GameEngine::keys;
-glm::vec3 UIManager::cameraPos = glm::vec3(0.0f, 5.0f, 0.0f);
+/*glm::vec3 UIManager::cameraPos = glm::vec3(0.0f, 5.0f, 0.0f);
 glm::vec3 UIManager::cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 bool firstMouse = true;
@@ -10,10 +11,10 @@ float UIManager::yaw = 90.0f;
 float UIManager::pitch = 0.0f;
 float lastX = 800.0f / 2.0f;
 float lastY = 600.0f / 2.0f;
-float fov = 45.0f;
-bool GameEngine::debugMode = false;
+float fov = 45.0f;*/
+//bool GameEngine::debugMode = false;
 
-void UIManager::setMouseMove(int x, int y)
+/*void UIManager::setMouseMove(int x, int y)
 {
 	if (firstMouse)
 	{
@@ -57,7 +58,7 @@ void UIManager::setMouseMove(int x, int y)
 		lastY = win_h / 2;
 		glutWarpPointer(win_w / 2, win_h / 2);
 	}
-}
+}*/
 
 void UIManager::setKeyInput(unsigned char key, int x, int y)
 {
@@ -73,16 +74,21 @@ void UIManager::setKeyInput(unsigned char key, int x, int y)
 		else GameEngine::debugMode = true;
 		break;
 	case 'w':
-		UIManager::cameraPos += cameraSpeed * UIManager::cameraFront;
+	{
+		/*Event myEvent(accelerate);
+		myEvent.addSubsystem(graphicsEngine);
+		EventQueue.push_back(myEvent);*/
+		//UIManager::cameraPos += cameraSpeed * UIManager::cameraFront;
 		break;
+	}
 	case 'a':
-		UIManager::cameraPos -= glm::normalize(glm::cross(UIManager::cameraFront, cameraUp)) * cameraSpeed;
+		//UIManager::cameraPos -= glm::normalize(glm::cross(UIManager::cameraFront, cameraUp)) * cameraSpeed;
 		break;
 	case 's':
-		UIManager::cameraPos -= cameraSpeed * UIManager::cameraFront;
+		//UIManager::cameraPos -= cameraSpeed * UIManager::cameraFront;
 		break;
 	case 'd':
-		UIManager::cameraPos += glm::normalize(glm::cross(UIManager::cameraFront, cameraUp)) * cameraSpeed;
+		//UIManager::cameraPos += glm::normalize(glm::cross(UIManager::cameraFront, cameraUp)) * cameraSpeed;
 		break;
 	case 'g':
 		id++;
@@ -99,6 +105,10 @@ void UIManager::setSpecialKeyUp(int key, int x, int y)
 	GameEngine::specialKeys[key] = false;
 }
 
+void UIManager::joyStick(unsigned int buttonmask, int x, int y, int z)
+{
+}
+
 UIManager::UIManager()
 {
 }
@@ -109,13 +119,15 @@ UIManager::~UIManager()
 
 void UIManager::initEngine(int argc, char** argv)
 {
-	glutPassiveMotionFunc(setMouseMove);
+	//glutPassiveMotionFunc(setMouseMove);
 	glutKeyboardFunc(setKeyInput);
 	glutSpecialFunc(setSpecialKeyInput);
 	glutSpecialUpFunc(setSpecialKeyUp);
+	glutJoystickFunc(joyStick, 20);
+	cout << "UI Manager loaded" << endl;
 }
 
-glm::vec3 UIManager::getCameraPos()
+/*glm::vec3 UIManager::getCameraPos()
 {
 	return cameraPos;
 }
@@ -128,4 +140,4 @@ glm::vec3 UIManager::getCameraFront()
 glm::vec3 UIManager::getCameraUp()
 {
 	return cameraUp;
-}
+}*/

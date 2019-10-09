@@ -13,8 +13,6 @@ GameEngine::~GameEngine()
 
 void GameEngine::initEngine(int argc, char** argv)
 {
-	///Initialise all Engines.
-
 	//Initialise Graphics Engine
 	GraphicsEngine::initEngine(argc, argv);
 

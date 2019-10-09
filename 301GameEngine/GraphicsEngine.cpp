@@ -1,11 +1,21 @@
 #include "GraphicsEngine.h"
 #include "GameEngine.h"
 #include "sphere.h"
-#include "UIManager.h"
 
 int GraphicsEngine::oldTimeSinceStart; ///<The old time since the start of the game (from previous frame) for delta time calculation.
 int GraphicsEngine::newTimeSinceStart; ///<The time since the start of the game for delta time calculation.
 vector<GameObject*> GraphicsEngine::gameobjects;
+
+glm::vec3 GraphicsEngine::cameraPos = glm::vec3(0.0f, 5.0f, 0.0f);
+glm::vec3 GraphicsEngine::cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
+glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
+bool firstMouse = true;
+float GraphicsEngine::yaw = 90.0f;
+float GraphicsEngine::pitch = 0.0f;
+float lastX = 800.0f / 2.0f;
+float lastY = 600.0f / 2.0f;
+float fov = 45.0f;
+float GraphicsEngine::cameraSpeed = 0.5f;
 
 GraphicsEngine::GraphicsEngine()
 {
@@ -210,8 +220,23 @@ void GraphicsEngine::drawScene()
 
 	// Calculate and update modelview matrix.
 	viewMat = mat4(1.0);
-	viewMat = lookAt(UIManager::getCameraPos(), UIManager::getCameraPos() + UIManager::getCameraFront(), UIManager::getCameraUp());
-	//viewMat = lookAt(vec3(cX, cY, cZ), vec3(0.0, 10.0, 0.0), vec3(0.0, 1.0, 0.0));
+
+	///read event queue
+	
+	/*for (int i = 0; i < EventQueue.size();i++)
+	{
+		for (int j = 0; j < EventQueue[i].mySubSystems.size(); j++)
+		{
+			if (EventQueue[i].mySubSystems[j] == graphicsEngine)
+			{
+				EventReaction[i];
+				//EventReaction.append(EventQueue[i]);
+				// Do the thing
+			}
+		}
+	}*/
+
+	viewMat = lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 	glUniformMatrix4fv(viewMatLoc, 1, GL_FALSE, value_ptr(viewMat));
 
 	// Calculate and update normal matrix.
@@ -334,7 +359,13 @@ void GraphicsEngine::initEngine(int argc, char ** argv)
 	glewExperimental = GL_TRUE;
 	glewInit();
 	//glutTimerFunc(0, []() {GraphicsEngine::frameCounter(); }, 0);
+
+	//make event reaction array see lecture 1 function pointers
+	int EventReaction[5] = { int(*grAccelerate), int(*grDecelerate), int(*grTurnLeft), int(*grTurnRight) };
+
 	setup();
+
+	cout << "Graphics Engine loaded" << endl;
 }
 
 void GraphicsEngine::addGameObject(GameObject *gameobject) {
@@ -343,4 +374,27 @@ void GraphicsEngine::addGameObject(GameObject *gameobject) {
 	gameobject->setupDrawing();
 }
 
+int GraphicsEngine::grAccelerate()
+{
+	cameraPos += cameraSpeed * cameraFront;
+	return 0;
+}
+
+int GraphicsEngine::grDecelerate()
+{
+	cameraPos -= cameraSpeed * cameraFront;
+	return 0;
+}
+
+int GraphicsEngine::grTurnLeft()
+{
+	cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+	return 0;
+}
+
+int GraphicsEngine::grTurnRight()
+{
+	cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+	return 0;
+}
 

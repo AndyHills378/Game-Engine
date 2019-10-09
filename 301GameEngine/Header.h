@@ -5,26 +5,32 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include <map>
+
+//#include "event.h"
 
 //reactphysics includes (physics)
 #include <reactphysics3d.h>
 
 //freeglut includes (Graphics)
-#include "freeGlut-library/GL/glew.h"
-#include "freeGlut-library/GL/freeglut.h"
-#include "freeGlut-library/GL/glext.h"
-#include "freeGlut-library/glm/glm.hpp"
-#include <freeGlut-library/glm/gtc/matrix_transform.hpp>
-#include <freeGlut-library/glm/gtc/type_ptr.hpp>
-#include <freeGlut-library/glm/gtc/matrix_inverse.hpp>
-#include <freeGlut-library/glm/gtx/rotate_vector.hpp>
-#include <freeGlut-library/glm/vec3.hpp>
+#include <GL/glew.h>
+#include <GL/freeglut.h>
+#include <GL/glext.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+#include <glm/gtc/matrix_inverse.hpp>
+#include <glm/gtx/rotate_vector.hpp>
+#include <glm/vec3.hpp>
+
+//FMOD includes (Audio)
+#include <fmod_studio.hpp>
+#include <fmod.hpp>
 
 using namespace std;
 using namespace glm;
 
 static enum object { FIELD, SKY }; /// VAO ids.
 static enum buffer { FIELD_VERTICES, SKY_VERTICES }; // VBO ids.
+
 
 

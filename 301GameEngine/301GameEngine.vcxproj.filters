@@ -66,12 +66,6 @@
     <ClCompile Include="shader.cpp">
       <Filter>Graphics\Source</Filter>
     </ClCompile>
-    <ClCompile Include="GamePad.cpp">
-      <Filter>UIManager\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="KyM.cpp">
-      <Filter>UIManager\Source</Filter>
-    </ClCompile>
     <ClCompile Include="UIManager.cpp">
       <Filter>UIManager\Source</Filter>
     </ClCompile>
@@ -83,6 +77,9 @@
     </ClCompile>
     <ClCompile Include="EntryPoint.cpp">
       <Filter>GameEngine\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioEngine.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -113,12 +110,6 @@
     <ClInclude Include="UIManager.h">
       <Filter>UIManager\Headers</Filter>
     </ClInclude>
-    <ClInclude Include="KyM.h">
-      <Filter>UIManager\Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="GamePad.h">
-      <Filter>UIManager\Headers</Filter>
-    </ClInclude>
     <ClInclude Include="PhysicsEngine.h">
       <Filter>Physics\Headers</Filter>
     </ClInclude>
@@ -130,6 +121,12 @@
     </ClInclude>
     <ClInclude Include="vertex.h">
       <Filter>GameEngine\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="event.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioEngine.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
