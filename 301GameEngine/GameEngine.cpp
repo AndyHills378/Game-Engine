@@ -42,5 +42,17 @@ void GameEngine::startEngine()
 
 void GameEngine::updateGame()
 {
-
+	if (EventQueue.size() > 0)
+	{
+		for (int i = 0; i < EventQueue.size();i++)
+		{
+			if (EventQueue[i].mySubSystems.size() == 0)
+			{
+				EventQueue.erase(EventQueue.begin() + i);
+				cout << "Event erased\n";
+				/*EventReaction[(int)GameEngine::EventQueue[i].myType]();
+				GameEngine::EventQueue[i].mySubSystems.erase(GameEngine::EventQueue[i].mySubSystems.begin() + j);*/
+			}
+		}
+	}
 }

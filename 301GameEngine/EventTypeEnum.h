@@ -1,3 +1,3 @@
 #pragma once
 
-enum class EventTypeEnum { accelerate, decelerate, turnLeft, turnRight };
+enum class EventTypeEnum { accelerate, decelerate, turnLeft, turnRight, mouseMove };

@@ -22,6 +22,7 @@ public:
 	static vector<GameObject*> gameobjects;
 	static int(*EventReaction[4])();
 
+	static void MouseMove(int x, int y);
 	static void setup(void);
 	static void drawScene();
 	static void updateGame();
@@ -34,3 +35,5 @@ public:
 	static int grTurnLeft();
 	static int grTurnRight();
 };
+
+

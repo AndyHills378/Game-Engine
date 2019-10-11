@@ -18,6 +18,52 @@ float lastY = 600.0f / 2.0f;
 float fov = 45.0f;
 float GraphicsEngine::cameraSpeed = 0.5f;
 
+void GraphicsEngine::MouseMove(int x, int y)
+{
+	if (firstMouse)
+	{
+		lastX = x;
+		lastY = y;
+		firstMouse = false;
+	}
+	float xoffset = x - lastX;
+	float yoffset = lastY - y;
+	lastX = x;
+	lastY = y;
+
+	float sensitivity = 0.3f;
+	xoffset *= sensitivity;
+	yoffset *= sensitivity;
+
+	yaw += xoffset;
+	pitch += yoffset;
+
+	if (pitch > 89.0f) pitch = 89.0f;
+	if (pitch < -89.0f) pitch = -89.0f;
+
+	glm::vec3 front;
+	front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+	front.y = sin(glm::radians(pitch));
+	front.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+	cameraFront = glm::normalize(front);
+
+	//forces mouse to stay in the window
+	int win_w = glutGet(GLUT_WINDOW_WIDTH);
+	int win_h = glutGet(GLUT_WINDOW_HEIGHT);
+	if (x < 100 || x > win_w - 100)
+	{
+		lastX = win_w / 2;
+		lastY = win_h / 2;
+		glutWarpPointer(win_w / 2, win_h / 2);
+	}
+	else if (y < 100 || win_h - 100)
+	{
+		lastX = win_w / 2;
+		lastY = win_h / 2;
+		glutWarpPointer(win_w / 2, win_h / 2);
+	}
+}
+
 GraphicsEngine::GraphicsEngine()
 {
 }
@@ -328,6 +374,7 @@ void GraphicsEngine::updateGame()
 		}
 	}*/
 	glutPostRedisplay();
+	GameEngine::updateGame();
 }
 
 // Routine to output interaction instructions to the C++ window.
@@ -378,7 +425,7 @@ void GraphicsEngine::initEngine(int argc, char ** argv)
 	glutDisplayFunc(drawScene);
 	glutIdleFunc([]() {GraphicsEngine::updateGame(); }); //idle function
 	glutReshapeFunc(resize);
-
+	glutPassiveMotionFunc(MouseMove);
 	glewExperimental = GL_TRUE;
 	glewInit();
 	//glutTimerFunc(0, []() {GraphicsEngine::frameCounter(); }, 0);
@@ -392,7 +439,6 @@ void GraphicsEngine::initEngine(int argc, char ** argv)
 	EventReaction[1] = p_grDecelerate;
 	EventReaction[2] = p_grTurnLeft;
 	EventReaction[3] = p_grTurnRight;
-		// = { p_grAccelerate, p_grDecelerate, p_grTurnLeft, p_grTurnRight };
 
 	setup();
 

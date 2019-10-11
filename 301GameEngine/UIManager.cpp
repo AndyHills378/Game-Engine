@@ -66,27 +66,32 @@ void UIManager::setKeyInput(unsigned char key, int x, int y)
 		break;
 	case 'w':
 	{
-		Event myEvent((EventTypeEnum)0);
-		myEvent.addSubsystem((SubSystemEnum)0);
+		Event myEvent((EventTypeEnum)0); // 0 - Accelerate
+		myEvent.addSubsystem((SubSystemEnum)0); // 0 - GraphicsEngine
 		GameEngine::EventQueue.push_back(myEvent);
-		//UIManager::cameraPos += cameraSpeed * UIManager::cameraFront;
 		break;
 	}
 	case 's':
 	{
-		Event myEvent((EventTypeEnum)1);
-		myEvent.addSubsystem((SubSystemEnum)0);
+		Event myEvent((EventTypeEnum)1); // 1 - Backwards
+		myEvent.addSubsystem((SubSystemEnum)0); // 0 - GraphicsEngine
 		GameEngine::EventQueue.push_back(myEvent);
-		//UIManager::cameraPos -= cameraSpeed * UIManager::cameraFront;
 		break;
 	}
 	case 'a':
-		//UIManager::cameraPos -= glm::normalize(glm::cross(UIManager::cameraFront, cameraUp)) * cameraSpeed;
+	{
+		Event myEvent((EventTypeEnum)2); // 2 - Turn Left
+		myEvent.addSubsystem((SubSystemEnum)0); // 0 - GraphicsEngine
+		GameEngine::EventQueue.push_back(myEvent);
 		break;
-	
+	}
 	case 'd':
-		//UIManager::cameraPos += glm::normalize(glm::cross(UIManager::cameraFront, cameraUp)) * cameraSpeed;
+	{
+		Event myEvent((EventTypeEnum)3); // 3 - Turn Right
+		myEvent.addSubsystem((SubSystemEnum)0); // 0 - GraphicsEngine
+		GameEngine::EventQueue.push_back(myEvent);
 		break;
+	}
 	case 'g':
 		id++;
 	}
