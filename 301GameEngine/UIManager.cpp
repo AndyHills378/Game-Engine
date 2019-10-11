@@ -1,18 +1,9 @@
 #include "UIManager.h"
-//#include "event.h"
+#include "event.h"
+#include "GameEngine.h"
 
-std::map <int, bool> GameEngine::specialKeys;
-std::map <char, bool> GameEngine::keys;
-/*glm::vec3 UIManager::cameraPos = glm::vec3(0.0f, 5.0f, 0.0f);
-glm::vec3 UIManager::cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
-glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
-bool firstMouse = true;
-float UIManager::yaw = 90.0f;
-float UIManager::pitch = 0.0f;
-float lastX = 800.0f / 2.0f;
-float lastY = 600.0f / 2.0f;
-float fov = 45.0f;*/
-//bool GameEngine::debugMode = false;
+std::map <int, bool> SubSystemSuper::specialKeys;
+std::map <char, bool> SubSystemSuper::keys;
 
 /*void UIManager::setMouseMove(int x, int y)
 {
@@ -70,23 +61,29 @@ void UIManager::setKeyInput(unsigned char key, int x, int y)
 		exit(0);
 		break;
 	case 't':
-		if (GameEngine::debugMode) GameEngine::debugMode = false;
-		else GameEngine::debugMode = true;
+		if (SubSystemSuper::debugMode) SubSystemSuper::debugMode = false;
+		else SubSystemSuper::debugMode = true;
 		break;
 	case 'w':
 	{
-		/*Event myEvent(accelerate);
-		myEvent.addSubsystem(graphicsEngine);
-		EventQueue.push_back(myEvent);*/
+		Event myEvent((EventTypeEnum)0);
+		myEvent.addSubsystem((SubSystemEnum)0);
+		GameEngine::EventQueue.push_back(myEvent);
 		//UIManager::cameraPos += cameraSpeed * UIManager::cameraFront;
+		break;
+	}
+	case 's':
+	{
+		Event myEvent((EventTypeEnum)1);
+		myEvent.addSubsystem((SubSystemEnum)0);
+		GameEngine::EventQueue.push_back(myEvent);
+		//UIManager::cameraPos -= cameraSpeed * UIManager::cameraFront;
 		break;
 	}
 	case 'a':
 		//UIManager::cameraPos -= glm::normalize(glm::cross(UIManager::cameraFront, cameraUp)) * cameraSpeed;
 		break;
-	case 's':
-		//UIManager::cameraPos -= cameraSpeed * UIManager::cameraFront;
-		break;
+	
 	case 'd':
 		//UIManager::cameraPos += glm::normalize(glm::cross(UIManager::cameraFront, cameraUp)) * cameraSpeed;
 		break;
@@ -102,7 +99,7 @@ void UIManager::setSpecialKeyInput(int key, int x, int y)
 
 void UIManager::setSpecialKeyUp(int key, int x, int y)
 {
-	GameEngine::specialKeys[key] = false;
+	SubSystemSuper::specialKeys[key] = false;
 }
 
 void UIManager::joyStick(unsigned int buttonmask, int x, int y, int z)

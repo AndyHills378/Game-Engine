@@ -5,6 +5,7 @@
 int GraphicsEngine::oldTimeSinceStart; ///<The old time since the start of the game (from previous frame) for delta time calculation.
 int GraphicsEngine::newTimeSinceStart; ///<The time since the start of the game for delta time calculation.
 vector<GameObject*> GraphicsEngine::gameobjects;
+int(*GraphicsEngine::EventReaction[4])();
 
 glm::vec3 GraphicsEngine::cameraPos = glm::vec3(0.0f, 5.0f, 0.0f);
 glm::vec3 GraphicsEngine::cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
@@ -221,20 +222,18 @@ void GraphicsEngine::drawScene()
 	// Calculate and update modelview matrix.
 	viewMat = mat4(1.0);
 
-	///read event queue
-	
-	/*for (int i = 0; i < EventQueue.size();i++)
+	//read event queue
+	for (int i = 0; i < GameEngine::EventQueue.size();i++)
 	{
-		for (int j = 0; j < EventQueue[i].mySubSystems.size(); j++)
+		for (int j = 0; j < GameEngine::EventQueue[i].mySubSystems.size(); j++)
 		{
-			if (EventQueue[i].mySubSystems[j] == graphicsEngine)
+			if (GameEngine::EventQueue[i].mySubSystems[j] == SubSystemEnum::graphicsEngine)
 			{
-				EventReaction[i];
-				//EventReaction.append(EventQueue[i]);
-				// Do the thing
+				EventReaction[(int)GameEngine::EventQueue[i].myType]();
+				GameEngine::EventQueue[i].mySubSystems.erase(GameEngine::EventQueue[i].mySubSystems.begin()+j);
 			}
 		}
-	}*/
+	}
 
 	viewMat = lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 	glUniformMatrix4fv(viewMatLoc, 1, GL_FALSE, value_ptr(viewMat));
@@ -303,7 +302,7 @@ void GraphicsEngine::updateGame()
 		newTimeSinceStart = glutGet(GLUT_ELAPSED_TIME);
 		deltaTime = newTimeSinceStart - oldTimeSinceStart;
 	}
-	if (GameEngine::debugMode) {
+	if (SubSystemSuper::debugMode) {
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	}
 	else {
@@ -339,41 +338,6 @@ void printInteraction(void)
 	cout << "     **WASD - change camera**     " << endl;
 }
 
-void GraphicsEngine::initEngine(int argc, char ** argv)
-{
-	printInteraction();
-	glutInit(&argc, argv);
-
-	glutInitContextVersion(4, 3);
-	glutInitContextProfile(GLUT_CORE_PROFILE);
-	glutInitContextFlags(GLUT_FORWARD_COMPATIBLE);
-
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
-	glutInitWindowSize(500, 500);
-	glutInitWindowPosition(500, 100);
-	glutCreateWindow("301CR Game Engine");
-	glutDisplayFunc(drawScene);
-	glutIdleFunc([]() {GraphicsEngine::updateGame(); }); //idle function
-	glutReshapeFunc(resize);
-
-	glewExperimental = GL_TRUE;
-	glewInit();
-	//glutTimerFunc(0, []() {GraphicsEngine::frameCounter(); }, 0);
-
-	//make event reaction array see lecture 1 function pointers
-	int EventReaction[5] = { int(*grAccelerate), int(*grDecelerate), int(*grTurnLeft), int(*grTurnRight) };
-
-	setup();
-
-	cout << "Graphics Engine loaded" << endl;
-}
-
-void GraphicsEngine::addGameObject(GameObject *gameobject) {
-	gameobjects.push_back(gameobject);
-	gameobject->modelMatLoc = modelMatLoc;
-	gameobject->setupDrawing();
-}
-
 int GraphicsEngine::grAccelerate()
 {
 	cameraPos += cameraSpeed * cameraFront;
@@ -397,4 +361,49 @@ int GraphicsEngine::grTurnRight()
 	cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
 	return 0;
 }
+
+void GraphicsEngine::initEngine(int argc, char ** argv)
+{
+	printInteraction();
+	glutInit(&argc, argv);
+
+	glutInitContextVersion(4, 3);
+	glutInitContextProfile(GLUT_CORE_PROFILE);
+	glutInitContextFlags(GLUT_FORWARD_COMPATIBLE);
+
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
+	glutInitWindowSize(500, 500);
+	glutInitWindowPosition(500, 100);
+	glutCreateWindow("301CR Game Engine");
+	glutDisplayFunc(drawScene);
+	glutIdleFunc([]() {GraphicsEngine::updateGame(); }); //idle function
+	glutReshapeFunc(resize);
+
+	glewExperimental = GL_TRUE;
+	glewInit();
+	//glutTimerFunc(0, []() {GraphicsEngine::frameCounter(); }, 0);
+
+	//make event reaction array see lecture 1 function 
+	int(*p_grAccelerate)() = grAccelerate;
+	int(*p_grDecelerate)() = grDecelerate;
+	int(*p_grTurnLeft)() = grTurnLeft;
+	int(*p_grTurnRight)() = grTurnRight;
+	EventReaction[0] = p_grAccelerate;
+	EventReaction[1] = p_grDecelerate;
+	EventReaction[2] = p_grTurnLeft;
+	EventReaction[3] = p_grTurnRight;
+		// = { p_grAccelerate, p_grDecelerate, p_grTurnLeft, p_grTurnRight };
+
+	setup();
+
+	cout << "Graphics Engine loaded" << endl;
+}
+
+void GraphicsEngine::addGameObject(GameObject *gameobject) {
+	gameobjects.push_back(gameobject);
+	gameobject->modelMatLoc = modelMatLoc;
+	gameobject->setupDrawing();
+}
+
+
 

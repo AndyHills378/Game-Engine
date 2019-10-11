@@ -1,17 +1,18 @@
 #pragma once
+
 #include <vector>
-enum subSystem{uiManager, graphicsEngine };
-enum eventType{accelerate, decelerate, turnLeft, turnRight};
+#include "SubSystemEnum.h"
+#include "EventTypeEnum.h"
 
 class Event
 {
 public:
-	
-	Event(eventType myEvent) { myType = myEvent; }
+	Event(EventTypeEnum myEvent) { myType = myEvent; }
 	~Event() {};
-	void addSubsystem(subSystem mySubsystem) { mySubSystems.push_back(mySubsystem); }
-	eventType myType;
-	vector<subSystem> mySubSystems;
+	void addSubsystem(SubSystemEnum mySubsystem) { mySubSystems.push_back(mySubsystem); }
+	EventTypeEnum myType;
+	
+	std::vector<SubSystemEnum> mySubSystems;
 };
 
 

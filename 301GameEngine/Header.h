@@ -6,8 +6,6 @@
 #include <fstream>
 #include <vector>
 
-//#include "event.h"
-
 //reactphysics includes (physics)
 #include <reactphysics3d.h>
 
@@ -31,6 +29,11 @@ using namespace glm;
 
 static enum object { FIELD, SKY }; /// VAO ids.
 static enum buffer { FIELD_VERTICES, SKY_VERTICES }; // VBO ids.
+
+static mat4 modelMat = mat4(1.0);
+static mat4 viewMat = mat4(1.0);
+static mat4 projMat = mat4(1.0);
+static mat3 normalMat = mat3(1.0);
 
 
 

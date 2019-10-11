@@ -1,8 +1,8 @@
 #pragma once
 #include "Header.h"
-#include "GameEngine.h"
+#include "SubSystemSuper.h"
 
-class AudioEngine : public GameEngine
+class AudioEngine : public SubSystemSuper
 {
 public:
 	AudioEngine();

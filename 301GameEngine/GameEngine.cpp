@@ -1,7 +1,7 @@
 #include "GameEngine.h"
 
-#include "UIManager.h"
-#include "GraphicsEngine.h"
+std::vector<Event> GameEngine::EventQueue;
+std::vector<int> GameEngine::subsystems;
 
 GameEngine::GameEngine()
 {
@@ -9,6 +9,15 @@ GameEngine::GameEngine()
 
 GameEngine::~GameEngine()
 {
+}
+
+void GameEngine::get_element()
+{
+	for (int x = 0; x < subsystems.size(); x++)
+	{
+		cout << subsystems[x] << " \n";
+	};
+	cout << " \n";
 }
 
 void GameEngine::initEngine(int argc, char** argv)
@@ -29,4 +38,9 @@ void GameEngine::startEngine()
 {
 	cout << "press ESC to close" << endl;
 	glutMainLoop();
+}
+
+void GameEngine::updateGame()
+{
+
 }

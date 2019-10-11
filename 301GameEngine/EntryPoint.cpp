@@ -1,11 +1,11 @@
-#include "GraphicsEngine.h"
+#include "event.h"
+#include "GameEngine.h"
 #include "Header.h"
+#include "SubSystemSuper.h"
 
-//vector<Event> EventQueue;
-bool GameEngine::debugMode = false;
+bool SubSystemSuper::debugMode = false;
 
 int main(int argc, char ** argv)
 {
-
 	GameEngine::initEngine(argc, argv);
 }

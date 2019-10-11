@@ -140,12 +140,14 @@
     <ClCompile Include="shader.cpp" />
     <ClCompile Include="EntryPoint.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
+    <ClCompile Include="SubSystemSuper.cpp" />
     <ClCompile Include="UIManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AudioEngine.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="event.h" />
+    <ClInclude Include="EventTypeEnum.h" />
     <ClInclude Include="GameEngine.h" />
     <ClInclude Include="GraphicsEngine.h" />
     <ClInclude Include="GameObject.h" />
@@ -156,6 +158,8 @@
     <ClInclude Include="PhysicsEngine.h" />
     <ClInclude Include="shader.h" />
     <ClInclude Include="SphereCollider.h" />
+    <ClInclude Include="SubSystemEnum.h" />
+    <ClInclude Include="SubSystemSuper.h" />
     <ClInclude Include="UIManager.h" />
     <ClInclude Include="vertex.h" />
   </ItemGroup>
