@@ -64,11 +64,17 @@
     <Filter Include="SubSystems\PhysicsEngine\Source">
       <UniqueIdentifier>{a215024e-049c-48d7-851b-68d78ab0805c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObjects">
+      <UniqueIdentifier>{192da405-f497-4e8d-b039-581d9b084e69}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObjects\Headers">
+      <UniqueIdentifier>{66deb515-7ab3-4f18-af64-25ddc7a99a81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObjects\Source">
+      <UniqueIdentifier>{84a0950a-0eac-456c-ab70-85773af2b212}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GameObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SphereCollider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -99,12 +105,21 @@
     <ClCompile Include="EntryPoint.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Mustang.cpp">
+      <Filter>GameObjects\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>GameObjects\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Track.cpp">
+      <Filter>GameObjects\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="TextReader.cpp">
+      <Filter>GameObjects\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Collider.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SphereCollider.h">
@@ -154,6 +169,18 @@
     </ClInclude>
     <ClInclude Include="SubSystemSuper.h">
       <Filter>SubSystems</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>GameObjects\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Mustang.h">
+      <Filter>GameObjects\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Track.h">
+      <Filter>GameObjects\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="TextReader.h">
+      <Filter>GameObjects\Headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

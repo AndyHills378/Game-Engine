@@ -136,11 +136,14 @@
     <ClCompile Include="GraphicsEngine.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="getbmp.cpp" />
+    <ClCompile Include="Mustang.cpp" />
     <ClCompile Include="PhysicsEngine.cpp" />
     <ClCompile Include="shader.cpp" />
     <ClCompile Include="EntryPoint.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="SubSystemSuper.cpp" />
+    <ClCompile Include="TextReader.cpp" />
+    <ClCompile Include="Track.cpp" />
     <ClCompile Include="UIManager.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -155,11 +158,14 @@
     <ClInclude Include="Header.h" />
     <ClInclude Include="light.h" />
     <ClInclude Include="material.h" />
+    <ClInclude Include="Mustang.h" />
     <ClInclude Include="PhysicsEngine.h" />
     <ClInclude Include="shader.h" />
     <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="SubSystemEnum.h" />
     <ClInclude Include="SubSystemSuper.h" />
+    <ClInclude Include="TextReader.h" />
+    <ClInclude Include="Track.h" />
     <ClInclude Include="UIManager.h" />
     <ClInclude Include="vertex.h" />
   </ItemGroup>
