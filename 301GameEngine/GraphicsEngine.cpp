@@ -113,28 +113,22 @@ static Vertex skyVertices[4] =
 
 unsigned int GraphicsEngine::programId;
 
-static unsigned int
-vertexShaderId,
-fragmentShaderId,
-viewMatLoc,
-modelMatLoc,
-projMatLoc,
-normalMatLoc,
-grassTexLoc,
-skyTexLoc,
-nightSkyTexLoc,
-objectLoc,
-light0coordsLoc,
-alphaLoc,
-buffer[5],
-vao[4],
-texture[3];
 
 static BitMapFile *image[3];
 
 static float theta = 0.0; // Angle of the sun with the ground.
 float GraphicsEngine::linetheta = 90.0; 
 static float alpha = 0.0; // Blending parameter.
+
+void shaderCompileTest(GLuint shader)
+{
+	GLint result = GL_FALSE;
+	int logLength; glGetShaderiv(shader, GL_COMPILE_STATUS, &result);
+	glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &logLength);
+	std::vector<GLchar> vertShaderError((logLength > 1) ? logLength : 1);
+	glGetShaderInfoLog(shader, logLength, NULL, &vertShaderError[0]);
+	std::cout << &vertShaderError[0] << std::endl;
+}
 
 // Initialization routine.
 void GraphicsEngine::setup()
@@ -150,6 +144,11 @@ void GraphicsEngine::setup()
 	glAttachShader(GraphicsEngine::programId, fragmentShaderId);
 	glLinkProgram(GraphicsEngine::programId);
 	glUseProgram(GraphicsEngine::programId);
+
+	std::cout << "::: VERTEX SHADER :::" << std::endl;
+	shaderCompileTest(vertexShaderId);
+	std::cout << "::: FRAGMENT SHADER :::" << std::endl;
+	shaderCompileTest(fragmentShaderId);
 
 	// Create VAOs and VBOs... 
 	glGenVertexArrays(4, vao);
@@ -327,6 +326,11 @@ void GraphicsEngine::drawScene()
 	glBindVertexArray(vao[1]);
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
+	for (std::vector<GameObject*>::size_type i = 0; i != gameobjects.size(); i++)
+	{
+		gameobjects[i]->drawScene();
+	}
+
 	glutSwapBuffers();
 }
 
@@ -374,7 +378,7 @@ void GraphicsEngine::updateGame()
 		}
 	}*/
 	glutPostRedisplay();
-	GameEngine::updateGame();
+	//GameEngine::updateGame();
 }
 
 // Routine to output interaction instructions to the C++ window.
@@ -412,7 +416,7 @@ int GraphicsEngine::grTurnRight()
 void GraphicsEngine::initEngine(int argc, char ** argv)
 {
 	printInteraction();
-	glutInit(&argc, argv);
+	
 
 	glutInitContextVersion(4, 3);
 	glutInitContextProfile(GLUT_CORE_PROFILE);
@@ -423,14 +427,14 @@ void GraphicsEngine::initEngine(int argc, char ** argv)
 	glutInitWindowPosition(500, 100);
 	glutCreateWindow("301CR Game Engine");
 	glutDisplayFunc(drawScene);
-	glutIdleFunc([]() {GraphicsEngine::updateGame(); }); //idle function
+	
 	glutReshapeFunc(resize);
 	glutPassiveMotionFunc(MouseMove);
 	glewExperimental = GL_TRUE;
 	glewInit();
 	//glutTimerFunc(0, []() {GraphicsEngine::frameCounter(); }, 0);
 
-	//make event reaction array see lecture 1 function 
+	//creates Event Reaction array
 	int(*p_grAccelerate)() = grAccelerate;
 	int(*p_grDecelerate)() = grDecelerate;
 	int(*p_grTurnLeft)() = grTurnLeft;

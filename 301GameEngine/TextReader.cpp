@@ -1,9 +1,3 @@
-//reader.cpp
-#include <GL/freeglut.h>
-#include <fstream>
-#include <iostream>
-#include <string>
-
 #include "TextReader.h"
 
 using namespace std;

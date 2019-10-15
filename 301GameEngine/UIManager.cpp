@@ -68,6 +68,7 @@ void UIManager::setKeyInput(unsigned char key, int x, int y)
 	{
 		Event myEvent((EventTypeEnum)0); // 0 - Accelerate
 		myEvent.addSubsystem((SubSystemEnum)0); // 0 - GraphicsEngine
+		myEvent.addSubsystem((SubSystemEnum)2); // 2 - AudioEngine
 		GameEngine::EventQueue.push_back(myEvent);
 		break;
 	}

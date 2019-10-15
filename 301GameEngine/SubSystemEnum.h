@@ -1,3 +1,3 @@
 #pragma once
 
-enum class SubSystemEnum { graphicsEngine, uiManager };
+enum class SubSystemEnum { graphicsEngine, uiManager, audioEngine };

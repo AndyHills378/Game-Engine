@@ -64,14 +64,14 @@
     <Filter Include="SubSystems\PhysicsEngine\Source">
       <UniqueIdentifier>{a215024e-049c-48d7-851b-68d78ab0805c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameObjects">
-      <UniqueIdentifier>{192da405-f497-4e8d-b039-581d9b084e69}</UniqueIdentifier>
+    <Filter Include="GameObject">
+      <UniqueIdentifier>{4f16fa2a-d4c2-47fa-9164-92c781c8a7bd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameObjects\Headers">
-      <UniqueIdentifier>{66deb515-7ab3-4f18-af64-25ddc7a99a81}</UniqueIdentifier>
+    <Filter Include="GameObject\Headers">
+      <UniqueIdentifier>{b1082d95-4f76-42a3-96c5-2ec6f0a7c33e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameObjects\Source">
-      <UniqueIdentifier>{84a0950a-0eac-456c-ab70-85773af2b212}</UniqueIdentifier>
+    <Filter Include="GameObject\Source">
+      <UniqueIdentifier>{ff3c61ca-bd32-4480-a630-3144fbc5e384}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -105,17 +105,17 @@
     <ClCompile Include="EntryPoint.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Mustang.cpp">
-      <Filter>GameObjects\Source</Filter>
-    </ClCompile>
     <ClCompile Include="GameObject.cpp">
-      <Filter>GameObjects\Source</Filter>
+      <Filter>GameObject\Source</Filter>
     </ClCompile>
-    <ClCompile Include="Track.cpp">
-      <Filter>GameObjects\Source</Filter>
+    <ClCompile Include="Mustang.cpp">
+      <Filter>GameObject\Source</Filter>
     </ClCompile>
     <ClCompile Include="TextReader.cpp">
-      <Filter>GameObjects\Source</Filter>
+      <Filter>GameObject\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Track.cpp">
+      <Filter>GameObject\Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -149,9 +149,6 @@
     <ClInclude Include="GameEngine.h">
       <Filter>GameEngine\Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Header.h">
-      <Filter>GameEngine\Headers</Filter>
-    </ClInclude>
     <ClInclude Include="vertex.h">
       <Filter>GameEngine\Headers</Filter>
     </ClInclude>
@@ -171,16 +168,19 @@
       <Filter>SubSystems</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.h">
-      <Filter>GameObjects\Headers</Filter>
+      <Filter>GameObject\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Mustang.h">
-      <Filter>GameObjects\Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Track.h">
-      <Filter>GameObjects\Headers</Filter>
+      <Filter>GameObject\Headers</Filter>
     </ClInclude>
     <ClInclude Include="TextReader.h">
-      <Filter>GameObjects\Headers</Filter>
+      <Filter>GameObject\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Track.h">
+      <Filter>GameObject\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Header.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

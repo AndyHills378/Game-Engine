@@ -27,8 +27,26 @@
 using namespace std;
 using namespace glm;
 
-static enum object { FIELD, SKY }; /// VAO ids.
-static enum buffer { FIELD_VERTICES, SKY_VERTICES }; // VBO ids.
+static unsigned int
+vertexShaderId,
+fragmentShaderId,
+viewMatLoc,
+modelMatLoc,
+projMatLoc,
+normalMatLoc,
+grassTexLoc,
+skyTexLoc,
+nightSkyTexLoc,
+trackTexLoc,
+objectLoc,
+light0coordsLoc,
+alphaLoc,
+buffer[5],
+vao[4],
+texture[4];
+
+static enum object { FIELD, SKY, TRACK }; /// VAO ids.
+static enum buffer { FIELD_VERTICES, SKY_VERTICES, TRACK_VERTICES, TRACK_NORMALS }; // VBO ids.
 
 static mat4 modelMat = mat4(1.0);
 static mat4 viewMat = mat4(1.0);

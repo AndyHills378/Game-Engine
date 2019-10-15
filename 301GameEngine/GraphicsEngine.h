@@ -9,6 +9,7 @@ class GraphicsEngine : public SubSystemSuper
 private:
 	static int oldTimeSinceStart; ///<The old time since the start of the game (from previous frame) for delta time calculation.
 	static int newTimeSinceStart; ///<The time since the start of the game for delta time calculation.
+	static int(*EventReaction[4])();
 public:
 	static glm::vec3 cameraPos;
 	static glm::vec3 cameraFront;
@@ -20,7 +21,7 @@ public:
 	static int sphereToDraw;
 	static unsigned int programId;
 	static vector<GameObject*> gameobjects;
-	static int(*EventReaction[4])();
+	
 
 	static void MouseMove(int x, int y);
 	static void setup(void);

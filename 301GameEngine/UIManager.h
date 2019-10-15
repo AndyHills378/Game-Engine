@@ -11,6 +11,7 @@ private:
 	static void setSpecialKeyInput(int key, int x, int y);
 	static void setSpecialKeyUp(int key, int x, int y);
 	static void joyStick(unsigned int buttonmask, int x, int y, int z);
+	
 public:
 	UIManager();
 	~UIManager();	
