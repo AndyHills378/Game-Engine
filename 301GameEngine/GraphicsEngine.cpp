@@ -5,6 +5,7 @@
 int GraphicsEngine::oldTimeSinceStart; ///<The old time since the start of the game (from previous frame) for delta time calculation.
 int GraphicsEngine::newTimeSinceStart; ///<The time since the start of the game for delta time calculation.
 vector<GameObject*> GraphicsEngine::gameobjects;
+int(*GraphicsEngine::EventReaction[4])();
 
 glm::vec3 GraphicsEngine::cameraPos = glm::vec3(0.0f, 5.0f, 0.0f);
 glm::vec3 GraphicsEngine::cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
@@ -16,6 +17,52 @@ float lastX = 800.0f / 2.0f;
 float lastY = 600.0f / 2.0f;
 float fov = 45.0f;
 float GraphicsEngine::cameraSpeed = 0.5f;
+
+void GraphicsEngine::MouseMove(int x, int y)
+{
+	if (firstMouse)
+	{
+		lastX = x;
+		lastY = y;
+		firstMouse = false;
+	}
+	float xoffset = x - lastX;
+	float yoffset = lastY - y;
+	lastX = x;
+	lastY = y;
+
+	float sensitivity = 0.3f;
+	xoffset *= sensitivity;
+	yoffset *= sensitivity;
+
+	yaw += xoffset;
+	pitch += yoffset;
+
+	if (pitch > 89.0f) pitch = 89.0f;
+	if (pitch < -89.0f) pitch = -89.0f;
+
+	glm::vec3 front;
+	front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+	front.y = sin(glm::radians(pitch));
+	front.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+	cameraFront = glm::normalize(front);
+
+	//forces mouse to stay in the window
+	int win_w = glutGet(GLUT_WINDOW_WIDTH);
+	int win_h = glutGet(GLUT_WINDOW_HEIGHT);
+	if (x < 100 || x > win_w - 100)
+	{
+		lastX = win_w / 2;
+		lastY = win_h / 2;
+		glutWarpPointer(win_w / 2, win_h / 2);
+	}
+	else if (y < 100 || win_h - 100)
+	{
+		lastX = win_w / 2;
+		lastY = win_h / 2;
+		glutWarpPointer(win_w / 2, win_h / 2);
+	}
+}
 
 GraphicsEngine::GraphicsEngine()
 {
@@ -221,20 +268,18 @@ void GraphicsEngine::drawScene()
 	// Calculate and update modelview matrix.
 	viewMat = mat4(1.0);
 
-	///read event queue
-	
-	/*for (int i = 0; i < EventQueue.size();i++)
+	//read event queue
+	for (int i = 0; i < GameEngine::EventQueue.size();i++)
 	{
-		for (int j = 0; j < EventQueue[i].mySubSystems.size(); j++)
+		for (int j = 0; j < GameEngine::EventQueue[i].mySubSystems.size(); j++)
 		{
-			if (EventQueue[i].mySubSystems[j] == graphicsEngine)
+			if (GameEngine::EventQueue[i].mySubSystems[j] == SubSystemEnum::graphicsEngine)
 			{
-				EventReaction[i];
-				//EventReaction.append(EventQueue[i]);
-				// Do the thing
+				EventReaction[(int)GameEngine::EventQueue[i].myType]();
+				GameEngine::EventQueue[i].mySubSystems.erase(GameEngine::EventQueue[i].mySubSystems.begin()+j);
 			}
 		}
-	}*/
+	}
 
 	viewMat = lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 	glUniformMatrix4fv(viewMatLoc, 1, GL_FALSE, value_ptr(viewMat));
@@ -303,7 +348,7 @@ void GraphicsEngine::updateGame()
 		newTimeSinceStart = glutGet(GLUT_ELAPSED_TIME);
 		deltaTime = newTimeSinceStart - oldTimeSinceStart;
 	}
-	if (GameEngine::debugMode) {
+	if (SubSystemSuper::debugMode) {
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	}
 	else {
@@ -329,6 +374,7 @@ void GraphicsEngine::updateGame()
 		}
 	}*/
 	glutPostRedisplay();
+	GameEngine::updateGame();
 }
 
 // Routine to output interaction instructions to the C++ window.
@@ -337,41 +383,6 @@ void printInteraction(void)
 	cout << "----------------------------------" << endl;
 	cout << "---------**  CONTROLS  **---------" << endl;
 	cout << "     **WASD - change camera**     " << endl;
-}
-
-void GraphicsEngine::initEngine(int argc, char ** argv)
-{
-	printInteraction();
-	glutInit(&argc, argv);
-
-	glutInitContextVersion(4, 3);
-	glutInitContextProfile(GLUT_CORE_PROFILE);
-	glutInitContextFlags(GLUT_FORWARD_COMPATIBLE);
-
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
-	glutInitWindowSize(500, 500);
-	glutInitWindowPosition(500, 100);
-	glutCreateWindow("301CR Game Engine");
-	glutDisplayFunc(drawScene);
-	glutIdleFunc([]() {GraphicsEngine::updateGame(); }); //idle function
-	glutReshapeFunc(resize);
-
-	glewExperimental = GL_TRUE;
-	glewInit();
-	//glutTimerFunc(0, []() {GraphicsEngine::frameCounter(); }, 0);
-
-	//make event reaction array see lecture 1 function pointers
-	int EventReaction[5] = { int(*grAccelerate), int(*grDecelerate), int(*grTurnLeft), int(*grTurnRight) };
-
-	setup();
-
-	cout << "Graphics Engine loaded" << endl;
-}
-
-void GraphicsEngine::addGameObject(GameObject *gameobject) {
-	gameobjects.push_back(gameobject);
-	gameobject->modelMatLoc = modelMatLoc;
-	gameobject->setupDrawing();
 }
 
 int GraphicsEngine::grAccelerate()
@@ -397,4 +408,48 @@ int GraphicsEngine::grTurnRight()
 	cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
 	return 0;
 }
+
+void GraphicsEngine::initEngine(int argc, char ** argv)
+{
+	printInteraction();
+	glutInit(&argc, argv);
+
+	glutInitContextVersion(4, 3);
+	glutInitContextProfile(GLUT_CORE_PROFILE);
+	glutInitContextFlags(GLUT_FORWARD_COMPATIBLE);
+
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
+	glutInitWindowSize(500, 500);
+	glutInitWindowPosition(500, 100);
+	glutCreateWindow("301CR Game Engine");
+	glutDisplayFunc(drawScene);
+	glutIdleFunc([]() {GraphicsEngine::updateGame(); }); //idle function
+	glutReshapeFunc(resize);
+	glutPassiveMotionFunc(MouseMove);
+	glewExperimental = GL_TRUE;
+	glewInit();
+	//glutTimerFunc(0, []() {GraphicsEngine::frameCounter(); }, 0);
+
+	//make event reaction array see lecture 1 function 
+	int(*p_grAccelerate)() = grAccelerate;
+	int(*p_grDecelerate)() = grDecelerate;
+	int(*p_grTurnLeft)() = grTurnLeft;
+	int(*p_grTurnRight)() = grTurnRight;
+	EventReaction[0] = p_grAccelerate;
+	EventReaction[1] = p_grDecelerate;
+	EventReaction[2] = p_grTurnLeft;
+	EventReaction[3] = p_grTurnRight;
+
+	setup();
+
+	cout << "Graphics Engine loaded" << endl;
+}
+
+void GraphicsEngine::addGameObject(GameObject *gameobject) {
+	gameobjects.push_back(gameobject);
+	gameobject->modelMatLoc = modelMatLoc;
+	gameobject->setupDrawing();
+}
+
+
 

@@ -1,9 +1,9 @@
 #pragma once
-#include "GameEngine.h"
+#include "SubSystemSuper.h"
 #include "GameObject.h"
 #include "Header.h"
 
-class UIManager : public GameEngine
+class UIManager : public SubSystemSuper
 {
 private:
 	//static void setMouseMove(int x, int y);
@@ -15,5 +15,6 @@ public:
 	UIManager();
 	~UIManager();	
 	static void initEngine(int argc, char** argv);
+	//std::vector<Event>* eQ; //Might want to pass in pointer to the event queue in the constructor, when GameEngine makes UISubsystem
 };
 

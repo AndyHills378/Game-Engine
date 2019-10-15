@@ -13,33 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Graphics">
-      <UniqueIdentifier>{85a79410-4e01-45cb-9f48-55c2d17295cd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics\Headers">
-      <UniqueIdentifier>{73b33553-0b53-4f33-b4c7-b7e2467aeb3b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics\Source">
-      <UniqueIdentifier>{03f5ab96-d8eb-4d4b-becc-71e0f371dec4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UIManager">
-      <UniqueIdentifier>{2ac1dd55-2420-4141-bfa5-b2fc8c58cc11}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UIManager\Headers">
-      <UniqueIdentifier>{d16f91f3-0067-4bb0-b8b3-ffc4b5e327e1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UIManager\Source">
-      <UniqueIdentifier>{6c09d9e9-4956-4911-96be-86baa7ee41b2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Physics">
-      <UniqueIdentifier>{3c58d23d-093a-42bd-bd3e-8c9d09abca7c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Physics\Headers">
-      <UniqueIdentifier>{44a18789-1217-470d-8293-e6b69fc101bb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Physics\Source">
-      <UniqueIdentifier>{a215024e-049c-48d7-851b-68d78ab0805c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameEngine">
       <UniqueIdentifier>{4a2ba46d-f7d4-4e8b-930c-9ab0104fb07b}</UniqueIdentifier>
     </Filter>
@@ -48,6 +21,48 @@
     </Filter>
     <Filter Include="GameEngine\Source">
       <UniqueIdentifier>{8e7b2e74-001f-4bc5-88c5-224ef26be202}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Event">
+      <UniqueIdentifier>{1da10c3c-96f3-4d1f-8060-e987338cca6a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SubSystems">
+      <UniqueIdentifier>{fc705e20-cbc1-466a-99f1-a22f6a005d3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SubSystems\UIManager">
+      <UniqueIdentifier>{2ac1dd55-2420-4141-bfa5-b2fc8c58cc11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SubSystems\UIManager\Headers">
+      <UniqueIdentifier>{d16f91f3-0067-4bb0-b8b3-ffc4b5e327e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SubSystems\UIManager\Source">
+      <UniqueIdentifier>{6c09d9e9-4956-4911-96be-86baa7ee41b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SubSystems\AudioEngine">
+      <UniqueIdentifier>{4fa2d8e1-f175-4fd5-a476-6b1346e1364d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SubSystems\AudioEngine\Headers">
+      <UniqueIdentifier>{bfff7c3e-423a-4230-9267-d8f0ce1daa5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SubSystems\AudioEngine\Source">
+      <UniqueIdentifier>{9e26729b-e369-41f1-a4ad-aad53eb8c925}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SubSystems\GraphicsEngine">
+      <UniqueIdentifier>{85a79410-4e01-45cb-9f48-55c2d17295cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SubSystems\GraphicsEngine\Headers">
+      <UniqueIdentifier>{73b33553-0b53-4f33-b4c7-b7e2467aeb3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SubSystems\GraphicsEngine\Source">
+      <UniqueIdentifier>{03f5ab96-d8eb-4d4b-becc-71e0f371dec4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SubSystems\PhysicsEngine">
+      <UniqueIdentifier>{3c58d23d-093a-42bd-bd3e-8c9d09abca7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SubSystems\PhysicsEngine\Headers">
+      <UniqueIdentifier>{44a18789-1217-470d-8293-e6b69fc101bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SubSystems\PhysicsEngine\Source">
+      <UniqueIdentifier>{a215024e-049c-48d7-851b-68d78ab0805c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -58,27 +73,30 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="getbmp.cpp">
-      <Filter>Graphics\Source</Filter>
+      <Filter>SubSystems\GraphicsEngine\Source</Filter>
     </ClCompile>
     <ClCompile Include="GraphicsEngine.cpp">
-      <Filter>Graphics\Source</Filter>
+      <Filter>SubSystems\GraphicsEngine\Source</Filter>
     </ClCompile>
     <ClCompile Include="shader.cpp">
-      <Filter>Graphics\Source</Filter>
+      <Filter>SubSystems\GraphicsEngine\Source</Filter>
     </ClCompile>
     <ClCompile Include="UIManager.cpp">
-      <Filter>UIManager\Source</Filter>
+      <Filter>SubSystems\UIManager\Source</Filter>
     </ClCompile>
     <ClCompile Include="PhysicsEngine.cpp">
-      <Filter>Physics\Source</Filter>
+      <Filter>SubSystems\PhysicsEngine\Source</Filter>
     </ClCompile>
     <ClCompile Include="GameEngine.cpp">
       <Filter>GameEngine\Source</Filter>
     </ClCompile>
-    <ClCompile Include="EntryPoint.cpp">
-      <Filter>GameEngine\Source</Filter>
-    </ClCompile>
     <ClCompile Include="AudioEngine.cpp">
+      <Filter>SubSystems\AudioEngine\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="SubSystemSuper.cpp">
+      <Filter>SubSystems</Filter>
+    </ClCompile>
+    <ClCompile Include="EntryPoint.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -93,25 +111,25 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="getbmp.h">
-      <Filter>Graphics\Headers</Filter>
+      <Filter>SubSystems\GraphicsEngine\Headers</Filter>
     </ClInclude>
     <ClInclude Include="GraphicsEngine.h">
-      <Filter>Graphics\Headers</Filter>
+      <Filter>SubSystems\GraphicsEngine\Headers</Filter>
     </ClInclude>
     <ClInclude Include="light.h">
-      <Filter>Graphics\Headers</Filter>
+      <Filter>SubSystems\GraphicsEngine\Headers</Filter>
     </ClInclude>
     <ClInclude Include="material.h">
-      <Filter>Graphics\Headers</Filter>
+      <Filter>SubSystems\GraphicsEngine\Headers</Filter>
     </ClInclude>
     <ClInclude Include="shader.h">
-      <Filter>Graphics\Headers</Filter>
+      <Filter>SubSystems\GraphicsEngine\Headers</Filter>
     </ClInclude>
     <ClInclude Include="UIManager.h">
-      <Filter>UIManager\Headers</Filter>
+      <Filter>SubSystems\UIManager\Headers</Filter>
     </ClInclude>
     <ClInclude Include="PhysicsEngine.h">
-      <Filter>Physics\Headers</Filter>
+      <Filter>SubSystems\PhysicsEngine\Headers</Filter>
     </ClInclude>
     <ClInclude Include="GameEngine.h">
       <Filter>GameEngine\Headers</Filter>
@@ -122,11 +140,20 @@
     <ClInclude Include="vertex.h">
       <Filter>GameEngine\Headers</Filter>
     </ClInclude>
-    <ClInclude Include="event.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="AudioEngine.h">
-      <Filter>Header Files</Filter>
+      <Filter>SubSystems\AudioEngine\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="event.h">
+      <Filter>Event</Filter>
+    </ClInclude>
+    <ClInclude Include="EventTypeEnum.h">
+      <Filter>Event</Filter>
+    </ClInclude>
+    <ClInclude Include="SubSystemEnum.h">
+      <Filter>Event</Filter>
+    </ClInclude>
+    <ClInclude Include="SubSystemSuper.h">
+      <Filter>SubSystems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

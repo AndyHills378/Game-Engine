@@ -1,20 +1,23 @@
 #pragma once
 #include "Header.h"
-
-static mat4 modelMat = mat4(1.0);
-static mat4 viewMat = mat4(1.0);
-static mat4 projMat = mat4(1.0);
-static mat3 normalMat = mat3(1.0);
+#include "UIManager.h"
+#include "GraphicsEngine.h"
 
 class GameEngine
 {
 public:
-	static std::map <int, bool> specialKeys;
-	static std::map <char, bool> keys;
-	static bool debugMode;
+	static std::vector<Event> EventQueue;
+	static std::vector<int> subsystems;
 	GameEngine();
 	~GameEngine();
+	void get_element();
 	static void initEngine(int argc, char** argv);
 	static void startEngine();
+	static void updateGame();
+
+
+private:
+	vector<int>::iterator Iter;
 };
+	
 
