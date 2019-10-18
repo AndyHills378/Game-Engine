@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "GameEngine.h"
 #include "TextReader.h"
+#include "Header.h"
 
 class Track : public GameObject
 {
