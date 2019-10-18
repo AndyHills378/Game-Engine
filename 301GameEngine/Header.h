@@ -24,6 +24,17 @@
 #include <fmod_studio.hpp>
 #include <fmod.hpp>
 
+//LUA includes (custom compiler)
+extern "C" {
+	#include <lua.h>
+	#include <lauxlib.h>
+	#include <lualib.h>
+}
+#include <LuaBridge/LuaBridge.h>
+
+//E-Net includes (Networking)
+#include <enet/enet.h>
+
 using namespace std;
 using namespace glm;
 
@@ -52,6 +63,5 @@ static mat4 modelMat = mat4(1.0);
 static mat4 viewMat = mat4(1.0);
 static mat4 projMat = mat4(1.0);
 static mat3 normalMat = mat3(1.0);
-
 
 

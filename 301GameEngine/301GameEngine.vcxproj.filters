@@ -73,6 +73,15 @@
     <Filter Include="GameObject\Source">
       <UniqueIdentifier>{ff3c61ca-bd32-4480-a630-3144fbc5e384}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SubSystems\NetworkEngine">
+      <UniqueIdentifier>{d854a410-25d7-4274-aa23-1eaa0da3f0ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SubSystems\NetworkEngine\Headers">
+      <UniqueIdentifier>{4f09628d-47a1-4695-9323-4714a6c58634}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SubSystems\NetworkEngine\Source">
+      <UniqueIdentifier>{349551f8-e5ab-40a8-ad41-5d177568c2cc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SphereCollider.cpp">
@@ -116,6 +125,12 @@
     </ClCompile>
     <ClCompile Include="Track.cpp">
       <Filter>GameObject\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -180,6 +195,12 @@
       <Filter>GameObject\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Header.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

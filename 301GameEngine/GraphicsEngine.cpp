@@ -6,7 +6,7 @@ int GraphicsEngine::oldTimeSinceStart; ///<The old time since the start of the g
 int GraphicsEngine::newTimeSinceStart; ///<The time since the start of the game for delta time calculation.
 vector<GameObject*> GraphicsEngine::gameobjects;
 int(*GraphicsEngine::EventReaction[4])();
-
+static BitMapFile* image[3];
 glm::vec3 GraphicsEngine::cameraPos = glm::vec3(0.0f, 5.0f, 0.0f);
 glm::vec3 GraphicsEngine::cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
@@ -112,9 +112,6 @@ static Vertex skyVertices[4] =
 };
 
 unsigned int GraphicsEngine::programId;
-
-
-static BitMapFile *image[3];
 
 static float theta = 0.0; // Angle of the sun with the ground.
 float GraphicsEngine::linetheta = 90.0; 
