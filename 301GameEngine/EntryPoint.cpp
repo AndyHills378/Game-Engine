@@ -10,7 +10,7 @@ int main(int argc, char** argv)
 {
 	GameEngine::initEngine(argc, argv);
 
-	GraphicsEngine::addGameObject(new Track(glm::vec3(0, 1, 0)));
+	//GraphicsEngine::addGameObject(new Track(glm::vec3(0, 1, 0)));
 
 	//GameEngine::startEngine();
 }

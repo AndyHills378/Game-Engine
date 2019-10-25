@@ -132,10 +132,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AudioEngine.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="GameEngine.cpp" />
     <ClCompile Include="GraphicsEngine.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="getbmp.cpp" />
+    <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Mustang.cpp" />
     <ClCompile Include="PhysicsEngine.cpp" />
@@ -145,11 +147,11 @@
     <ClCompile Include="SubSystemSuper.cpp" />
     <ClCompile Include="TextReader.cpp" />
     <ClCompile Include="Texture.cpp" />
-    <ClCompile Include="Track.cpp" />
     <ClCompile Include="UIManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AudioEngine.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="event.h" />
     <ClInclude Include="EventTypeEnum.h" />
@@ -160,6 +162,7 @@
     <ClInclude Include="Header.h" />
     <ClInclude Include="light.h" />
     <ClInclude Include="material.h" />
+    <ClInclude Include="Mesh.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="Mustang.h" />
     <ClInclude Include="PhysicsEngine.h" />
@@ -169,7 +172,6 @@
     <ClInclude Include="SubSystemSuper.h" />
     <ClInclude Include="TextReader.h" />
     <ClInclude Include="Texture.h" />
-    <ClInclude Include="Track.h" />
     <ClInclude Include="UIManager.h" />
     <ClInclude Include="vertex.h" />
   </ItemGroup>

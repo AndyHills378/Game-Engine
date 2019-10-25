@@ -7,3 +7,8 @@ Model::Model()
 Model::~Model()
 {
 }
+
+void Model::setup(int modelNumber)
+{
+
+}

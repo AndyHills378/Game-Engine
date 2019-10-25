@@ -1,4 +1,19 @@
-#include "Header.h"
+#include <cstdlib>
+#include <iostream>
+#include <fstream>
+
+#ifdef __APPLE__
+#  include <GL/glew.h>
+#  include <GL/freeglut.h>
+#  include <OpenGL/glext.h>
+#else
+#  include <GL/glew.h>
+#  include <GL/freeglut.h>
+#  include <GL/glext.h>
+#pragma comment(lib, "glew32.lib") 
+#endif
+
+using namespace std;
 
 // Function to read text file.
 char* readTextFile(char* aTextFile)

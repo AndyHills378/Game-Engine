@@ -45,16 +45,14 @@ viewMatLoc,
 modelMatLoc,
 projMatLoc,
 normalMatLoc,
-grassTexLoc,
-skyTexLoc,
-nightSkyTexLoc,
-trackTexLoc,
-objectLoc,
+
 light0coordsLoc,
 alphaLoc,
 buffer[5],
 vao[4],
 texture[4];
+
+
 
 static enum object { FIELD, SKY, TRACK }; /// VAO ids.
 static enum buffer { FIELD_VERTICES, SKY_VERTICES, TRACK_VERTICES, TRACK_NORMALS }; // VBO ids.

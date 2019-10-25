@@ -43,7 +43,7 @@ void GameEngine::initEngine(int argc, char** argv)
 void GameEngine::startEngine()
 {
 	cout << "press ESC to close" << endl;
-	GraphicsEngine::addGameObject(new Track(glm::vec3(0, 1, 0)));
+	//GraphicsEngine::addGameObject(new Track(glm::vec3(0, 1, 0)));
 	glutMainLoop();
 }
 

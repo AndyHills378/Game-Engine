@@ -123,14 +123,17 @@
     <ClCompile Include="TextReader.cpp">
       <Filter>GameObject\Source</Filter>
     </ClCompile>
-    <ClCompile Include="Track.cpp">
-      <Filter>GameObject\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Texture.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Camera.cpp">
+      <Filter>SubSystems\GraphicsEngine\Source</Filter>
     </ClCompile>
     <ClCompile Include="Model.cpp">
+      <Filter>SubSystems\GraphicsEngine\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>SubSystems\GraphicsEngine\Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -191,17 +194,20 @@
     <ClInclude Include="TextReader.h">
       <Filter>GameObject\Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Track.h">
-      <Filter>GameObject\Headers</Filter>
-    </ClInclude>
     <ClInclude Include="Header.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Texture.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Camera.h">
+      <Filter>SubSystems\GraphicsEngine\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Model.h">
+      <Filter>SubSystems\GraphicsEngine\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>SubSystems\GraphicsEngine\Headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

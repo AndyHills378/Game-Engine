@@ -1,12 +1,15 @@
 #pragma once
-#include "Header.h"
-#include "GameEngine.h"
+#include "GraphicsEngine.h"
 
 class Texture
 {
 public:
-	Texture();
+	BitMapFile* image[1];
+	unsigned int texture[1];
+	unsigned int textureLoc;
+	string filepath;
+	Texture(string filepath);
 	~Texture();
-	static void setupTexture(string plane);
+	void setup();
 };
 

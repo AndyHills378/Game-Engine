@@ -165,7 +165,7 @@ void TextReader::FinalVertexData()
 		faceid = faces[i].id1;
 		Vertex v1;
 		v1.texCoords = glm::vec2(texCoord[texid].x, texCoord[texid].y);
-		v1.coords = glm::vec4(vertex[faceid].x, vertex[faceid].y, vertex[faceid].z, 1.0f);
+		v1.coords = glm::vec3(vertex[faceid].x, vertex[faceid].y, vertex[faceid].z);
 
 		verts[index++] = v1;
 
@@ -173,7 +173,7 @@ void TextReader::FinalVertexData()
 		faceid = faces[i].id2;
 		Vertex v2;
 		v2.texCoords = glm::vec2(texCoord[texid].x, texCoord[texid].y);
-		v2.coords = glm::vec4(vertex[faceid].x, vertex[faceid].y, vertex[faceid].z, 1.0f);
+		v2.coords = glm::vec3(vertex[faceid].x, vertex[faceid].y, vertex[faceid].z);
 
 		verts[index++] = v2;
 
@@ -181,7 +181,7 @@ void TextReader::FinalVertexData()
 		faceid = faces[i].id3;
 		Vertex v3;
 		v3.texCoords = glm::vec2(texCoord[texid].x, texCoord[texid].y);
-		v3.coords = glm::vec4(vertex[faceid].x, vertex[faceid].y, vertex[faceid].z, 1.0f);
+		v3.coords = glm::vec3(vertex[faceid].x, vertex[faceid].y, vertex[faceid].z);
 
 		verts[index++] = v3;
 	}
