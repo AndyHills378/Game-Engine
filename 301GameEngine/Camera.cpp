@@ -22,7 +22,7 @@ Camera::~Camera()
 void Camera::setup()
 {
 	//projMat = projection();
-	glm::mat4 projMat = glm::perspective(40.0f, 1.0f, 0.1f, 100.0f);
+	glm::mat4 projMat = glm::perspective(40.0f, 1.0f, 0.1f, 1000.0f);
 	//projMat = 
 	glUniformMatrix4fv(glGetUniformLocation(GraphicsEngine::programId, "projMat"), 1, GL_FALSE, value_ptr(projMat));
 }
@@ -33,6 +33,53 @@ void Camera::update()
 	glm::mat4 viewMat = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 	glUniformMatrix4fv(glGetUniformLocation(GraphicsEngine::programId, "viewMat"), 1, GL_FALSE, value_ptr(viewMat));
 }
+
+void Camera::setMouseMove(int x, int y)
+{
+	if (firstMouse)
+	{
+		lastX = x;
+		lastY = y;
+		firstMouse = false;
+	}
+	float xoffset = x - lastX;
+	float yoffset = lastY - y;
+	lastX = x;
+	lastY = y;
+
+	float sensitivity = 0.3f;
+	xoffset *= sensitivity;
+	yoffset *= sensitivity;
+
+	yaw += xoffset;
+	pitch += yoffset;
+
+	if (pitch > 89.0f) pitch = 89.0f;
+	if (pitch < -89.0f) pitch = -89.0f;
+
+	glm::vec3 front;
+	front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+	front.y = sin(glm::radians(pitch));
+	front.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+	cameraFront = glm::normalize(front);
+
+	//forces mouse to stay in the window
+	int win_w = glutGet(GLUT_WINDOW_WIDTH);
+	int win_h = glutGet(GLUT_WINDOW_HEIGHT);
+	if (x < 100 || x > win_w - 100)
+	{
+		lastX = win_w / 2;
+		lastY = win_h / 2;
+		glutWarpPointer(win_w / 2, win_h / 2);
+	}
+	else if (y < 100 || win_h - 100)
+	{
+		lastX = win_w / 2;
+		lastY = win_h / 2;
+		glutWarpPointer(win_w / 2, win_h / 2);
+	}
+}
+
 
 int Camera::grAccelerate()
 {

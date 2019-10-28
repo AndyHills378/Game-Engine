@@ -17,5 +17,5 @@ void main(void)
 {   
 	//normalsExport = vec4(Normal,1.0);
 	texCoordsExport = TexCoords;
-   gl_Position = projMat * viewMat * modelMat * vec4(Coords, 1.0);
+    gl_Position = projMat * viewMat * modelMat * vec4(Coords, 1.0);
 }

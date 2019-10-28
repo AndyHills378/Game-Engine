@@ -32,30 +32,6 @@ GraphicsEngine::~GraphicsEngine()
 {
 }
 
-int GraphicsEngine::grAccelerate()
-{
-	camera->grAccelerate();
-	return 0;
-}
-
-int GraphicsEngine::grDecelerate()
-{
-	camera->grDecelerate();
-	return 0;
-}
-
-int GraphicsEngine::grTurnLeft()
-{
-	camera->grTurnLeft();
-	return 0;
-}
-
-int GraphicsEngine::grTurnRight()
-{
-	camera->grTurnRight();
-	return 0;
-}
-
 void shaderCompileTest(GLuint shader)
 {
 	GLint result = GL_FALSE;
@@ -86,10 +62,17 @@ void GraphicsEngine::setup()
 	std::cout << "::: FRAGMENT SHADER :::" << std::endl;
 	shaderCompileTest(fragmentShaderId);
 
-	newMesh.push_back(new Mesh(fieldvertices));
-	newMesh.push_back(new Mesh(skyVertices));
+	newTexture.push_back(new Texture("Textures/grass.bmp",0));
 
-	newTexture.push_back(new Texture("Textures/grass.bmp"));
+	newMesh.push_back(new Mesh(fieldvertices, vec3(0.0f), 0.0f));
+	newMesh.push_back(new Mesh(fieldvertices, vec3(0.0f, 120.0f, 0.0f), 0.0f));
+
+	newMesh.push_back(new Mesh(skyVertices, vec3(0.0f), 0.0f));
+	newMesh.push_back(new Mesh(skyVertices, vec3(0.0f), 1.5708f));
+	newMesh.push_back(new Mesh(skyVertices, vec3(0.0f), -1.5708f));
+	newMesh.push_back(new Mesh(skyVertices, vec3(0.0f), 3.14159f));
+	
+	newTexture.push_back(new Texture("Textures/sky.bmp", 0));
 	
 	camera = new Camera();
 	camera->setup();
@@ -157,16 +140,17 @@ void GraphicsEngine::initEngine(int argc, char** argv)
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
 	glutInitWindowSize(500, 500);
 	glutInitWindowPosition(500, 100);
-	glutCreateWindow("Graphics Engine cleanup");
+	glutCreateWindow("Graphics Engine");
 	glutDisplayFunc(drawScene);
 	glutIdleFunc([]() {GameEngine::updateGame(); }); //idle function
 	glutReshapeFunc(resize);
+	//glutPassiveMotionFunc(camera->setMouseMove);
 
 	//creates Event Reaction array
-	int(*p_grAccelerate)() = grAccelerate;
-	int(*p_grDecelerate)() = grDecelerate;
-	int(*p_grTurnLeft)() = grTurnLeft;
-	int(*p_grTurnRight)() = grTurnRight;
+	int(*p_grAccelerate)() = camera->grAccelerate;
+	int(*p_grDecelerate)() = camera->grDecelerate;
+	int(*p_grTurnLeft)() = camera->grTurnLeft;
+	int(*p_grTurnRight)() = camera->grTurnRight;
 	EventReaction[0] = p_grAccelerate;
 	EventReaction[1] = p_grDecelerate;
 	EventReaction[2] = p_grTurnLeft;

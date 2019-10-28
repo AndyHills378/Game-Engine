@@ -1,9 +1,10 @@
 #include "Texture.h"
 
-Texture::Texture(string filepath)
+Texture::Texture(string filepath, int meshID)
 {
 	this->filepath = filepath;
 	this->setup();
+	this->textureID;
 }
 
 Texture::~Texture()

@@ -11,6 +11,7 @@ public:
 	~Camera();
 	void setup();
 	void update();
+	static void setMouseMove(int x, int y);
 	static int grAccelerate();
 	static int grDecelerate();
 	static int grTurnLeft();

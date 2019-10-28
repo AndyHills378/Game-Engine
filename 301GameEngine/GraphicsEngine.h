@@ -6,11 +6,11 @@
 #include "vertex.h"
 #include "Mesh.h"
 #include "Texture.h"
+#include "TextReader.h"
 
 class GraphicsEngine
 {
 public:
-
 	static unsigned int vertexShaderId, fragmentShaderId, programId;
 	static int(*EventReaction[4])();
 	GraphicsEngine();
