@@ -13,9 +13,39 @@ uniform mat3 normalMat;
 out vec4 normalsExport;
 out vec2 texCoordsExport;
 
+struct Light
+{
+   vec4 ambCols;
+   vec4 difCols;
+   vec4 specCols;
+   vec4 coords;
+};
+uniform Light light0;
+
+uniform vec4 globAmb;
+  
+struct Material
+{
+   vec4 ambRefl;
+   vec4 difRefl;
+   vec4 specRefl;
+   vec4 emitCols;
+   float shininess;
+};
+
+uniform Material matFandB;
+
+vec3 normal, lightDirection, eyeDirection, halfway;
+vec4 fAndBEmit, fAndBGlobAmb, fAndBAmb, fAndBDif, fAndBSpec;
+vec4 coords;
+
 void main(void)
 {   
 	//normalsExport = vec4(Normal,1.0);
 	texCoordsExport = TexCoords;
     gl_Position = projMat * viewMat * modelMat * vec4(Coords, 1.0);
 }
+
+
+
+

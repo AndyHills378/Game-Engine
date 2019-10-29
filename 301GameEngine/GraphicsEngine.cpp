@@ -3,6 +3,12 @@
 unsigned int GraphicsEngine::programId, GraphicsEngine::fragmentShaderId, GraphicsEngine::vertexShaderId;
 Camera* camera;
 int(*GraphicsEngine::EventReaction[4])();
+static float theta = 0.0; // Angle of the sun with the ground.
+//float GameEngine::linetheta = 90.0;
+static float alpha = 0.0; // Blending parameter.
+float cX = 0, cY = 10.0f, cZ = 15.0f;
+int GraphicsEngine::oldTimeSinceStart; ///<The old time since the start of the game (from previous frame) for delta time calculation.
+int GraphicsEngine::newTimeSinceStart; ///<The time since the start of the game for delta time calculation.
 
 std::vector<Mesh*> newMesh;
 std::vector<Texture*> newTexture;
@@ -22,6 +28,14 @@ static vector<Vertex> skyVertices =
 	{vec3(100.0, 120.0, -100.0), vec3(0.0, 0.0, 1.0), vec2(1.0, 1.0)},
 	{vec3(-100.0, 0.0, -100.0), vec3(0.0, 0.0, 1.0), vec2(0.0, 0.0)},
 	{vec3(-100.0, 120.0, -100.0), vec3(0.0, 0.0, 1.0), vec2(0.0, 1.0)}
+};
+
+static Light light0 =
+{
+	vec4(0.0, 0.0, 0.0, 1.0),
+	vec4(1.0, 1.0, 1.0, 1.0),
+	vec4(1.0, 1.0, 1.0, 1.0),
+	vec4(1.0, 0.0, 0.0, 0.0)
 };
 
 GraphicsEngine::GraphicsEngine()
@@ -63,20 +77,27 @@ void GraphicsEngine::setup()
 	std::cout << "::: FRAGMENT SHADER :::" << std::endl;
 	shaderCompileTest(fragmentShaderId);
 
+	// Obtain light property uniform locations and set values.
+	glUniform4fv(glGetUniformLocation(GraphicsEngine::programId, "light0.ambCols"), 1, &light0.ambCols[0]);
+	glUniform4fv(glGetUniformLocation(GraphicsEngine::programId, "light0.difCols"), 1, &light0.difCols[0]);
+	glUniform4fv(glGetUniformLocation(GraphicsEngine::programId, "light0.specCols"), 1, &light0.specCols[0]);
+	light0coordsLoc = glGetUniformLocation(GraphicsEngine::programId, "light0.coords");
+
 	//setup skybox
 	Texture* grass = new Texture("Textures/grass.bmp", 0);
 	newTexture.push_back(grass);
 	Texture* sky = new Texture("Textures/SkySeamlessTexture.bmp", 1);
 	newTexture.push_back(sky);
-	newMesh.push_back(new Mesh(fieldvertices, vec3(0.0f), 0.0f, grass->texture));
+	Texture* nightSky = new Texture("Textures/nightSky.bmp", 2);
+	//newMesh.push_back(new Mesh(fieldvertices, vec3(0.0f), 0.0f, grass->texture));
 	//newMesh.push_back(new Mesh(fieldvertices, vec3(0.0f, 120.0f, 0.0f), 0.0f));
 	
-	newMesh.push_back(new Mesh(skyVertices, vec3(0.0f), 0.0f, sky->texture));
+/*	newMesh.push_back(new Mesh(skyVertices, vec3(0.0f), 0.0f, sky->texture));
 	newMesh.push_back(new Mesh(skyVertices, vec3(0.0f), 1.5708f, sky->texture));
 	newMesh.push_back(new Mesh(skyVertices, vec3(0.0f), -1.5708f, sky->texture));
-	newMesh.push_back(new Mesh(skyVertices, vec3(0.0f), 3.14159f, sky->texture));
+	newMesh.push_back(new Mesh(skyVertices, vec3(0.0f), 3.14159f, sky->texture));*/
 	
-	newMesh.push_back(new Mesh((char*)"TrackTri.obj", sky->texture, glm::vec3(0.0f, 0.0f, 0.0f), vec3(50.0f, 1.0f, 50.0f)));
+	newMesh.push_back(new Mesh((char*)"MapBlend.obj", grass->texture, glm::vec3(0.0f, 0.0f, 0.0f), vec3(35.0f, 35.0f, 35.0f)));
 
 	camera = new Camera();
 	camera->setup();
@@ -88,6 +109,16 @@ void GraphicsEngine::setup()
 void GraphicsEngine::drawScene()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	// Calculate and update light (sun) position.
+	light0.coords.x = cos((PI / 180.0f) * theta);
+	light0.coords.y = sin((PI / 180.0f) * theta);
+	glUniform4fv(light0coordsLoc, 1, &light0.coords[0]);
+
+	// Calculate and update blending parameter.
+	if (theta <= 90.0f) alpha = theta / 90.0f;
+	else alpha = (180.0f - theta) / 90.0f;
+	glUniform1f(alphaLoc, alpha);
 
 	for (int i = 0; i < newMesh.size(); i++)
 	{
@@ -102,6 +133,27 @@ void GraphicsEngine::drawScene()
 
 void GraphicsEngine::updateGame()
 {
+	oldTimeSinceStart = newTimeSinceStart;
+	newTimeSinceStart = glutGet(GLUT_ELAPSED_TIME);
+	int deltaTime = newTimeSinceStart - oldTimeSinceStart;
+
+	//If the last frame was rendered less than 1 ms ago, the deltaTime will be 0 ms. This causes problems in calculations, so sleep for 1ms to adjust.
+	if (deltaTime == 0) {
+		Sleep(1);
+		newTimeSinceStart = glutGet(GLUT_ELAPSED_TIME);
+		deltaTime = newTimeSinceStart - oldTimeSinceStart;
+	}
+	if (SubSystemSuper::debugMode) {
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	}
+	else {
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+	theta = theta + 1.0f * deltaTime / 100.0f;
+	if (theta >= 180.0) theta -= 180.0f;
+
+	cout << theta << endl;
+	
 	//read event queue
 	for (int i = 0; i < GameEngine::EventQueue.size();i++)
 	{

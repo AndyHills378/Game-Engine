@@ -10,7 +10,11 @@
 
 class GraphicsEngine
 {
+private:
+	static int oldTimeSinceStart; ///<The old time since the start of the game (from previous frame) for delta time calculation.
+	static int newTimeSinceStart; ///<The time since the start of the game for delta time calculation.
 public:
+
 	static unsigned int vertexShaderId, fragmentShaderId, programId;
 	static int(*EventReaction[4])();
 	GraphicsEngine();

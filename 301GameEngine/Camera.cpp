@@ -9,7 +9,7 @@ float Camera::pitch = 0.0f;
 float lastX = 800.0f / 2.0f;
 float lastY = 600.0f / 2.0f;
 float fov = 45.0f;
-float Camera::cameraSpeed = 0.5f;
+float Camera::cameraSpeed = 5.0f;
 
 Camera::Camera()
 {

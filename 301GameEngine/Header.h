@@ -49,6 +49,8 @@ normalMatLoc,
 light0coordsLoc,
 alphaLoc;
 
+#define PI 3.14159265358979324
+
 static mat4 modelMat = mat4(1.0);
 static mat4 viewMat = mat4(1.0);
 static mat4 projMat = mat4(1.0);
