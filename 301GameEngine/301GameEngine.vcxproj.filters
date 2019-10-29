@@ -117,13 +117,7 @@
     <ClCompile Include="GameObject.cpp">
       <Filter>GameObject\Source</Filter>
     </ClCompile>
-    <ClCompile Include="Mustang.cpp">
-      <Filter>GameObject\Source</Filter>
-    </ClCompile>
     <ClCompile Include="Camera.cpp">
-      <Filter>SubSystems\GraphicsEngine\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Model.cpp">
       <Filter>SubSystems\GraphicsEngine\Source</Filter>
     </ClCompile>
     <ClCompile Include="Mesh.cpp">
@@ -188,16 +182,10 @@
     <ClInclude Include="GameObject.h">
       <Filter>GameObject\Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Mustang.h">
-      <Filter>GameObject\Headers</Filter>
-    </ClInclude>
     <ClInclude Include="Header.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
-      <Filter>SubSystems\GraphicsEngine\Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Model.h">
       <Filter>SubSystems\GraphicsEngine\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Mesh.h">

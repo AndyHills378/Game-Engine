@@ -65,7 +65,7 @@ void GraphicsEngine::setup()
 
 	Texture* grass = new Texture("Textures/grass.bmp", 0);
 	newTexture.push_back(grass);
-	Texture* sky = new Texture("Textures/SkySeamlessTexture.bmp", 1);
+	Texture* sky = new Texture("Textures/sky.bmp", 1);
 	newTexture.push_back(sky);
 	newMesh.push_back(new Mesh(fieldvertices, vec3(0.0f), 0.0f, grass->texture));
 	//newMesh.push_back(new Mesh(fieldvertices, vec3(0.0f, 120.0f, 0.0f), 0.0f));
