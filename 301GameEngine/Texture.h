@@ -5,9 +5,9 @@
 class Texture
 {
 public:
-	BitMapFile* image[2];
-	unsigned int texture[1], textureLoc;
-	int textureID;
+	BitMapFile* image;
+	unsigned int texture, textureLoc;
+	char textureID;
 	string filepath;
 
 	Texture(string filepath, int meshID);

@@ -30,6 +30,7 @@ GraphicsEngine::GraphicsEngine()
 
 GraphicsEngine::~GraphicsEngine()
 {
+	
 }
 
 void shaderCompileTest(GLuint shader)
@@ -62,17 +63,19 @@ void GraphicsEngine::setup()
 	std::cout << "::: FRAGMENT SHADER :::" << std::endl;
 	shaderCompileTest(fragmentShaderId);
 
-	newTexture.push_back(new Texture("Textures/grass.bmp",0));
-
-	newMesh.push_back(new Mesh(fieldvertices, vec3(0.0f), 0.0f));
-	newMesh.push_back(new Mesh(fieldvertices, vec3(0.0f, 120.0f, 0.0f), 0.0f));
-
-	newMesh.push_back(new Mesh(skyVertices, vec3(0.0f), 0.0f));
-	newMesh.push_back(new Mesh(skyVertices, vec3(0.0f), 1.5708f));
-	newMesh.push_back(new Mesh(skyVertices, vec3(0.0f), -1.5708f));
-	newMesh.push_back(new Mesh(skyVertices, vec3(0.0f), 3.14159f));
+	Texture* grass = new Texture("Textures/grass.bmp", 0);
+	newTexture.push_back(grass);
+	Texture* sky = new Texture("Textures/sky.bmp", 1);
+	newTexture.push_back(sky);
+	newMesh.push_back(new Mesh(fieldvertices, vec3(0.0f), 0.0f, grass->texture));
+	//newMesh.push_back(new Mesh(fieldvertices, vec3(0.0f, 120.0f, 0.0f), 0.0f));
 	
-	newTexture.push_back(new Texture("Textures/sky.bmp", 0));
+	newMesh.push_back(new Mesh(skyVertices, vec3(0.0f), 0.0f, sky->texture));
+	newMesh.push_back(new Mesh(skyVertices, vec3(0.0f), 1.5708f, sky->texture));
+	newMesh.push_back(new Mesh(skyVertices, vec3(0.0f), -1.5708f, sky->texture));
+	newMesh.push_back(new Mesh(skyVertices, vec3(0.0f), 3.14159f, sky->texture));
+	
+	
 	
 	camera = new Camera();
 	camera->setup();
@@ -85,9 +88,12 @@ void GraphicsEngine::setup()
 void GraphicsEngine::drawScene()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	
+
 	for (int i = 0; i < newMesh.size(); i++)
 	{
+		glUniform1ui(glGetUniformLocation(GraphicsEngine::programId, "tex"), newMesh[i]->meshID);
+		glBindTexture(GL_TEXTURE_2D, newMesh[i]->meshID);
+		//glBindTexture(glGetUniformLocation(GraphicsEngine::programId, "tex"), newTexture[i]->texture);
 		newMesh[i]->drawMesh();
 	}
 
@@ -144,7 +150,7 @@ void GraphicsEngine::initEngine(int argc, char** argv)
 	glutDisplayFunc(drawScene);
 	glutIdleFunc([]() {GameEngine::updateGame(); }); //idle function
 	glutReshapeFunc(resize);
-	//glutPassiveMotionFunc(camera->setMouseMove);
+	glutPassiveMotionFunc(camera->setMouseMove);
 
 	//creates Event Reaction array
 	int(*p_grAccelerate)() = camera->grAccelerate;

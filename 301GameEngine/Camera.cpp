@@ -22,7 +22,7 @@ Camera::~Camera()
 void Camera::setup()
 {
 	//projMat = projection();
-	glm::mat4 projMat = glm::perspective(40.0f, 1.0f, 0.1f, 1000.0f);
+	glm::mat4 projMat = glm::perspective(fov, 1.0f, 0.1f, 1000.0f);
 	//projMat = 
 	glUniformMatrix4fv(glGetUniformLocation(GraphicsEngine::programId, "projMat"), 1, GL_FALSE, value_ptr(projMat));
 }

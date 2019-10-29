@@ -1,6 +1,7 @@
 #pragma once
 #include "GraphicsEngine.h"
 #include <vector>
+#include "Texture.h"
 class Mesh
 {
 public:
@@ -9,7 +10,8 @@ public:
 	std::vector<Vertex> vertices;
 	vec3 translate;
 	float rotate;
-	Mesh(std::vector<Vertex> vertices, vec3 translate, float rotate);
+	int meshID;
+	Mesh(std::vector<Vertex> vertices, vec3 translate, float rotate, int meshID);
 	~Mesh();
 	void setup();
 	void drawMesh();

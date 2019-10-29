@@ -2,12 +2,13 @@
 
 
 
-Mesh::Mesh(std::vector<Vertex> vertices, vec3 translate, float rotate)
+Mesh::Mesh(std::vector<Vertex> vertices, vec3 translate, float rotate, int meshID)
 {
 	this->vertices = vertices;
-	this->setup();
 	this->translate = translate;
 	this->rotate = rotate;
+	this->meshID = meshID;
+	this->setup();
 }
 
 Mesh::~Mesh()
@@ -37,6 +38,7 @@ void Mesh::drawMesh()
 	modelMat = glm::translate(modelMat, this->translate);
 	modelMat = glm::rotate(modelMat, this->rotate, vec3(0, 1, 0));
 	glUniformMatrix4fv(modelMatLoc, 1, GL_FALSE, value_ptr(modelMat));
+	//glUniform1ui(glGetUniformLocation(GraphicsEngine::programId, "tex"), this->meshID);
 	glBindVertexArray(VAO);
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, vertices.size());
 }
