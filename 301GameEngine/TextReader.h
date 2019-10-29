@@ -1,10 +1,9 @@
-//reader.h
-#include "Header.h"
-
 #ifndef TREADER_H
 #define TREADER_H
 
 #include "vertex.h"
+//reader.h
+#include "Header.h"
 
 struct TVertex {
 	float x;

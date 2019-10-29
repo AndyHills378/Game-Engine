@@ -6,6 +6,7 @@ int(*GraphicsEngine::EventReaction[4])();
 
 std::vector<Mesh*> newMesh;
 std::vector<Texture*> newTexture;
+TextReader model;
 
 static vector<Vertex> fieldvertices =
 {
@@ -22,7 +23,6 @@ static vector<Vertex> skyVertices =
 	{vec3(-100.0, 0.0, -100.0), vec3(0.0, 0.0, 1.0), vec2(0.0, 0.0)},
 	{vec3(-100.0, 120.0, -100.0), vec3(0.0, 0.0, 1.0), vec2(0.0, 1.0)}
 };
-
 
 GraphicsEngine::GraphicsEngine()
 {
@@ -63,6 +63,7 @@ void GraphicsEngine::setup()
 	std::cout << "::: FRAGMENT SHADER :::" << std::endl;
 	shaderCompileTest(fragmentShaderId);
 
+	//setup skybox
 	Texture* grass = new Texture("Textures/grass.bmp", 0);
 	newTexture.push_back(grass);
 	Texture* sky = new Texture("Textures/SkySeamlessTexture.bmp", 1);
@@ -74,18 +75,14 @@ void GraphicsEngine::setup()
 	newMesh.push_back(new Mesh(skyVertices, vec3(0.0f), 1.5708f, sky->texture));
 	newMesh.push_back(new Mesh(skyVertices, vec3(0.0f), -1.5708f, sky->texture));
 	newMesh.push_back(new Mesh(skyVertices, vec3(0.0f), 3.14159f, sky->texture));
+	
+	newMesh.push_back(new Mesh((char*)"TrackTri.obj", sky->texture, glm::vec3(0.0f, 0.0f, 0.0f), vec3(50.0f, 1.0f, 50.0f)));
 
-	//Mustang* mustang = new Mustang();
-	//newMesh.push_back(mustang);
-	
-	
-	
 	camera = new Camera();
 	camera->setup();
 
 	glm::mat4 modelMat(1.0f);
 	glUniformMatrix4fv(glGetUniformLocation(GraphicsEngine::programId, "modelMat"), 1, GL_FALSE, value_ptr(modelMat));
-
 }
 
 void GraphicsEngine::drawScene()

@@ -15,10 +15,6 @@ public:
 	static int(*EventReaction[4])();
 	GraphicsEngine();
 	~GraphicsEngine();
-	static int grAccelerate();
-	static int grDecelerate();
-	static int grTurnLeft();
-	static int grTurnRight();
 	static void setup(void);
 	static void drawScene();
 	static void updateGame();

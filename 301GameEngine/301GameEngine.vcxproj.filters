@@ -120,13 +120,13 @@
     <ClCompile Include="Camera.cpp">
       <Filter>SubSystems\GraphicsEngine\Source</Filter>
     </ClCompile>
-    <ClCompile Include="Mesh.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Texture.cpp">
       <Filter>SubSystems\GraphicsEngine\Source</Filter>
     </ClCompile>
     <ClCompile Include="TextReader.cpp">
+      <Filter>SubSystems\GraphicsEngine\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
       <Filter>SubSystems\GraphicsEngine\Source</Filter>
     </ClCompile>
   </ItemGroup>
@@ -188,13 +188,13 @@
     <ClInclude Include="Camera.h">
       <Filter>SubSystems\GraphicsEngine\Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Mesh.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Texture.h">
       <Filter>SubSystems\GraphicsEngine\Headers</Filter>
     </ClInclude>
     <ClInclude Include="TextReader.h">
+      <Filter>SubSystems\GraphicsEngine\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
       <Filter>SubSystems\GraphicsEngine\Headers</Filter>
     </ClInclude>
   </ItemGroup>
