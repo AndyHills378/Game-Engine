@@ -99,9 +99,6 @@
     <ClCompile Include="UIManager.cpp">
       <Filter>SubSystems\UIManager\Source</Filter>
     </ClCompile>
-    <ClCompile Include="PhysicsEngine.cpp">
-      <Filter>SubSystems\PhysicsEngine\Source</Filter>
-    </ClCompile>
     <ClCompile Include="GameEngine.cpp">
       <Filter>GameEngine\Source</Filter>
     </ClCompile>
@@ -129,6 +126,9 @@
     <ClCompile Include="Mesh.cpp">
       <Filter>SubSystems\GraphicsEngine\Source</Filter>
     </ClCompile>
+    <ClCompile Include="PhysicsEngine.cpp">
+      <Filter>SubSystems\PhysicsEngine\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Collider.h">
@@ -154,9 +154,6 @@
     </ClInclude>
     <ClInclude Include="UIManager.h">
       <Filter>SubSystems\UIManager\Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="PhysicsEngine.h">
-      <Filter>SubSystems\PhysicsEngine\Headers</Filter>
     </ClInclude>
     <ClInclude Include="GameEngine.h">
       <Filter>GameEngine\Headers</Filter>
@@ -196,6 +193,12 @@
     </ClInclude>
     <ClInclude Include="Mesh.h">
       <Filter>SubSystems\GraphicsEngine\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsEngine.h">
+      <Filter>SubSystems\PhysicsEngine\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Settings.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

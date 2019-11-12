@@ -74,6 +74,9 @@
     <IncludePath>$(SolutionDir)\include\reactphysics3d-library\src;$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)\include\FMOD\api\studio\inc;$(SolutionDir)\include\FMOD\api\lowlevel\inc;$(SolutionDir)\include\FMOD\api\fsbank\inc;$(SolutionDir)\include\freeGlut-library;$(SolutionDir)\include\LUA\include;$(SolutionDir)\include\LUA;$(SolutionDir)\include\enet-1.3.13\include</IncludePath>
     <LibraryPath>$(SolutionDir)\include\FMOD\api\studio\lib;$(SolutionDir)\include\FMOD\api\lowlevel\lib;$(SolutionDir)\include\FMOD\api\fsbank\lib;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64;$(SolutionDir)\include\reactphysics3d-library\lib\Debug;$(SolutionDir)\include\freeGlut-library\;$(SolutionDir)\include\LUA;$(SolutionDir)\include\enet-1.3.13</LibraryPath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>$(SolutionDir)\include\Assimp;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -162,6 +165,7 @@
     <ClInclude Include="material.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="PhysicsEngine.h" />
+    <ClInclude Include="Settings.h" />
     <ClInclude Include="shader.h" />
     <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="SubSystemEnum.h" />

@@ -1,4 +1,5 @@
 #include "GraphicsEngine.h"
+#include "Settings.h"
 
 unsigned int GraphicsEngine::programId, GraphicsEngine::fragmentShaderId, GraphicsEngine::vertexShaderId;
 Camera* camera;
@@ -13,30 +14,6 @@ int GraphicsEngine::newTimeSinceStart; ///<The time since the start of the game 
 std::vector<Mesh*> newMesh;
 std::vector<Texture*> newTexture;
 TextReader model;
-
-static vector<Vertex> fieldvertices =
-{
-	{vec3(100.0, 0.0, 100.0), vec3(0.0, 1.0, 0.0), vec2(8.0, 0.0)},
-	{vec3(100.0, 0.0, -100.0), vec3(0.0, 1.0, 0.0), vec2(8.0, 8.0)},
-	{vec3(-100.0, 0.0, 100.0), vec3(0.0, 1.0, 0.0), vec2(0.0, 0.0)},
-	{vec3(-100.0, 0.0, -100.0), vec3(0.0, 1.0, 0.0), vec2(0.0, 8.0)}
-};
-
-static vector<Vertex> skyVertices =
-{
-	{vec3(100.0, 0.0, -100.0), vec3(0.0, 0.0, 1.0), vec2(1.0, 0.0)},
-	{vec3(100.0, 120.0, -100.0), vec3(0.0, 0.0, 1.0), vec2(1.0, 1.0)},
-	{vec3(-100.0, 0.0, -100.0), vec3(0.0, 0.0, 1.0), vec2(0.0, 0.0)},
-	{vec3(-100.0, 120.0, -100.0), vec3(0.0, 0.0, 1.0), vec2(0.0, 1.0)}
-};
-
-static Light light0 =
-{
-	vec4(0.0, 0.0, 0.0, 1.0),
-	vec4(1.0, 1.0, 1.0, 1.0),
-	vec4(1.0, 1.0, 1.0, 1.0),
-	vec4(1.0, 0.0, 0.0, 0.0)
-};
 
 GraphicsEngine::GraphicsEngine()
 {
@@ -60,7 +37,7 @@ void shaderCompileTest(GLuint shader)
 // Initialization routine.
 void GraphicsEngine::setup()
 {
-	glClearColor(0.0, 0.0, 1.0, 0.0);
+	glClearColor(1.0, 1.0, 1.0, 0.0);
 	glEnable(GL_DEPTH_TEST);
 
 	// Create shader program executable.
@@ -88,16 +65,16 @@ void GraphicsEngine::setup()
 	newTexture.push_back(grass);
 	Texture* sky = new Texture("Textures/SkySeamlessTexture.bmp", 1);
 	newTexture.push_back(sky);
-	Texture* nightSky = new Texture("Textures/nightSky.bmp", 2);
-	//newMesh.push_back(new Mesh(fieldvertices, vec3(0.0f), 0.0f, grass->texture));
-	//newMesh.push_back(new Mesh(fieldvertices, vec3(0.0f, 120.0f, 0.0f), 0.0f));
-	
-/*	newMesh.push_back(new Mesh(skyVertices, vec3(0.0f), 0.0f, sky->texture));
+	Texture* asphalt = new Texture("Textures/asphalt.bmp", 2);
+	newMesh.push_back(new Mesh(fieldvertices, vec3(0.0f), 0.0f, grass->texture));
+
+	newMesh.push_back(new Mesh(skyVertices, vec3(0.0f), 0.0f, sky->texture));
 	newMesh.push_back(new Mesh(skyVertices, vec3(0.0f), 1.5708f, sky->texture));
 	newMesh.push_back(new Mesh(skyVertices, vec3(0.0f), -1.5708f, sky->texture));
-	newMesh.push_back(new Mesh(skyVertices, vec3(0.0f), 3.14159f, sky->texture));*/
+	newMesh.push_back(new Mesh(skyVertices, vec3(0.0f), 3.14159f, sky->texture));
 	
-	newMesh.push_back(new Mesh((char*)"MapBlend.obj", grass->texture, glm::vec3(0.0f, 0.0f, 0.0f), vec3(35.0f, 35.0f, 35.0f)));
+	//newMesh.push_back(new Mesh((char*)"mustangtest.obj", asphalt->texture, glm::vec3(0.0f, 0.0f, 0.0f), vec3(35.0f, 35.0f, 35.0f)));
+	//newMesh.push_back(new Mesh((char*)"Tracktri.obj", sky->texture, glm::vec3(0.0f, 10.0f, 0.0f), vec3(35.0f, 35.0f, 35.0f)));
 
 	camera = new Camera();
 	camera->setup();
@@ -124,7 +101,6 @@ void GraphicsEngine::drawScene()
 	{
 		glUniform1ui(glGetUniformLocation(GraphicsEngine::programId, "tex"), newMesh[i]->meshID);
 		glBindTexture(GL_TEXTURE_2D, newMesh[i]->meshID);
-		//glBindTexture(glGetUniformLocation(GraphicsEngine::programId, "tex"), newTexture[i]->texture);
 		newMesh[i]->drawMesh();
 	}
 
@@ -152,7 +128,7 @@ void GraphicsEngine::updateGame()
 	theta = theta + 1.0f * deltaTime / 100.0f;
 	if (theta >= 180.0) theta -= 180.0f;
 
-	cout << theta << endl;
+	//cout << theta << endl;
 	
 	//read event queue
 	for (int i = 0; i < GameEngine::EventQueue.size();i++)
@@ -166,7 +142,7 @@ void GraphicsEngine::updateGame()
 			}
 		}
 	}
-	camera->update();
+	camera->update(deltaTime);
 	glutPostRedisplay();
 }
 

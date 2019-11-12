@@ -25,10 +25,10 @@ public:
 	int numVerts;
 
 
-	TVertex vertex[50000];
-	TVertex texCoord[50000];
-	TFace faces[50000];
-	TFace texfaces[50000];
+	TVertex vertex[5000];
+	TVertex texCoord[5000];
+	TFace faces[5000];
+	TFace texfaces[5000];
 
 	Vertex* verts;
 

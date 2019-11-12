@@ -35,6 +35,7 @@ void GameEngine::initEngine(int argc, char** argv)
 	AudioEngine::initEngine();
 
 	//Initialise Physics Engine
+	PhysicsEngine::initEngine();
 
 	//start the engine
 	startEngine();
@@ -52,6 +53,8 @@ void GameEngine::updateGame()
 	GraphicsEngine::updateGame();
 
 	AudioEngine::updateEngine();
+
+	PhysicsEngine::updateEngine();
 
 	if (EventQueue.size() > 0)
 	{

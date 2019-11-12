@@ -10,7 +10,7 @@ public:
 	Camera();
 	~Camera();
 	void setup();
-	void update();
+	void update(int deltaTime);
 	static void setMouseMove(int x, int y);
 	static int grAccelerate();
 	static int grDecelerate();

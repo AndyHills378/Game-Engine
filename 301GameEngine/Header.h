@@ -8,6 +8,7 @@
 
 //reactphysics includes (physics)
 #include <reactphysics3d.h>
+#include "include/reactphysics3d-library/src/engine/DynamicsWorld.h"
 
 //freeglut includes (Graphics)
 #include <GL/glew.h>

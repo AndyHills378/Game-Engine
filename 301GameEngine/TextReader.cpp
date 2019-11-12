@@ -5,7 +5,7 @@ using namespace std;
 TextReader::TextReader()
 {
 	numPts = 0;
-	for (int i = 0; i < 50000; i++) {
+	for (int i = 0; i < 5000; i++) {
 		vertex[i].x = 0;
 		vertex[i].y = 0;
 		vertex[i].z = 0;
@@ -14,7 +14,7 @@ TextReader::TextReader()
 		texCoord[i].y = 0;
 	}
 
-	for (int i = 0; i < 50000; i++) {
+	for (int i = 0; i < 5000; i++) {
 		faces[i].id1 = 0;
 		faces[i].id2 = 0;
 		faces[i].id3 = 0;
@@ -45,11 +45,11 @@ void TextReader::loadVertex(char* filename)
 
 	int v = 0;
 
-	while (str[0] == 'v'&&str[1] != 't') {
+	while (str[0] == 'v' && str[1] != 't') {
 
 		//convert data into X,Y,Z
 		str[0] = ' ';
-		sscanf(str.c_str(), "%f %f %f",							// Read floats from the line: v X Y Z
+		sscanf(str.c_str(), "%f %f %f\n",							// Read floats from the line: v X Y Z
 			&vertex[v].x,
 			&vertex[v].y,
 			&vertex[v].z);
@@ -57,7 +57,6 @@ void TextReader::loadVertex(char* filename)
 		v++;
 		getline(file, str);
 	}
-
 	numPts = v;
 }
 
@@ -84,14 +83,14 @@ void TextReader::LoadTexCoord(char* filename)
 			&texCoord[v].x,
 			&texCoord[v].y);*/
 
-		sscanf(str.c_str(), "%f %f",							// Read floats from the line: vt X Y Z
+		sscanf(str.c_str(), "%f %f %f\n",							// Read floats from the line: vt X Y Z
 			&texCoord[v].x,
-			&texCoord[v].y);
+			&texCoord[v].y,
+			&texCoord[v].z);
 
 		v++;
 		getline(file, str);
 	}
-
 	numPts = v;
 }
 
@@ -121,7 +120,7 @@ void TextReader::LoadFace(char *filename)
 			&faces[count].id3);*/
 
 		///this is for four vertice polygon
-		sscanf_s(str.c_str(), "%d/%d %d/%d %d/%d ",
+		sscanf_s(str.c_str(), "%d/%d %d/%d %d/%d\n ",
 			&faces[count].id1, &texfaces[count].id1,
 			&faces[count].id2, &texfaces[count].id2,
 			&faces[count].id3, &texfaces[count].id3 );
@@ -135,10 +134,9 @@ void TextReader::LoadFace(char *filename)
 		texfaces[count].id3--;
 
 		count++;
-
+		
 		getline(file, str);
 	}
-
 	numFaces = count;
 }
 
@@ -188,26 +186,3 @@ void TextReader::FinalVertexData()
 
 	cout << "Index at end: " << index << endl;
 }
-
-/*
-
-glBegin(GL_TRIANGLES);
-for (i = 0; i < obj2.numFaces; i++) // obj1.numFaces
-{
-id = obj2.texfaces[i].id1;
-glTexCoord2f(obj2.texCoord[id].x, obj2.texCoord[id].y);
-id = obj2.faces[i].id1;
-glVertex3d(obj2.vertex[id].x, obj2.vertex[id].y, obj2.vertex[id].z);
-
-id = obj2.texfaces[i].id2;
-glTexCoord2f(obj2.texCoord[id].x, obj2.texCoord[id].y);
-id = obj2.faces[i].id2;
-glVertex3d(obj2.vertex[id].x, obj2.vertex[id].y, obj2.vertex[id].z);
-
-id = obj2.texfaces[i].id3;
-glTexCoord2f(obj1.texCoord[id].x, obj1.texCoord[id].y);
-id = obj2.faces[i].id3;
-glVertex3d(obj2.vertex[id].x, obj2.vertex[id].y, obj2.vertex[id].z);
-}
-glEnd();
-*/

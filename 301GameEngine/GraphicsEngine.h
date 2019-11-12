@@ -7,8 +7,9 @@
 #include "Mesh.h"
 #include "Texture.h"
 #include "TextReader.h"
+#include "SubSystemSuper.h"
 
-class GraphicsEngine
+class GraphicsEngine : public SubSystemSuper
 {
 private:
 	static int oldTimeSinceStart; ///<The old time since the start of the game (from previous frame) for delta time calculation.

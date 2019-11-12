@@ -3,6 +3,7 @@
 #include "UIManager.h"
 #include "GraphicsEngine.h"
 #include "AudioEngine.h"
+#include "PhysicsEngine.h"
 
 class GameEngine
 {

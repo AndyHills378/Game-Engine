@@ -1,4 +1,5 @@
 #include "Camera.h"
+#include "Settings.h"
 
 glm::vec3 Camera::cameraPos = glm::vec3(0.0f, 5.0f, -5.0f);
 glm::vec3 Camera::cameraFront = glm::vec3(0.0f, 0.0f, 5.0f);
@@ -27,7 +28,7 @@ void Camera::setup()
 	glUniformMatrix4fv(glGetUniformLocation(GraphicsEngine::programId, "projMat"), 1, GL_FALSE, value_ptr(projMat));
 }
 
-void Camera::update()
+void Camera::update(int deltaTime)
 {
 	//glm::mat4 viewMat = glm::lookAt(glm::vec3(0.0f, 0.0f, -5.0f), glm::vec3(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	glm::mat4 viewMat = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
