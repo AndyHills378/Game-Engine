@@ -82,6 +82,15 @@
     <Filter Include="SubSystems\NetworkEngine\Source">
       <UniqueIdentifier>{349551f8-e5ab-40a8-ad41-5d177568c2cc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SubSystems\DataScripting">
+      <UniqueIdentifier>{5d25702f-3433-4fa7-8a96-ef02f62fc1e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SubSystems\DataScripting\Headers">
+      <UniqueIdentifier>{36c0c56a-d14c-41bc-8e80-ad3f311e4200}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SubSystems\DataScripting\Source">
+      <UniqueIdentifier>{046a9012-3808-4287-8e15-80c87bdf3e96}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SphereCollider.cpp">
@@ -111,9 +120,6 @@
     <ClCompile Include="EntryPoint.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject.cpp">
-      <Filter>GameObject\Source</Filter>
-    </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>SubSystems\GraphicsEngine\Source</Filter>
     </ClCompile>
@@ -128,6 +134,12 @@
     </ClCompile>
     <ClCompile Include="PhysicsEngine.cpp">
       <Filter>SubSystems\PhysicsEngine\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="DataScripting.cpp">
+      <Filter>SubSystems\DataScripting\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>GameObject\Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -176,9 +188,6 @@
     <ClInclude Include="SubSystemSuper.h">
       <Filter>SubSystems</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject.h">
-      <Filter>GameObject\Headers</Filter>
-    </ClInclude>
     <ClInclude Include="Header.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -199,6 +208,15 @@
     </ClInclude>
     <ClInclude Include="Settings.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stb_image.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DataScripting.h">
+      <Filter>SubSystems\DataScripting\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>GameObject\Headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

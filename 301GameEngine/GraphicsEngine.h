@@ -8,6 +8,7 @@
 #include "Texture.h"
 #include "TextReader.h"
 #include "SubSystemSuper.h"
+#include "Settings.h"
 
 class GraphicsEngine : public SubSystemSuper
 {
@@ -20,6 +21,7 @@ public:
 	static int(*EventReaction[4])();
 	GraphicsEngine();
 	~GraphicsEngine();
+	static void setupTextures();
 	static void setup(void);
 	static void drawScene();
 	static void updateGame();

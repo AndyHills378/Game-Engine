@@ -6,9 +6,16 @@
 #include <fstream>
 #include <vector>
 
-//reactphysics includes (physics)
-#include <reactphysics3d.h>
-#include "include/reactphysics3d-library/src/engine/DynamicsWorld.h"
+#include  "stb_image.h"
+
+//Nvidia PhysX includes (physics)
+#include <PxPhysicsAPI.h>
+#include <vehicle/PxVehicleSDK.h>
+#include <memory>
+#include <PxPhysics.h>
+#include "foundation/Px.h"
+#include <foundation/PxFoundationVersion.h>
+#include "common/PxPhysXCommonConfig.h"
 
 //freeglut includes (Graphics)
 #include <GL/glew.h>
@@ -36,8 +43,11 @@ extern "C" {
 //E-Net includes (Networking)
 #include <enet/enet.h>
 
+#include "light.h"
+
 using namespace std;
 using namespace glm;
+using namespace luabridge;
 
 static unsigned int
 vertexShaderId,

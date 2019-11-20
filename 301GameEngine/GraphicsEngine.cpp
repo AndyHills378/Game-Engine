@@ -1,5 +1,4 @@
 #include "GraphicsEngine.h"
-#include "Settings.h"
 
 unsigned int GraphicsEngine::programId, GraphicsEngine::fragmentShaderId, GraphicsEngine::vertexShaderId;
 Camera* camera;
@@ -12,6 +11,7 @@ int GraphicsEngine::oldTimeSinceStart; ///<The old time since the start of the g
 int GraphicsEngine::newTimeSinceStart; ///<The time since the start of the game for delta time calculation.
 
 std::vector<Mesh*> newMesh;
+std::vector<Mesh*> cubeMap;
 std::vector<Texture*> newTexture;
 TextReader model;
 
@@ -32,6 +32,33 @@ void shaderCompileTest(GLuint shader)
 	std::vector<GLchar> vertShaderError((logLength > 1) ? logLength : 1);
 	glGetShaderInfoLog(shader, logLength, NULL, &vertShaderError[0]);
 	std::cout << &vertShaderError[0] << std::endl;
+}
+
+void GraphicsEngine::setupTextures()
+{
+	lua_State* F = luaL_newstate();
+	luaL_dofile(F, "level.lua");
+	luaL_openlibs(F);
+	lua_pcall(F, 0, 0, 0);
+
+	LuaRef t = getGlobal(F, "directories");
+	std::string textureDir = t["textures"].cast<std::string>();
+
+	t = getGlobal(F, "environment");
+	std::string catTexture = t["texture"].cast<std::string>();
+
+	std::string testTextureString = textureDir + catTexture;
+	cout << '"' + testTextureString + '"' << endl;
+
+
+	Texture* testTexture = new Texture(testTextureString, 2);
+	newTexture.push_back(testTexture);
+	/*if (!testTexture.loadFromFile(textureDir + catTexture))
+	{
+		std::cout << "Texture did not load!" << "\n";
+	}
+
+	texturedShape.setTexture(&testTexture);*/
 }
 
 // Initialization routine.
@@ -61,20 +88,31 @@ void GraphicsEngine::setup()
 	light0coordsLoc = glGetUniformLocation(GraphicsEngine::programId, "light0.coords");
 
 	//setup skybox
-	Texture* grass = new Texture("Textures/grass.bmp", 0);
-	newTexture.push_back(grass);
-	Texture* sky = new Texture("Textures/SkySeamlessTexture.bmp", 1);
-	newTexture.push_back(sky);
-	Texture* asphalt = new Texture("Textures/asphalt.bmp", 2);
-	newMesh.push_back(new Mesh(fieldvertices, vec3(0.0f), 0.0f, grass->texture));
+	Texture* back = new Texture("Textures/back.bmp", 0);
+	Texture* bottom = new Texture("Textures/bottom.bmp", 0);
+	Texture* front = new Texture("Textures/front.bmp", 0);
+	Texture* left = new Texture("Textures/left.bmp", 0);
+	Texture* right = new Texture("Textures/right.bmp", 0);
+	Texture* top = new Texture("Textures/top.bmp", 0);
+	newTexture.push_back(back);
+	newTexture.push_back(bottom);
+	newTexture.push_back(front);
+	newTexture.push_back(left);
+	newTexture.push_back(right);
+	newTexture.push_back(top);
 
-	newMesh.push_back(new Mesh(skyVertices, vec3(0.0f), 0.0f, sky->texture));
-	newMesh.push_back(new Mesh(skyVertices, vec3(0.0f), 1.5708f, sky->texture));
-	newMesh.push_back(new Mesh(skyVertices, vec3(0.0f), -1.5708f, sky->texture));
-	newMesh.push_back(new Mesh(skyVertices, vec3(0.0f), 3.14159f, sky->texture));
-	
-	//newMesh.push_back(new Mesh((char*)"mustangtest.obj", asphalt->texture, glm::vec3(0.0f, 0.0f, 0.0f), vec3(35.0f, 35.0f, 35.0f)));
-	//newMesh.push_back(new Mesh((char*)"Tracktri.obj", sky->texture, glm::vec3(0.0f, 10.0f, 0.0f), vec3(35.0f, 35.0f, 35.0f)));
+	Texture* asphalt = new Texture("Textures/asphalt.bmp", 1);
+	newTexture.push_back(asphalt);
+	/*Texture* sand = new Texture("Textures/sand.bmp", 2);
+	newTexture.push_back(sand);*/
+
+	//Texture* cubemap = new Texture(faces);
+	cubeMap.push_back(new Mesh(skyVertices, vec3(0.0f, 500.0f, 500.0f), -1.5708f, vec3(1.0f, 0.0f, 0.0f), bottom->texture));
+	cubeMap.push_back(new Mesh(skyVertices, vec3(0.0f, 500.0f, -500.0f), 1.5708f, vec3(1.0f, 0.0f, 0.0f), top->texture));
+	cubeMap.push_back(new Mesh(skyVertices, vec3(0.0f), 0.0f, vec3(0.0f,1.0f,0.0f), left->texture));
+	cubeMap.push_back(new Mesh(skyVertices, vec3(0.0f), 1.5708f, vec3(0.0f, 1.0f, 0.0f), back->texture));
+	cubeMap.push_back(new Mesh(skyVertices, vec3(0.0f), -1.5708f, vec3(0.0f, 1.0f, 0.0f), front->texture));
+	cubeMap.push_back(new Mesh(skyVertices, vec3(0.0f), 3.14159f, vec3(0.0f, 1.0f, 0.0f), right->texture));
 
 	camera = new Camera();
 	camera->setup();
@@ -97,15 +135,23 @@ void GraphicsEngine::drawScene()
 	else alpha = (180.0f - theta) / 90.0f;
 	glUniform1f(alphaLoc, alpha);
 
-	for (int i = 0; i < newMesh.size(); i++)
+	for (int i = 0; i < cubeMap.size(); i++)
 	{
-		glUniform1ui(glGetUniformLocation(GraphicsEngine::programId, "tex"), newMesh[i]->meshID);
-		glBindTexture(GL_TEXTURE_2D, newMesh[i]->meshID);
-		newMesh[i]->drawMesh();
+		glDepthMask(GL_FALSE);
+		glUniform1ui(glGetUniformLocation(GraphicsEngine::programId, "tex"), cubeMap[i]->meshID);
+		glBindVertexArray(cubeMap[i]->VAO);
+		//glBindTexture(GL_TEXTURE_2D, cubeMap[i]->meshID);
+		//glDrawArrays(GL_TRIANGLES, 0, 36);
+		cubeMap[i]->drawMesh();
+		glDepthMask(GL_TRUE);
 	}
-
+	for (int i = 0; i < GameEngine::gameobjects.size(); i++)
+	{
+		GameEngine::gameobjects[i]->drawObject();
+	}
 	glutSwapBuffers();
 }
+
 
 void GraphicsEngine::updateGame()
 {
@@ -167,14 +213,28 @@ void GraphicsEngine::initEngine(int argc, char** argv)
 	printInteraction();
 	//glutInit(&argc, argv);
 
+	lua_State* F = luaL_newstate();
+	luaL_dofile(F, "level.lua");
+	luaL_openlibs(F);
+	lua_pcall(F, 0, 0, 0);
+
+	LuaRef t = getGlobal(F, "window");
+	LuaRef title = t["title"];
+	LuaRef w = t["width"];
+	LuaRef h = t["height"];
+
+	std::string titleString = title.cast<std::string>();
+	int width = w.cast<int>();
+	int height = h.cast<int>();
+
 	glutInitContextVersion(4, 3);
 	glutInitContextProfile(GLUT_CORE_PROFILE);
 	glutInitContextFlags(GLUT_FORWARD_COMPATIBLE);
 
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
-	glutInitWindowSize(500, 500);
+	glutInitWindowSize(width, height);
 	glutInitWindowPosition(500, 100);
-	glutCreateWindow("Graphics Engine");
+	glutCreateWindow(title);
 	glutDisplayFunc(drawScene);
 	glutIdleFunc([]() {GameEngine::updateGame(); }); //idle function
 	glutReshapeFunc(resize);

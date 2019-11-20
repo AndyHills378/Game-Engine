@@ -10,7 +10,7 @@ float Camera::pitch = 0.0f;
 float lastX = 800.0f / 2.0f;
 float lastY = 600.0f / 2.0f;
 float fov = 45.0f;
-float Camera::cameraSpeed = 5.0f;
+float Camera::cameraSpeed = 15.0f;
 
 Camera::Camera()
 {
@@ -23,7 +23,7 @@ Camera::~Camera()
 void Camera::setup()
 {
 	//projMat = projection();
-	glm::mat4 projMat = glm::perspective(fov, 1.0f, 0.1f, 1000.0f);
+	glm::mat4 projMat = glm::perspective(fov, 1.0f, 0.1f, 1500.0f);
 	//projMat = 
 	glUniformMatrix4fv(glGetUniformLocation(GraphicsEngine::programId, "projMat"), 1, GL_FALSE, value_ptr(projMat));
 }

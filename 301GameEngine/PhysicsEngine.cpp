@@ -4,8 +4,6 @@ int(*PhysicsEngine::EventReaction[4])();
 int PhysicsEngine::oldTimeSinceStart; ///<The old time since the start of the game (from previous frame) for delta time calculation.
 int PhysicsEngine::newTimeSinceStart; ///<The time since the start of the game for delta time calculation.
 
-rp3d::DynamicsWorld* world;
-rp3d::RigidBody* body;
 
 PhysicsEngine::PhysicsEngine()
 {
@@ -13,36 +11,65 @@ PhysicsEngine::PhysicsEngine()
 
 PhysicsEngine::~PhysicsEngine()
 {
-	// Destroy the rigid body
-	world->destroyRigidBody(body);
+
+}
+
+void PhysicsEngine::customizeSceneDesc(PxSceneDesc& sceneDesc)
+{
+	sceneDesc.gravity = PxVec3(0, -9.81, 0);
+	//sceneDesc.filterShader = filter;
+	//sceneDesc.simulationEventCallback = this;
+	sceneDesc.flags |= PxSceneFlag::eENABLE_CCD;
+	sceneDesc.flags |= PxSceneFlag::eREQUIRE_RW_LOCK;
 }
 
 void PhysicsEngine::initEngine()
 {
-	// Gravity vector
-	rp3d::Vector3 gravity(0.0f, -9.81f, 0.0f);
-	// Create the dynamics world
-	rp3d::DynamicsWorld world(gravity);
+	static UserErrorCallback gUserErrorCallback;
+	static PxDefaultAllocator gDefaultAllocatorCallback;
+	//static PxDefaultSimulationFilterShader gDefaultFilterShader;
 
-	///only edit if needed, increasing numbers slows down compute time
-	// Change the number of iterations of the velocity solver
-	world.setNbIterationsVelocitySolver(15);
-	// Change the number of iterations of the position solver
-	world.setNbIterationsPositionSolver(8);
+	PxFoundation* mFoundation = PxCreateFoundation(PX_FOUNDATION_VERSION, gDefaultAllocatorCallback,
+		gUserErrorCallback);
+	if (!mFoundation) {
+		cout << "PxCreateFoundation failed!" << endl;
+	}
 
-	// Initial position and orientation of the rigid body
-	rp3d::Vector3 initPosition(0.0, 3.0, 0.0);
-	rp3d::Quaternion initOrientation = rp3d::Quaternion ::
-		identity();
-	rp3d::Transform transform(initPosition, initOrientation);
+	bool recordMemoryAllocations = false;
+	
+	PxPvd* mPvd = PxCreatePvd(*mFoundation);
+	if (!mPvd) { cout << "PxPvd failed" << endl; } //profile zone manager
 
-	// Create a rigid body in the world
-	body = world.createRigidBody(transform);	body->enableGravity(false);
-	// Half extents of the box in the x, y and z directions
-	const rp3d::Vector3 halfExtents(2.0, 3.0, 5.0);
-	// Create the box shape
-	const rp3d::BoxShape boxShape(halfExtents);	// Create the sphere shape with a radius of 2m
-	const rp3d::SphereShape sphereShape(2.0);
+	PxPhysics* mPhysics = PxCreatePhysics(PX_PHYSICS_VERSION, *mFoundation, PxTolerancesScale(), recordMemoryAllocations, mPvd); //top-level physics
+	if (!mPhysics){ cout << "PxCreatePhysics failed!" << endl;}
+
+	//PxCooking* mCooking = PxCreateCooking(PX_PHYSICS_VERSION, *mFoundation, PxCookingParams(0, 1, 0));
+	//if (!mCooking) { cout << "PxCreateCooking failed!" << endl; }
+
+	PxScene* mScene;
+	PxSceneDesc sceneDesc(mPhysics->getTolerancesScale());
+	sceneDesc.gravity = PxVec3(0.0f, -9.8f, 0.0f);
+	customizeSceneDesc(sceneDesc);
+	mScene = mPhysics->createScene(sceneDesc);
+	if (!mScene) { cout << "createScene failed" << endl; }
+
+	PxMaterial* mMaterial = mPhysics->createMaterial((PxReal)0.5f, (PxReal)0.5f, (PxReal)0.5f); //static friction, dynamic friction, restitution
+	if (!mMaterial) { cout << "createMaterial failed" << endl; }
+
+	PxRigidActor* aSphereActor = mPhysics->createRigidDynamic(PxTransform(0.f, 1.f, 0.f));
+	PxShape* aSphereShape = aSphereActor->createShape(PxSphereGeometry(1.0f), *mMaterial);
+	/*PxReal density;
+	density = 10.0f;
+	PxVec3 position(0, 50, 0);*/
+
+
+
+	if (!aSphereActor) { cout << "Unable to create sphere actor" << endl; }
+	//PxRigidBodyExt::updateMassAndInertia(*aSphereActor, density);
+	//mScene->addActor(*aSphereActor);
+
+	//PxRigidStatic* plane = PxCreatePlane(*mPhysics, PxPlane(PxVec3(0.0f, 1.0f, 0.0f), 0), *mMaterial);
+	//mScene->addActor(*plane);
 
 	cout << "Physics Engine loaded" << endl;
 	/*int(*p_grAccelerate)() = camera->grAccelerate;

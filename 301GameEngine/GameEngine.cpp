@@ -1,8 +1,11 @@
 #include "GameEngine.h"
+#include "Track.h"
+
+#include "GameObject.h"
 
 std::vector<Event> GameEngine::EventQueue;
 std::vector<int> GameEngine::subsystems;
-#include "Track.h"
+std::vector<GameObject*> GameEngine::gameobjects;
 
 GameEngine::GameEngine()
 {
@@ -10,15 +13,6 @@ GameEngine::GameEngine()
 
 GameEngine::~GameEngine()
 {
-}
-
-void GameEngine::get_element()
-{
-	for (int x = 0; x < subsystems.size(); x++)
-	{
-		cout << subsystems[x] << " \n";
-	};
-	cout << " \n";
 }
 
 void GameEngine::initEngine(int argc, char** argv)
@@ -36,6 +30,9 @@ void GameEngine::initEngine(int argc, char** argv)
 
 	//Initialise Physics Engine
 	PhysicsEngine::initEngine();
+
+	gameobjects.push_back(new GameObject((char*)"environment.obj", (char*)"environment", 0));
+	gameobjects.push_back(new GameObject((char*)"mustang.obj", (char*)"mustang", 1));
 
 	//start the engine
 	startEngine();

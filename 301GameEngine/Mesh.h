@@ -1,5 +1,4 @@
 #pragma once
-#include "GraphicsEngine.h"
 #include <vector>
 #include "Texture.h"
 #include "TextReader.h"
@@ -11,13 +10,13 @@ public:
 	unsigned int VBO;
 	unsigned int VAO;
 	std::vector<Vertex> vertices;
-	vec3 position, scale;
+	vec3 position, scale, rotateVec;
 	float rotate;
 	int meshID;
 	bool model;
 	bool LoadMesh;
-	Mesh(std::vector<Vertex> vertices, vec3 position, float rotate, int meshID);
-	Mesh(char* filename, int meshID, glm::vec3 position, glm::vec3 scale);
+	Mesh(std::vector<Vertex> vertices, vec3 position, float rotate, glm::vec3 rotateVec, int meshID);
+	Mesh(char* filename, int meshID, glm::vec3 position, float rotate, glm::vec3 scale);
 	~Mesh();
 	void modelSetup();
 	void setup();

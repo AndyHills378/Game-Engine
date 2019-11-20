@@ -1,6 +1,6 @@
 #include "Mesh.h"
 
-Mesh::Mesh(std::vector<Vertex> vertices, vec3 position, float rotate, int meshID)
+Mesh::Mesh(std::vector<Vertex> vertices, vec3 position, float rotate, glm::vec3 rotateVec, int meshID)
 {
 	this->vertices = vertices;
 	this->position = position;
@@ -8,18 +8,19 @@ Mesh::Mesh(std::vector<Vertex> vertices, vec3 position, float rotate, int meshID
 	this->meshID = meshID;
 	this->model = false;
 	this->scale = vec3(1.0f);
+	this->rotateVec = rotateVec;
 	this->setup();
 }
 
-Mesh::Mesh(char* filename, int meshID, glm::vec3 position, glm::vec3 scale)
+Mesh::Mesh(char* filename, int meshID, glm::vec3 position, float rotate, glm::vec3 scale)
 {
 	obj.LoadModel(filename);
-	//loadModel(filename);
 	this->position = position;
-	//obj.LoadModel(filename);
 	this->meshID = meshID;
 	this->model = true;
 	this->scale = scale;
+	this->rotate = rotate;
+	this->rotateVec = vec3(0.0f, 1.0f, 0.0f);
 	this->modelSetup();
 }
 
@@ -64,11 +65,13 @@ void Mesh::drawMesh()
 {
 	modelMat = mat4(1.0);
 	modelMat = glm::translate(modelMat, this->position);
-	modelMat = glm::rotate(modelMat, this->rotate, vec3(0, 1, 0));
+	modelMat = glm::rotate(modelMat, this->rotate, this->rotateVec);
 	modelMat = glm::scale(modelMat, this->scale);
 	glUniformMatrix4fv(modelMatLoc, 1, GL_FALSE, value_ptr(modelMat));
-	glBindVertexArray(VAO);
+	//glBindVertexArray(VAO);
 
+	//glActiveTexture(GL_TEXTURE0 + meshID);
+	glBindTexture(GL_TEXTURE_2D, this->meshID);
 	if (this->model) { glDrawArrays(GL_TRIANGLES, 0, obj.numFaces * 3); }
 
 	else { glDrawArrays(GL_TRIANGLE_STRIP, 0, vertices.size()); }

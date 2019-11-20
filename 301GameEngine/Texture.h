@@ -1,6 +1,6 @@
 #pragma once
-#include "GraphicsEngine.h"
 #include "Header.h"
+#include "getbmp.h"
 
 class Texture
 {
@@ -9,9 +9,9 @@ public:
 	unsigned int texture, textureLoc;
 	char textureID;
 	string filepath;
-
 	Texture(string filepath, int meshID);
 	~Texture();
 	void setup();
+	void setupCubeMap();
 };
 

@@ -5,7 +5,7 @@ using namespace std;
 TextReader::TextReader()
 {
 	numPts = 0;
-	for (int i = 0; i < 5000; i++) {
+	for (int i = 0; i < 15000; i++) {
 		vertex[i].x = 0;
 		vertex[i].y = 0;
 		vertex[i].z = 0;
@@ -14,7 +14,7 @@ TextReader::TextReader()
 		texCoord[i].y = 0;
 	}
 
-	for (int i = 0; i < 5000; i++) {
+	for (int i = 0; i < 15000; i++) {
 		faces[i].id1 = 0;
 		faces[i].id2 = 0;
 		faces[i].id3 = 0;

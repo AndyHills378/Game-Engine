@@ -3,6 +3,19 @@
 #include "SubSystemSuper.h"
 #include "GameEngine.h"
 
+using namespace physx;
+
+class UserErrorCallback : public PxErrorCallback
+{
+public:
+	virtual void reportError(PxErrorCode::Enum code, const char* message, const char* file,
+		int line)
+	{
+		// error processing implementation
+		std::cout << "Bad stuff happen\n";
+	}
+};
+
 class PhysicsEngine : public SubSystemSuper
 {
 private:
@@ -12,6 +25,7 @@ public:
 	static int(*EventReaction[4])();
 	PhysicsEngine();
 	~PhysicsEngine();
+	static void customizeSceneDesc(PxSceneDesc& sceneDesc);
 	static void initEngine();
 	static void updateEngine();
 };

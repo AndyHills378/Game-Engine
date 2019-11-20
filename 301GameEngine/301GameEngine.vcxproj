@@ -71,8 +71,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <SourcePath>$(SourcePath)</SourcePath>
-    <IncludePath>$(SolutionDir)\include\reactphysics3d-library\src;$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)\include\FMOD\api\studio\inc;$(SolutionDir)\include\FMOD\api\lowlevel\inc;$(SolutionDir)\include\FMOD\api\fsbank\inc;$(SolutionDir)\include\freeGlut-library;$(SolutionDir)\include\LUA\include;$(SolutionDir)\include\LUA;$(SolutionDir)\include\enet-1.3.13\include</IncludePath>
-    <LibraryPath>$(SolutionDir)\include\FMOD\api\studio\lib;$(SolutionDir)\include\FMOD\api\lowlevel\lib;$(SolutionDir)\include\FMOD\api\fsbank\lib;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64;$(SolutionDir)\include\reactphysics3d-library\lib\Debug;$(SolutionDir)\include\freeGlut-library\;$(SolutionDir)\include\LUA;$(SolutionDir)\include\enet-1.3.13</LibraryPath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)\include\FMOD\api\studio\inc;$(SolutionDir)\include\FMOD\api\lowlevel\inc;$(SolutionDir)\include\FMOD\api\fsbank\inc;$(SolutionDir)\include\freeGlut-library;$(SolutionDir)\include\LUA\include;$(SolutionDir)\include\LUA;$(SolutionDir)\include\enet-1.3.13\include;$(SolutionDir)\include\PhysX\include;$(SolutionDir)\include\PxShared\include</IncludePath>
+    <LibraryPath>$(SolutionDir)\include\FMOD\api\studio\lib;$(SolutionDir)\include\FMOD\api\lowlevel\lib;$(SolutionDir)\include\FMOD\api\fsbank\lib;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64;$(SolutionDir)\include\freeGlut-library\;$(SolutionDir)\include\LUA;$(SolutionDir)\include\enet-1.3.13</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IncludePath>$(SolutionDir)\include\Assimp;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
@@ -83,6 +83,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -94,13 +95,13 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>include;</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalLibraryDirectories>include</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32.lib;freeglut.lib;reactphysics3d.lib;fmod64_vc.lib;fmodL64_vc.lib;fmodstudio64_vc.lib;fmodstudioL64_vc.lib;fsbank64_vc.lib;enet64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>include; /include/PhysX/Lib; /include/PxShared/lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32.lib;freeglut.lib;reactphysics3d.lib;fmod64_vc.lib;fmodL64_vc.lib;fmodstudio64_vc.lib;fmodstudioL64_vc.lib;fsbank64_vc.lib;lua53.lib;enet64.lib;LowLevelAABBDEBUG.lib;LowLevelClothDEBUG.lib;LowLevelDEBUG.lib;LowLevelDynamicsDEBUG.lib;LowLevelParticlesDEBUG.lib;PhysX3CommonDEBUG_x64.lib;PhysX3DEBUG_x64.lib;PxFoundationDEBUG_x64.lib;PxPvdSDKDEBUG_x64.lib;PxTaskDEBUG_x64.lib;SceneQueryDEBUG.lib;SimulationControllerDEBUG.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -136,9 +137,10 @@
   <ItemGroup>
     <ClCompile Include="AudioEngine.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="DataScripting.cpp" />
     <ClCompile Include="GameEngine.cpp" />
-    <ClCompile Include="GraphicsEngine.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="GraphicsEngine.cpp" />
     <ClCompile Include="getbmp.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="PhysicsEngine.cpp" />
@@ -154,11 +156,12 @@
     <ClInclude Include="AudioEngine.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Collider.h" />
+    <ClInclude Include="DataScripting.h" />
     <ClInclude Include="event.h" />
     <ClInclude Include="EventTypeEnum.h" />
     <ClInclude Include="GameEngine.h" />
-    <ClInclude Include="GraphicsEngine.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="GraphicsEngine.h" />
     <ClInclude Include="getbmp.h" />
     <ClInclude Include="Header.h" />
     <ClInclude Include="light.h" />
@@ -168,6 +171,7 @@
     <ClInclude Include="Settings.h" />
     <ClInclude Include="shader.h" />
     <ClInclude Include="SphereCollider.h" />
+    <ClInclude Include="stb_image.h" />
     <ClInclude Include="SubSystemEnum.h" />
     <ClInclude Include="SubSystemSuper.h" />
     <ClInclude Include="TextReader.h" />
