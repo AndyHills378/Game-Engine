@@ -31,7 +31,18 @@ void Camera::setup()
 void Camera::update(int deltaTime)
 {
 	//glm::mat4 viewMat = glm::lookAt(glm::vec3(0.0f, 0.0f, -5.0f), glm::vec3(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	glm::mat4 viewMat = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+	for (int i = 0; i < GameEngine::gameobjects.size(); i++)
+	{
+		if (GameEngine::gameobjects[i]->objectToFollow)
+		{
+			glm::mat4 viewMat = glm::lookAt(
+				GameEngine::gameobjects[i]->position + glm::vec3(-cos(radians(GameEngine::gameobjects[i]->rotate + 180)) * 10, 10, 
+					-sin(radians(GameEngine::gameobjects[i]->rotate - 180)) * 10), 
+				GameEngine::gameobjects[i]->position, 
+				vec3(0, 1, 0));
+		}
+	}
+	//glm::mat4 viewMat = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 	glUniformMatrix4fv(glGetUniformLocation(GraphicsEngine::programId, "viewMat"), 1, GL_FALSE, value_ptr(viewMat));
 }
 

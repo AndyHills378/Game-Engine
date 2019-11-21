@@ -17,6 +17,6 @@ public:
 	static int auAccelerate();
 	static int auDecelerate();
 	static void initEngine(/*int argc, char** argv*/);
-	static void updateEngine();
+	static void updateEngine(int deltaTime);
 };
 

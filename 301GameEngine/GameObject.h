@@ -21,7 +21,10 @@ public:
 	vec3 position, scale, rotateVec;
 	std::string textureLoc;
 	float rotate;
-	GameObject(char* filename, char* luaID, int objectID);
+	bool objectToFollow;
+	glm::vec3 startHeading = glm::vec3(0.0, 0.0, -1.0);
+	glm::vec3 heading = startHeading;
+	GameObject(char* filename, char* luaID, int objectID, bool objectToFollow);
 	~GameObject();
 
 	void setupObject();

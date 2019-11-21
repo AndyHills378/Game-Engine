@@ -3,7 +3,47 @@
 int(*PhysicsEngine::EventReaction[4])();
 int PhysicsEngine::oldTimeSinceStart; ///<The old time since the start of the game (from previous frame) for delta time calculation.
 int PhysicsEngine::newTimeSinceStart; ///<The time since the start of the game for delta time calculation.
+float turningSpeed;
+float rotSpeed = 90;
+float PhysicsEngine::Acceleration;
+glm::vec3 PhysicsEngine::NewVelocity;
+glm::vec3 PhysicsEngine::Velocity;
 
+int PhysicsEngine::pxAccelerate()
+{
+	for (int i = 0; i < GameEngine::gameobjects.size(); i++)
+	{
+		if (GameEngine::gameobjects[i]->objectToFollow) { Acceleration += MOVE_SPEED; }
+	}
+	return 0;
+}
+
+int PhysicsEngine::pxDecelerate()
+{
+	for (int i = 0; i < GameEngine::gameobjects.size(); i++)
+	{
+		if (GameEngine::gameobjects[i]->objectToFollow) { Acceleration -= MOVE_SPEED; }
+	}
+	return 0;
+}
+
+int PhysicsEngine::pxTurnLeft()
+{
+	for (int i = 0; i < GameEngine::gameobjects.size(); i++)
+	{
+		if (GameEngine::gameobjects[i]->objectToFollow) { GameEngine::gameobjects[i]->rotate += turningSpeed; }
+	} 
+	return 0;
+}
+
+int PhysicsEngine::pxTurnRight()
+{
+	for (int i = 0; i < GameEngine::gameobjects.size(); i++)
+	{
+		if (GameEngine::gameobjects[i]->objectToFollow) { GameEngine::gameobjects[i]->rotate -= turningSpeed; }
+	}
+	return 0;
+}
 
 PhysicsEngine::PhysicsEngine()
 {
@@ -25,7 +65,7 @@ void PhysicsEngine::customizeSceneDesc(PxSceneDesc& sceneDesc)
 
 void PhysicsEngine::initEngine()
 {
-	static UserErrorCallback gUserErrorCallback;
+	/*static UserErrorCallback gUserErrorCallback;
 	static PxDefaultAllocator gDefaultAllocatorCallback;
 	//static PxDefaultSimulationFilterShader gDefaultFilterShader;
 
@@ -64,7 +104,7 @@ void PhysicsEngine::initEngine()
 
 
 
-	if (!aSphereActor) { cout << "Unable to create sphere actor" << endl; }
+	//if (!aSphereActor) { cout << "Unable to create sphere actor" << endl; }
 	//PxRigidBodyExt::updateMassAndInertia(*aSphereActor, density);
 	//mScene->addActor(*aSphereActor);
 
@@ -72,28 +112,38 @@ void PhysicsEngine::initEngine()
 	//mScene->addActor(*plane);
 
 	cout << "Physics Engine loaded" << endl;
-	/*int(*p_grAccelerate)() = camera->grAccelerate;
-	int(*p_grDecelerate)() = camera->grDecelerate;
-	int(*p_grTurnLeft)() = camera->grTurnLeft;
-	int(*p_grTurnRight)() = camera->grTurnRight;
-	EventReaction[0] = p_grAccelerate;
-	EventReaction[1] = p_grDecelerate;
-	EventReaction[2] = p_grTurnLeft;
-	EventReaction[3] = p_grTurnRight;*/
+	int(*p_pxAccelerate)() = pxAccelerate;
+	int(*p_pxDecelerate)() = pxDecelerate;
+	int(*p_pxTurnLeft)() = pxTurnLeft;
+	int(*p_pxTurnRight)() = pxTurnRight;
+	EventReaction[0] = p_pxAccelerate;
+	EventReaction[1] = p_pxDecelerate;
+	EventReaction[2] = p_pxTurnLeft;
+	EventReaction[3] = p_pxTurnRight;
 }
 
-void PhysicsEngine::updateEngine()
+void PhysicsEngine::updateEngine(int deltaTime)
 {
+	turningSpeed = TURNING_SPEED * (deltaTime / 1000.0); //turning speed (degrees/sec) * deltaTime in sec = turning speed over delta time
+
 	//read event queue
 	for (int i = 0; i < GameEngine::EventQueue.size(); i++)
 	{
 		for (int j = 0; j < GameEngine::EventQueue[i].mySubSystems.size(); j++)
 		{
-			if (GameEngine::EventQueue[i].mySubSystems[j] == SubSystemEnum::graphicsEngine)
+			if (GameEngine::EventQueue[i].mySubSystems[j] == SubSystemEnum::physicsEngine)
 			{
 				EventReaction[(int)GameEngine::EventQueue[i].myType]();
 				GameEngine::EventQueue[i].mySubSystems.erase(GameEngine::EventQueue[i].mySubSystems.begin() + j);
 			}
+		}
+	}
+	for (int i = 0; i < GameEngine::gameobjects.size(); i++)
+	{
+		if (GameEngine::gameobjects[i]->objectToFollow) {
+			NewVelocity = Velocity + (Acceleration * GameEngine::gameobjects[i]->heading) * (deltaTime / 1000.0f);
+			GameEngine::gameobjects[i]->position = GameEngine::gameobjects[i]->position + NewVelocity * (deltaTime / 1000.0f);
+			GameEngine::gameobjects[i]->heading = glm::rotate(GameEngine::gameobjects[i]->startHeading, glm::radians(GameEngine::gameobjects[i]->rotate), GameEngine::gameobjects[i]->rotateVec);
 		}
 	}
 }

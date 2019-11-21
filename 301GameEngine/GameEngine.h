@@ -10,6 +10,8 @@ class GameObject;
 class GameEngine
 {
 private:
+	static int oldTimeSinceStart; ///<The old time since the start of the game (from previous frame) for delta time calculation.
+	static int newTimeSinceStart; ///<The time since the start of the game for delta time calculation.
 	vector<int>::iterator Iter;
 public:
 	static std::vector<Event> EventQueue;

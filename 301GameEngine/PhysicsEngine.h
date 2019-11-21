@@ -5,6 +5,9 @@
 
 using namespace physx;
 
+#define TURNING_SPEED 90.0
+#define MOVE_SPEED 20.0
+
 class UserErrorCallback : public PxErrorCallback
 {
 public:
@@ -19,14 +22,21 @@ public:
 class PhysicsEngine : public SubSystemSuper
 {
 private:
+public:
+	static float Acceleration;
+	static glm::vec3 NewVelocity;
+	static glm::vec3 Velocity;
 	static int oldTimeSinceStart; ///<The old time since the start of the game (from previous frame) for delta time calculation.
 	static int newTimeSinceStart; ///<The time since the start of the game for delta time calculation.
-public:
 	static int(*EventReaction[4])();
+	static int pxAccelerate();
+	static int pxDecelerate();
+	static int pxTurnLeft();
+	static int pxTurnRight();
 	PhysicsEngine();
 	~PhysicsEngine();
 	static void customizeSceneDesc(PxSceneDesc& sceneDesc);
 	static void initEngine();
-	static void updateEngine();
+	static void updateEngine(int deltaTime);
 };
 

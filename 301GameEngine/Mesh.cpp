@@ -63,16 +63,18 @@ void Mesh::setup()
 
 void Mesh::drawMesh()
 {
-	modelMat = mat4(1.0);
-	modelMat = glm::translate(modelMat, this->position);
-	modelMat = glm::rotate(modelMat, this->rotate, this->rotateVec);
-	modelMat = glm::scale(modelMat, this->scale);
-	glUniformMatrix4fv(modelMatLoc, 1, GL_FALSE, value_ptr(modelMat));
 	//glBindVertexArray(VAO);
 
 	//glActiveTexture(GL_TEXTURE0 + meshID);
 	glBindTexture(GL_TEXTURE_2D, this->meshID);
 	if (this->model) { glDrawArrays(GL_TRIANGLES, 0, obj.numFaces * 3); }
 
-	else { glDrawArrays(GL_TRIANGLE_STRIP, 0, vertices.size()); }
+	else {
+		modelMat = mat4(1.0);
+		modelMat = glm::translate(modelMat, this->position);
+		modelMat = glm::rotate(modelMat, this->rotate, this->rotateVec);
+		modelMat = glm::scale(modelMat, this->scale);
+		glUniformMatrix4fv(modelMatLoc, 1, GL_FALSE, value_ptr(modelMat));
+		glDrawArrays(GL_TRIANGLE_STRIP, 0, vertices.size());
+	}
 }

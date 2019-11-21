@@ -7,8 +7,7 @@ static float theta = 0.0; // Angle of the sun with the ground.
 //float GameEngine::linetheta = 90.0;
 static float alpha = 0.0; // Blending parameter.
 float cX = 0, cY = 10.0f, cZ = 15.0f;
-int GraphicsEngine::oldTimeSinceStart; ///<The old time since the start of the game (from previous frame) for delta time calculation.
-int GraphicsEngine::newTimeSinceStart; ///<The time since the start of the game for delta time calculation.
+
 
 std::vector<Mesh*> newMesh;
 std::vector<Mesh*> cubeMap;
@@ -153,18 +152,8 @@ void GraphicsEngine::drawScene()
 }
 
 
-void GraphicsEngine::updateGame()
+void GraphicsEngine::updateGame(int deltaTime)
 {
-	oldTimeSinceStart = newTimeSinceStart;
-	newTimeSinceStart = glutGet(GLUT_ELAPSED_TIME);
-	int deltaTime = newTimeSinceStart - oldTimeSinceStart;
-
-	//If the last frame was rendered less than 1 ms ago, the deltaTime will be 0 ms. This causes problems in calculations, so sleep for 1ms to adjust.
-	if (deltaTime == 0) {
-		Sleep(1);
-		newTimeSinceStart = glutGet(GLUT_ELAPSED_TIME);
-		deltaTime = newTimeSinceStart - oldTimeSinceStart;
-	}
 	if (SubSystemSuper::debugMode) {
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	}

@@ -39,7 +39,7 @@ int AudioEngine::auDecelerate()
 }
 
 
-void AudioEngine::updateEngine()
+void AudioEngine::updateEngine(int deltaTime)
 {
 	system->update();
 	//read event queue

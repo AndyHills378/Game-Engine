@@ -1,6 +1,6 @@
 #include "GameObject.h"
 
-GameObject::GameObject(char* filename, char* luaID, int objectID)
+GameObject::GameObject(char* filename, char* luaID, int objectID, bool objectToFollow)
 {
 	lua_State* F = luaL_newstate();
 	luaL_dofile(F, "level.lua");
@@ -15,6 +15,7 @@ GameObject::GameObject(char* filename, char* luaID, int objectID)
 	LuaRef scale = t["scale"];
 	LuaRef rotateVec = t["rotateVec"];
 
+	this->objectToFollow = objectToFollow;
 	this->objectID = objectID;
 	this->filename = filename;
 	this->position = glm::vec3(position["X"].cast<float>(), position["Y"].cast<float>(), position["Z"].cast<float>());
@@ -38,6 +39,12 @@ void GameObject::setupObject()
 
 void GameObject::drawObject()
 {
+	modelMat = mat4(1.0);
+	//modelMat = glm::rotate(modelMat, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+	modelMat = glm::translate(modelMat, this->position);
+	modelMat = glm::rotate(modelMat, this->rotate, this->rotateVec);
+	modelMat = glm::scale(modelMat, this->scale);
+	glUniformMatrix4fv(modelMatLoc, 1, GL_FALSE, value_ptr(modelMat));
 	glBindVertexArray(mesh->VAO);
 	glUniform1ui(glGetUniformLocation(GraphicsEngine::programId, "tex"), mesh->meshID);
 	//glBindTexture(GL_TEXTURE_2D, texture->texture);

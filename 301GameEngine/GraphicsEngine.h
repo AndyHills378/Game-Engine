@@ -12,9 +12,6 @@
 
 class GraphicsEngine : public SubSystemSuper
 {
-private:
-	static int oldTimeSinceStart; ///<The old time since the start of the game (from previous frame) for delta time calculation.
-	static int newTimeSinceStart; ///<The time since the start of the game for delta time calculation.
 public:
 
 	static unsigned int vertexShaderId, fragmentShaderId, programId;
@@ -24,7 +21,7 @@ public:
 	static void setupTextures();
 	static void setup(void);
 	static void drawScene();
-	static void updateGame();
+	static void updateGame(int deltaTime);
 	static void printInteraction(void);
 	static void initEngine(int argc, char** argv);
 	static void startGame();
