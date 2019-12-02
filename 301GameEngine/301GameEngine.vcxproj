@@ -101,7 +101,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <AdditionalLibraryDirectories>include; /include/PhysX/Lib; /include/PxShared/lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32.lib;freeglut.lib;reactphysics3d.lib;fmod64_vc.lib;fmodL64_vc.lib;fmodstudio64_vc.lib;fmodstudioL64_vc.lib;fsbank64_vc.lib;lua53.lib;enet64.lib;LowLevelAABBDEBUG.lib;LowLevelClothDEBUG.lib;LowLevelDEBUG.lib;LowLevelDynamicsDEBUG.lib;LowLevelParticlesDEBUG.lib;PhysX3CommonDEBUG_x64.lib;PhysX3DEBUG_x64.lib;PxFoundationDEBUG_x64.lib;PxPvdSDKDEBUG_x64.lib;PxTaskDEBUG_x64.lib;SceneQueryDEBUG.lib;SimulationControllerDEBUG.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew32.lib;freeglut.lib;reactphysics3d.lib;fmod64_vc.lib;fmodL64_vc.lib;fmodstudio64_vc.lib;fmodstudioL64_vc.lib;fsbank64_vc.lib;lua53.lib;enet64.lib;LowLevelAABBDEBUG.lib;LowLevelClothDEBUG.lib;LowLevelDEBUG.lib;LowLevelDynamicsDEBUG.lib;LowLevelParticlesDEBUG.lib;PhysX3CommonDEBUG_x64.lib;PhysX3DEBUG_x64.lib;PxFoundationDEBUG_x64.lib;PxPvdSDKDEBUG_x64.lib;PxTaskDEBUG_x64.lib;SceneQueryDEBUG.lib;SimulationControllerDEBUG.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -137,12 +137,13 @@
   <ItemGroup>
     <ClCompile Include="AudioEngine.cpp" />
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="DataScripting.cpp" />
+    <ClCompile Include="CubeMap.cpp" />
     <ClCompile Include="GameEngine.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GraphicsEngine.cpp" />
     <ClCompile Include="getbmp.cpp" />
     <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="NetworkEngine.cpp" />
     <ClCompile Include="PhysicsEngine.cpp" />
     <ClCompile Include="shader.cpp" />
     <ClCompile Include="EntryPoint.cpp" />
@@ -156,7 +157,7 @@
     <ClInclude Include="AudioEngine.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Collider.h" />
-    <ClInclude Include="DataScripting.h" />
+    <ClInclude Include="CubeMap.h" />
     <ClInclude Include="event.h" />
     <ClInclude Include="EventTypeEnum.h" />
     <ClInclude Include="GameEngine.h" />
@@ -167,6 +168,7 @@
     <ClInclude Include="light.h" />
     <ClInclude Include="material.h" />
     <ClInclude Include="Mesh.h" />
+    <ClInclude Include="NetworkEngine.h" />
     <ClInclude Include="PhysicsEngine.h" />
     <ClInclude Include="Settings.h" />
     <ClInclude Include="shader.h" />

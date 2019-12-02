@@ -10,8 +10,8 @@ private:
 public:
 	static FMOD::Studio::System* system;
 	static FMOD::System* lowLevelSystem;
-	static FMOD::Sound* meow;
-	static FMOD::Channel* catChannel;
+	static FMOD::Sound* sound;
+	static FMOD::Channel* Channel;
 	AudioEngine();
 	~AudioEngine();
 	static int auAccelerate();

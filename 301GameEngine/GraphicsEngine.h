@@ -9,13 +9,14 @@
 #include "TextReader.h"
 #include "SubSystemSuper.h"
 #include "Settings.h"
+#include "CubeMap.h"
 
 class GraphicsEngine : public SubSystemSuper
 {
 public:
-
+	static int cameraMode;
 	static unsigned int vertexShaderId, fragmentShaderId, programId;
-	static int(*EventReaction[4])();
+	static int(*EventReaction[5])();
 	GraphicsEngine();
 	~GraphicsEngine();
 	static void setupTextures();

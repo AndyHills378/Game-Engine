@@ -16,5 +16,6 @@ public:
 	static int grDecelerate();
 	static int grTurnLeft();
 	static int grTurnRight();
+	static int cameraSwitch();
 };
 

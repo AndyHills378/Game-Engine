@@ -7,7 +7,7 @@ float turningSpeed;
 float rotSpeed = 90;
 float PhysicsEngine::Acceleration;
 glm::vec3 PhysicsEngine::NewVelocity;
-glm::vec3 PhysicsEngine::Velocity;
+glm::vec3 PhysicsEngine::Velocity = vec3(0,0,0);
 
 int PhysicsEngine::pxAccelerate()
 {
@@ -125,7 +125,6 @@ void PhysicsEngine::initEngine()
 void PhysicsEngine::updateEngine(int deltaTime)
 {
 	turningSpeed = TURNING_SPEED * (deltaTime / 1000.0); //turning speed (degrees/sec) * deltaTime in sec = turning speed over delta time
-
 	//read event queue
 	for (int i = 0; i < GameEngine::EventQueue.size(); i++)
 	{
@@ -138,12 +137,18 @@ void PhysicsEngine::updateEngine(int deltaTime)
 			}
 		}
 	}
+
+	/*if (Acceleration > -50.0f && Acceleration < 50.0f)
+	{
+		Acceleration = 0.0f;
+	}*/
 	for (int i = 0; i < GameEngine::gameobjects.size(); i++)
 	{
 		if (GameEngine::gameobjects[i]->objectToFollow) {
+			GameEngine::gameobjects[i]->heading.y = 0;
 			NewVelocity = Velocity + (Acceleration * GameEngine::gameobjects[i]->heading) * (deltaTime / 1000.0f);
 			GameEngine::gameobjects[i]->position = GameEngine::gameobjects[i]->position + NewVelocity * (deltaTime / 1000.0f);
-			GameEngine::gameobjects[i]->heading = glm::rotate(GameEngine::gameobjects[i]->startHeading, glm::radians(GameEngine::gameobjects[i]->rotate), GameEngine::gameobjects[i]->rotateVec);
+			GameEngine::gameobjects[i]->heading = glm::rotate(GameEngine::gameobjects[i]->startHeading, GameEngine::gameobjects[i]->rotate, GameEngine::gameobjects[i]->rotateVec);
 		}
 	}
 }

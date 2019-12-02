@@ -1,9 +1,9 @@
 #include "GameObject.h"
 
-GameObject::GameObject(char* filename, char* luaID, int objectID, bool objectToFollow)
+GameObject::GameObject(char* luaFile, char* filename, char* luaID, int objectID)
 {
 	lua_State* F = luaL_newstate();
-	luaL_dofile(F, "level.lua");
+	luaL_dofile(F, luaFile);
 	luaL_openlibs(F);
 	lua_pcall(F, 0, 0, 0);
 
@@ -23,6 +23,7 @@ GameObject::GameObject(char* filename, char* luaID, int objectID, bool objectToF
 	this->textureLoc = textureDir + t["texture"].cast<std::string>();
 	this->rotate = t["rotate"].cast<float>();
 	this->rotateVec = glm::vec3(rotateVec["X"].cast<float>(), rotateVec["Y"].cast<float>(), rotateVec["Z"].cast<float>());
+	this->objectToFollow = t["objectToFollow"].cast<bool>();
 	cout << "object: " << luaID << " loaded" << endl;
 	setupObject();
 }

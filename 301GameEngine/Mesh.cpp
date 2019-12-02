@@ -70,6 +70,7 @@ void Mesh::drawMesh()
 	if (this->model) { glDrawArrays(GL_TRIANGLES, 0, obj.numFaces * 3); }
 
 	else {
+
 		modelMat = mat4(1.0);
 		modelMat = glm::translate(modelMat, this->position);
 		modelMat = glm::rotate(modelMat, this->rotate, this->rotateVec);

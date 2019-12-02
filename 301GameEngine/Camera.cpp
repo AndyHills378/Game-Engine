@@ -1,9 +1,10 @@
 #include "Camera.h"
 #include "Settings.h"
 
-glm::vec3 Camera::cameraPos = glm::vec3(0.0f, 5.0f, -5.0f);
-glm::vec3 Camera::cameraFront = glm::vec3(0.0f, 0.0f, 5.0f);
+glm::vec3 Camera::cameraPos;
+glm::vec3 Camera::cameraFront;
 glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
+
 bool firstMouse = true;
 float Camera::yaw = 90.0f;
 float Camera::pitch = 0.0f;
@@ -22,27 +23,28 @@ Camera::~Camera()
 
 void Camera::setup()
 {
-	//projMat = projection();
 	glm::mat4 projMat = glm::perspective(fov, 1.0f, 0.1f, 1500.0f);
-	//projMat = 
 	glUniformMatrix4fv(glGetUniformLocation(GraphicsEngine::programId, "projMat"), 1, GL_FALSE, value_ptr(projMat));
 }
 
 void Camera::update(int deltaTime)
 {
-	//glm::mat4 viewMat = glm::lookAt(glm::vec3(0.0f, 0.0f, -5.0f), glm::vec3(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	for (int i = 0; i < GameEngine::gameobjects.size(); i++)
+	if (GraphicsEngine::cameraMode == 1)
 	{
-		if (GameEngine::gameobjects[i]->objectToFollow)
+		for (int i = 0; i < GameEngine::gameobjects.size(); i++)
 		{
-			glm::mat4 viewMat = glm::lookAt(
-				GameEngine::gameobjects[i]->position + glm::vec3(-cos(radians(GameEngine::gameobjects[i]->rotate + 180)) * 10, 10, 
-					-sin(radians(GameEngine::gameobjects[i]->rotate - 180)) * 10), 
-				GameEngine::gameobjects[i]->position, 
-				vec3(0, 1, 0));
+			if (GameEngine::gameobjects[i]->objectToFollow)
+			{
+				cameraPos = GameEngine::gameobjects[i]->position + vec3(50 * cos(GameEngine::gameobjects[i]->rotate), 30, 50 * -sin(GameEngine::gameobjects[i]->rotate));
+				cameraFront = GameEngine::gameobjects[i]->position;
+			}
 		}
+		viewMat = glm::lookAt(cameraPos, cameraFront, cameraUp);
 	}
-	//glm::mat4 viewMat = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+	else
+	{
+		viewMat = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+	}
 	glUniformMatrix4fv(glGetUniformLocation(GraphicsEngine::programId, "viewMat"), 1, GL_FALSE, value_ptr(viewMat));
 }
 
@@ -95,24 +97,35 @@ void Camera::setMouseMove(int x, int y)
 
 int Camera::grAccelerate()
 {
-	cameraPos += cameraSpeed * cameraFront;
+	Camera::cameraPos += cameraSpeed * Camera::cameraFront;
 	return 0;
 }
 
 int Camera::grDecelerate()
 {
-	cameraPos -= cameraSpeed * cameraFront;
+	Camera::cameraPos -= cameraSpeed * Camera::cameraFront;
 	return 0;
 }
 
 int Camera::grTurnLeft()
 {
-	cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+	Camera::cameraPos -= glm::normalize(glm::cross(Camera::cameraFront, cameraUp)) * Camera::cameraSpeed;
 	return 0;
 }
 
 int Camera::grTurnRight()
 {
-	cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+	Camera::cameraPos += glm::normalize(glm::cross(Camera::cameraFront, cameraUp)) * Camera::cameraSpeed;
+	return 0;
+}
+
+int Camera::cameraSwitch()
+{
+	if (GraphicsEngine::cameraMode == 1) { 
+		GraphicsEngine::cameraMode = 2; 	
+		cameraPos = glm::vec3(0.0f, 5.0f, -5.0f); 
+		cameraFront = glm::vec3(0.0f, 0.0f, 5.0f);
+	}
+	else { GraphicsEngine::cameraMode = 1; }
 	return 0;
 }

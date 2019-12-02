@@ -5,10 +5,6 @@
 #include "Texture.h"
 #include "GraphicsEngine.h"
 
-/*struct Colour {
-	float r, g, b;
-};*/
-
 class GameObject
 {
 protected:
@@ -22,9 +18,9 @@ public:
 	std::string textureLoc;
 	float rotate;
 	bool objectToFollow;
-	glm::vec3 startHeading = glm::vec3(0.0, 0.0, -1.0);
+	glm::vec3 startHeading = glm::vec3(-1.0, 0.0, 0.0);
 	glm::vec3 heading = startHeading;
-	GameObject(char* filename, char* luaID, int objectID, bool objectToFollow);
+	GameObject(char* luaFile, char* filename, char* luaID, int objectID);
 	~GameObject();
 
 	void setupObject();

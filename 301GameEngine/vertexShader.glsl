@@ -39,11 +39,20 @@ vec3 normal, lightDirection, eyeDirection, halfway;
 vec4 fAndBEmit, fAndBGlobAmb, fAndBAmb, fAndBDif, fAndBSpec;
 vec4 coords;
 
+uniform uint object;
+uniform vec3 cameraPos;
+
 void main(void)
 {   
 	//normalsExport = vec4(Normal,1.0);
 	texCoordsExport = TexCoords;
-    gl_Position = projMat * viewMat * modelMat * vec4(Coords, 1.0);
+	/*if(object == 1)
+	{
+		gl_Position = projMat * viewMat * modelMat * vec4(Coords+cameraPos, 1.0);
+	}
+	else{*/
+		gl_Position = projMat * viewMat * modelMat * vec4(Coords, 1.0);
+	//}
 }
 
 

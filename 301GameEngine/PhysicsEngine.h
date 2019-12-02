@@ -5,8 +5,8 @@
 
 using namespace physx;
 
-#define TURNING_SPEED 90.0
-#define MOVE_SPEED 20.0
+#define TURNING_SPEED 5.0
+#define MOVE_SPEED 300.0
 
 class UserErrorCallback : public PxErrorCallback
 {

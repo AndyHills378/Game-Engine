@@ -2,17 +2,27 @@
 
 unsigned int GraphicsEngine::programId, GraphicsEngine::fragmentShaderId, GraphicsEngine::vertexShaderId;
 Camera* camera;
-int(*GraphicsEngine::EventReaction[4])();
+int(*GraphicsEngine::EventReaction[5])();
 static float theta = 0.0; // Angle of the sun with the ground.
-//float GameEngine::linetheta = 90.0;
 static float alpha = 0.0; // Blending parameter.
 float cX = 0, cY = 10.0f, cZ = 15.0f;
-
 
 std::vector<Mesh*> newMesh;
 std::vector<Mesh*> cubeMap;
 std::vector<Texture*> newTexture;
 TextReader model;
+
+CubeMap* skyBox = new CubeMap((char*)"skyBox.lua");
+
+int GraphicsEngine::cameraMode = 1;
+
+static vector<Vertex> skyVertices =
+{
+	{skyBox->coords1, vec3(0.0, 0.0, 1.0), vec2(1.0, 0.0)},
+	{skyBox->coords2, vec3(0.0, 0.0, 1.0), vec2(1.0, 1.0)},
+	{skyBox->coords3, vec3(0.0, 0.0, 1.0), vec2(0.0, 0.0)},
+	{skyBox->coords4, vec3(0.0, 0.0, 1.0), vec2(0.0, 1.0)}
+};
 
 GraphicsEngine::GraphicsEngine()
 {
@@ -31,33 +41,6 @@ void shaderCompileTest(GLuint shader)
 	std::vector<GLchar> vertShaderError((logLength > 1) ? logLength : 1);
 	glGetShaderInfoLog(shader, logLength, NULL, &vertShaderError[0]);
 	std::cout << &vertShaderError[0] << std::endl;
-}
-
-void GraphicsEngine::setupTextures()
-{
-	lua_State* F = luaL_newstate();
-	luaL_dofile(F, "level.lua");
-	luaL_openlibs(F);
-	lua_pcall(F, 0, 0, 0);
-
-	LuaRef t = getGlobal(F, "directories");
-	std::string textureDir = t["textures"].cast<std::string>();
-
-	t = getGlobal(F, "environment");
-	std::string catTexture = t["texture"].cast<std::string>();
-
-	std::string testTextureString = textureDir + catTexture;
-	cout << '"' + testTextureString + '"' << endl;
-
-
-	Texture* testTexture = new Texture(testTextureString, 2);
-	newTexture.push_back(testTexture);
-	/*if (!testTexture.loadFromFile(textureDir + catTexture))
-	{
-		std::cout << "Texture did not load!" << "\n";
-	}
-
-	texturedShape.setTexture(&testTexture);*/
 }
 
 // Initialization routine.
@@ -105,7 +88,6 @@ void GraphicsEngine::setup()
 	/*Texture* sand = new Texture("Textures/sand.bmp", 2);
 	newTexture.push_back(sand);*/
 
-	//Texture* cubemap = new Texture(faces);
 	cubeMap.push_back(new Mesh(skyVertices, vec3(0.0f, 500.0f, 500.0f), -1.5708f, vec3(1.0f, 0.0f, 0.0f), bottom->texture));
 	cubeMap.push_back(new Mesh(skyVertices, vec3(0.0f, 500.0f, -500.0f), 1.5708f, vec3(1.0f, 0.0f, 0.0f), top->texture));
 	cubeMap.push_back(new Mesh(skyVertices, vec3(0.0f), 0.0f, vec3(0.0f,1.0f,0.0f), left->texture));
@@ -136,13 +118,13 @@ void GraphicsEngine::drawScene()
 
 	for (int i = 0; i < cubeMap.size(); i++)
 	{
-		glDepthMask(GL_FALSE);
+		//glUniform1ui(glGetUniformLocation(programId, "object"), 1);
 		glUniform1ui(glGetUniformLocation(GraphicsEngine::programId, "tex"), cubeMap[i]->meshID);
 		glBindVertexArray(cubeMap[i]->VAO);
-		//glBindTexture(GL_TEXTURE_2D, cubeMap[i]->meshID);
+		//glUniform3f(glGetUniformLocation(programId, "cameraPos"), camera->cameraPos.x, camera->cameraPos.y, camera->cameraPos.z);
+		glBindTexture(GL_TEXTURE_2D, cubeMap[i]->meshID);
 		//glDrawArrays(GL_TRIANGLES, 0, 36);
 		cubeMap[i]->drawMesh();
-		glDepthMask(GL_TRUE);
 	}
 	for (int i = 0; i < GameEngine::gameobjects.size(); i++)
 	{
@@ -234,10 +216,12 @@ void GraphicsEngine::initEngine(int argc, char** argv)
 	int(*p_grDecelerate)() = camera->grDecelerate;
 	int(*p_grTurnLeft)() = camera->grTurnLeft;
 	int(*p_grTurnRight)() = camera->grTurnRight;
+	int(*p_grCamera)() = camera->cameraSwitch;
 	EventReaction[0] = p_grAccelerate;
 	EventReaction[1] = p_grDecelerate;
 	EventReaction[2] = p_grTurnLeft;
 	EventReaction[3] = p_grTurnRight;
+	EventReaction[4] = p_grCamera;
 
 	glewExperimental = GL_TRUE;
 	glewInit();

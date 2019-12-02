@@ -4,8 +4,8 @@
 int(*AudioEngine::EventReaction[2])();
 FMOD::Studio::System* AudioEngine::system = NULL;
 FMOD::System* AudioEngine::lowLevelSystem = NULL;
-FMOD::Sound* AudioEngine::meow = NULL;
-FMOD::Channel* AudioEngine::catChannel = NULL;
+FMOD::Sound* AudioEngine::sound = NULL;
+FMOD::Channel* AudioEngine::Channel = NULL;
 bool bIsPlaying = false;
 
 ///if audioengine breaks use commented code below to work out the error
@@ -24,10 +24,10 @@ AudioEngine::~AudioEngine()
 
 int AudioEngine::auAccelerate()
 {
-	if (catChannel->isPlaying(&bIsPlaying))
+	if (Channel->isPlaying(&bIsPlaying))
 	{
 		//std::cout << FMOD_ErrorString(result) << std::endl;
-		lowLevelSystem->playSound(meow, NULL, false, &catChannel);
+		lowLevelSystem->playSound(sound, NULL, false, &Channel);
 		bIsPlaying = true;
 	}
 	return 0;
@@ -74,13 +74,13 @@ void AudioEngine::initEngine()
 	system->initialize(1024, FMOD_STUDIO_INIT_NORMAL, FMOD_INIT_NORMAL, NULL);
 
 
-	lowLevelSystem->createSound("car_engine.wav", FMOD_LOOP_OFF, NULL, &meow);
+	lowLevelSystem->createSound("car_engine.wav", FMOD_LOOP_OFF, NULL, &sound);
 
-	if (meow) {
+	if (sound) {
 		cout << "Sound loaded." << "\n";
 	}
 
-	meow->setDefaults(16400, 0);
+	sound->setDefaults(16400, 0);
 
 	int(*p_auAccelerate)() = auAccelerate;
 	int(*p_auDecelerate)() = auDecelerate;

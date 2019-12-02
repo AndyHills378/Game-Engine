@@ -4,6 +4,8 @@
 
 std::map <int, bool> SubSystemSuper::specialKeys;
 std::map <char, bool> SubSystemSuper::keys;
+int UIManager::cameraMode = 1;
+int(*UIManager::EventReaction[5])();
 
 void UIManager::setKeyInput(unsigned char key, int x, int y)
 {
@@ -21,39 +23,67 @@ void UIManager::setKeyInput(unsigned char key, int x, int y)
 	case 'w':
 	{
 		Event myEvent((EventTypeEnum)0); // 0 - Accelerate
-		//myEvent.addSubsystem((SubSystemEnum)0); // 0 - GraphicsEngine
+
+		if(cameraMode==1){ myEvent.addSubsystem((SubSystemEnum)3); }// 3 - PhysicsEngine
+		else { myEvent.addSubsystem((SubSystemEnum)0); } // 0 - GraphicsEngine
+
 		myEvent.addSubsystem((SubSystemEnum)2); // 2 - AudioEngine
-		myEvent.addSubsystem((SubSystemEnum)3); // 0 - PhysicsEngine
+		myEvent.addSubsystem((SubSystemEnum)4); // 4 - NetworkEngine
+		
 		GameEngine::EventQueue.push_back(myEvent);
 		break;
 	}
 	case 's':
 	{
 		Event myEvent((EventTypeEnum)1); // 1 - Backwards
-		//myEvent.addSubsystem((SubSystemEnum)0); // 0 - GraphicsEngine
-		myEvent.addSubsystem((SubSystemEnum)3); // 0 - PhysicsEngine
+
+		if (cameraMode == 1) { myEvent.addSubsystem((SubSystemEnum)3); }// 3 - PhysicsEngine
+		else { myEvent.addSubsystem((SubSystemEnum)0); } // 0 - GraphicsEngine
+
+		myEvent.addSubsystem((SubSystemEnum)4); // 4 - NetworkEngine
+
 		GameEngine::EventQueue.push_back(myEvent);
 		break;
 	}
 	case 'a':
 	{
 		Event myEvent((EventTypeEnum)2); // 2 - Turn Left
-		//myEvent.addSubsystem((SubSystemEnum)0); // 0 - GraphicsEngine
-		myEvent.addSubsystem((SubSystemEnum)3); // 0 - PhysicsEngine
+
+		if (cameraMode == 1) { myEvent.addSubsystem((SubSystemEnum)3); }// 3 - PhysicsEngine
+		else { myEvent.addSubsystem((SubSystemEnum)0); } // 0 - GraphicsEngine
+
+		myEvent.addSubsystem((SubSystemEnum)4); // 4 - NetworkEngine
+
 		GameEngine::EventQueue.push_back(myEvent);
 		break;
 	}
 	case 'd':
 	{
 		Event myEvent((EventTypeEnum)3); // 3 - Turn Right
-		//myEvent.addSubsystem((SubSystemEnum)0); // 0 - GraphicsEngine
-		myEvent.addSubsystem((SubSystemEnum)3); // 0 - PhysicsEngine
+
+		if (cameraMode == 1) { myEvent.addSubsystem((SubSystemEnum)3); }// 3 - PhysicsEngine
+		else { myEvent.addSubsystem((SubSystemEnum)0); } // 0 - GraphicsEngine
+
+		myEvent.addSubsystem((SubSystemEnum)4); // 4 - NetworkEngine
+
 		GameEngine::EventQueue.push_back(myEvent);
 		break;
 	}
-	case 'g':
-		id++;
+	case 'c':
+		Event myEvent((EventTypeEnum)4);
+		myEvent.addSubsystem((SubSystemEnum)0); // 0 - GraphicsEngine
+		myEvent.addSubsystem((SubSystemEnum)1); // 1 - UIManager
+
+		GameEngine::EventQueue.push_back(myEvent);
+
 	}
+}
+
+int UIManager::cameraSwitch()
+{
+	if (cameraMode == 1) { cameraMode = 2; }
+	else { cameraMode = 1; }
+	return 0;
 }
 
 void UIManager::setSpecialKeyInput(int key, int x, int y)
@@ -78,6 +108,7 @@ UIManager::~UIManager()
 {
 }
 
+
 void UIManager::initEngine(int argc, char** argv)
 {
 	//glutPassiveMotionFunc(setMouseMove);
@@ -86,19 +117,23 @@ void UIManager::initEngine(int argc, char** argv)
 	glutSpecialUpFunc(setSpecialKeyUp);
 	glutJoystickFunc(joyStick, 20);
 	cout << "UI Manager loaded" << endl;
+	int(*p_grCamera)() = cameraSwitch;
+	EventReaction[4] = p_grCamera;
 }
 
-/*glm::vec3 UIManager::getCameraPos()
+void UIManager::updateGame(int deltaTime)
 {
-	return cameraPos;
+	//read event queue
+	for (int i = 0; i < GameEngine::EventQueue.size();i++)
+	{
+		for (int j = 0; j < GameEngine::EventQueue[i].mySubSystems.size(); j++)
+		{
+			if (GameEngine::EventQueue[i].mySubSystems[j] == SubSystemEnum::uiManager)
+			{
+				EventReaction[(int)GameEngine::EventQueue[i].myType]();
+				GameEngine::EventQueue[i].mySubSystems.erase(GameEngine::EventQueue[i].mySubSystems.begin() + j);
+			}
+		}
+	}
+	glutPostRedisplay();
 }
-
-glm::vec3 UIManager::getCameraFront()
-{
-	return cameraFront;
-}
-
-glm::vec3 UIManager::getCameraUp()
-{
-	return cameraUp;
-}*/
