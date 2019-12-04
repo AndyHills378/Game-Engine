@@ -1,5 +1,5 @@
 window = {
-    title = "301 GameEngine",
+    title = "301 GameEngine Level 1",
     width = 800,
     height = 600
 }
@@ -20,9 +20,9 @@ environment= {
 		 Z = 0
 	},
 	scale = {
-		 X = 1000,
-		 Y = 1000,
-		 Z = 1000
+		 X = 2000,
+		 Y = 2000,
+		 Z = 2000
 	},
 	rotate = 0, 
 	rotateVec = {
@@ -38,13 +38,13 @@ mustang={
 	texture = "asphalt.bmp",
 	position = {
 		X = 0,
-		Y = 40,
+		Y = 20,
 		Z = 0
 	},
 	scale = {
-		X = 3,
-		Y = 3, 
-		Z = 3
+		X = 1,
+		Y = 1, 
+		Z = 1
 	},
 	rotate = 0,
 	rotateVec = {
@@ -53,4 +53,26 @@ mustang={
 		Z = 0
 	},
 	objectToFollow = true
+}
+
+mustang2={
+	filename = "mustang.obj",
+	texture = "asphalt.bmp",
+	position = {
+		X = 0,
+		Y = 20,
+		Z = 0
+	},
+	scale = {
+		X = 1,
+		Y = 1, 
+		Z = 1
+	},
+	rotate = 0,
+	rotateVec = {
+		X = 0,
+		Y = 1, 
+		Z = 0
+	},
+	objectToFollow = false
 }

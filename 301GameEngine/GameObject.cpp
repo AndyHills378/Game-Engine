@@ -25,6 +25,7 @@ GameObject::GameObject(char* luaFile, char* filename, char* luaID, int objectID)
 	this->rotateVec = glm::vec3(rotateVec["X"].cast<float>(), rotateVec["Y"].cast<float>(), rotateVec["Z"].cast<float>());
 	this->objectToFollow = t["objectToFollow"].cast<bool>();
 	cout << "object: " << luaID << " loaded" << endl;
+	//if (objectID == 3) { this->objectToFollow = false; }
 	setupObject();
 }
 

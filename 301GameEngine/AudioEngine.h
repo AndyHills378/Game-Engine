@@ -12,6 +12,8 @@ public:
 	static FMOD::System* lowLevelSystem;
 	static FMOD::Sound* sound;
 	static FMOD::Channel* Channel;
+	static FMOD::Channel* BGM;
+	static FMOD::Sound* BGMSound;
 	AudioEngine();
 	~AudioEngine();
 	static int auAccelerate();

@@ -35,7 +35,7 @@ void Camera::update(int deltaTime)
 		{
 			if (GameEngine::gameobjects[i]->objectToFollow)
 			{
-				cameraPos = GameEngine::gameobjects[i]->position + vec3(50 * cos(GameEngine::gameobjects[i]->rotate), 30, 50 * -sin(GameEngine::gameobjects[i]->rotate));
+				cameraPos = GameEngine::gameobjects[i]->position + vec3(30 * cos(GameEngine::gameobjects[i]->rotate), 20, 30 * -sin(GameEngine::gameobjects[i]->rotate));
 				cameraFront = GameEngine::gameobjects[i]->position;
 			}
 		}

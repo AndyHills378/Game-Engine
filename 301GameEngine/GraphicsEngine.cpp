@@ -83,11 +83,6 @@ void GraphicsEngine::setup()
 	newTexture.push_back(right);
 	newTexture.push_back(top);
 
-	Texture* asphalt = new Texture("Textures/asphalt.bmp", 1);
-	newTexture.push_back(asphalt);
-	/*Texture* sand = new Texture("Textures/sand.bmp", 2);
-	newTexture.push_back(sand);*/
-
 	cubeMap.push_back(new Mesh(skyVertices, vec3(0.0f, 500.0f, 500.0f), -1.5708f, vec3(1.0f, 0.0f, 0.0f), bottom->texture));
 	cubeMap.push_back(new Mesh(skyVertices, vec3(0.0f, 500.0f, -500.0f), 1.5708f, vec3(1.0f, 0.0f, 0.0f), top->texture));
 	cubeMap.push_back(new Mesh(skyVertices, vec3(0.0f), 0.0f, vec3(0.0f,1.0f,0.0f), left->texture));
@@ -133,19 +128,10 @@ void GraphicsEngine::drawScene()
 	glutSwapBuffers();
 }
 
-
 void GraphicsEngine::updateGame(int deltaTime)
 {
-	if (SubSystemSuper::debugMode) {
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	}
-	else {
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	}
-	theta = theta + 1.0f * deltaTime / 100.0f;
-	if (theta >= 180.0) theta -= 180.0f;
-
-	//cout << theta << endl;
+	if (SubSystemSuper::debugMode) { glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); }
+	else { glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); }
 	
 	//read event queue
 	for (int i = 0; i < GameEngine::EventQueue.size();i++)
@@ -168,10 +154,11 @@ void GraphicsEngine::printInteraction(void)
 {
 	std::cout << "----------------------------------" << std::endl;
 	std::cout << "---------**  CONTROLS  **---------" << std::endl;
-	std::cout << "     **WASD - change camera**     " << std::endl;
-	//std::cout << " t - debugmode " << std::endl;
-	std::cout << " Arrow keys - Move " << std::endl;
-	//std::cout << " c - cameramode " << std::endl;
+	std::cout << "          **WASD- Move**          " << std::endl;
+	std::cout << "     **C- Change cameramode**     " << std::endl;
+	//std::cout << "         **T- debugmode**         " << std::endl;
+	std::cout << "----------------------------------" << std::endl;
+	std::cout << "----------------------------------" << std::endl;
 }
 
 void resize(int w, int h)
@@ -182,10 +169,12 @@ void resize(int w, int h)
 void GraphicsEngine::initEngine(int argc, char** argv)
 {
 	printInteraction();
-	//glutInit(&argc, argv);
 
 	lua_State* F = luaL_newstate();
-	luaL_dofile(F, "level.lua");
+
+	if (GameEngine::levelId == 1){ luaL_dofile(F, "level.lua");  }
+	else { luaL_dofile(F, "level2.lua"); }
+
 	luaL_openlibs(F);
 	lua_pcall(F, 0, 0, 0);
 

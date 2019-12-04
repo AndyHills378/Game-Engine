@@ -8,19 +8,17 @@ using namespace std;
 
 struct PhysicsData {
 	int packetType = 1;
-	//Vector2 positions[2];
 	glm::vec3 positions[2];
 	glm::vec3 headings[2];
 };
 
-struct ClientData {
+struct ClientConnection {
 	int packetType = 0;
 	int clientIndex;
 };
 
 struct ClientPacket {
 	int clientIndex;
-	//Vector2 position;
 	glm::vec3 position;
 	glm::vec3 heading;
 };
@@ -69,16 +67,19 @@ void main()
 
 	physicsData->positions[0].x = 600.0f;
 	physicsData->positions[0].y = 300.0f;
-	physicsData->positions[1].x = 100.0f;
-	physicsData->positions[1].y = 300.0f;
+	physicsData->positions[0].z = 300.0f;
+	physicsData->positions[1].x = 0.0f;
+	physicsData->positions[1].y = 0.0f;
+	physicsData->positions[1].z = 0.0f;
 
 	ClientPacket* clientPacket = new ClientPacket;
 
 	clientPacket->clientIndex = 0;
 	clientPacket->position.x = 0.0f;
 	clientPacket->position.y = 0.0f;
+	clientPacket->position.z = 0.0f;
 
-	ClientData* clientData = new ClientData;
+	ClientConnection* clientConnection = new ClientConnection;
 
 	while (window.isOpen())
 	{
@@ -97,9 +98,9 @@ void main()
 				
 				cout << "A client connected from address " << enetEvent.peer->address.host << ":" << enetEvent.peer->address.port << ".\n";
 
-				clientData->clientIndex = clientCount;
+				clientConnection->clientIndex = clientCount;
 
-				dataPacket = enet_packet_create(clientData, sizeof(ClientData), ENET_PACKET_FLAG_RELIABLE);
+				dataPacket = enet_packet_create(clientConnection, sizeof(clientConnection), ENET_PACKET_FLAG_RELIABLE);
 				enet_peer_send(enetEvent.peer, 0, dataPacket);
 
 				enetEvent.peer->data = "This is a client";
@@ -117,7 +118,7 @@ void main()
 				int currentClient = clientPacket->clientIndex;
 				physicsData->positions[clientPacket->clientIndex] = clientPacket->position;
 				physicsData->headings[clientPacket->clientIndex] = clientPacket->heading;
-				cout << "packet received" << endl;
+				cout << "packet received from: " << clientPacket->clientIndex << endl;
 			}
 		}
 
@@ -133,7 +134,7 @@ void main()
 	/* We destroy the ENet Host instance, and deinitialize the library on shutdown. */
 
 	delete physicsData;
-	delete clientData;
+	delete clientConnection;
 	delete clientPacket;
 
 	enet_host_destroy(server);

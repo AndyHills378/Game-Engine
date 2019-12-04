@@ -24,11 +24,13 @@ void UIManager::setKeyInput(unsigned char key, int x, int y)
 	{
 		Event myEvent((EventTypeEnum)0); // 0 - Accelerate
 
-		if(cameraMode==1){ myEvent.addSubsystem((SubSystemEnum)3); }// 3 - PhysicsEngine
+		if(cameraMode==1){
+			myEvent.addSubsystem((SubSystemEnum)3); // 3 - PhysicsEngine
+			myEvent.addSubsystem((SubSystemEnum)4); // 4 - NetworkEngine
+		}
 		else { myEvent.addSubsystem((SubSystemEnum)0); } // 0 - GraphicsEngine
 
 		myEvent.addSubsystem((SubSystemEnum)2); // 2 - AudioEngine
-		myEvent.addSubsystem((SubSystemEnum)4); // 4 - NetworkEngine
 		
 		GameEngine::EventQueue.push_back(myEvent);
 		break;
@@ -37,10 +39,11 @@ void UIManager::setKeyInput(unsigned char key, int x, int y)
 	{
 		Event myEvent((EventTypeEnum)1); // 1 - Backwards
 
-		if (cameraMode == 1) { myEvent.addSubsystem((SubSystemEnum)3); }// 3 - PhysicsEngine
+		if (cameraMode == 1) {
+			myEvent.addSubsystem((SubSystemEnum)3); // 3 - PhysicsEngine
+			myEvent.addSubsystem((SubSystemEnum)4); // 4 - NetworkEngine
+		}
 		else { myEvent.addSubsystem((SubSystemEnum)0); } // 0 - GraphicsEngine
-
-		myEvent.addSubsystem((SubSystemEnum)4); // 4 - NetworkEngine
 
 		GameEngine::EventQueue.push_back(myEvent);
 		break;
@@ -49,10 +52,11 @@ void UIManager::setKeyInput(unsigned char key, int x, int y)
 	{
 		Event myEvent((EventTypeEnum)2); // 2 - Turn Left
 
-		if (cameraMode == 1) { myEvent.addSubsystem((SubSystemEnum)3); }// 3 - PhysicsEngine
+		if (cameraMode == 1) {
+			myEvent.addSubsystem((SubSystemEnum)3); // 3 - PhysicsEngine
+			myEvent.addSubsystem((SubSystemEnum)4); // 4 - NetworkEngine
+		}
 		else { myEvent.addSubsystem((SubSystemEnum)0); } // 0 - GraphicsEngine
-
-		myEvent.addSubsystem((SubSystemEnum)4); // 4 - NetworkEngine
 
 		GameEngine::EventQueue.push_back(myEvent);
 		break;
@@ -61,10 +65,11 @@ void UIManager::setKeyInput(unsigned char key, int x, int y)
 	{
 		Event myEvent((EventTypeEnum)3); // 3 - Turn Right
 
-		if (cameraMode == 1) { myEvent.addSubsystem((SubSystemEnum)3); }// 3 - PhysicsEngine
+		if (cameraMode == 1) {
+			myEvent.addSubsystem((SubSystemEnum)3); // 3 - PhysicsEngine
+			myEvent.addSubsystem((SubSystemEnum)4); // 4 - NetworkEngine
+		}
 		else { myEvent.addSubsystem((SubSystemEnum)0); } // 0 - GraphicsEngine
-
-		myEvent.addSubsystem((SubSystemEnum)4); // 4 - NetworkEngine
 
 		GameEngine::EventQueue.push_back(myEvent);
 		break;

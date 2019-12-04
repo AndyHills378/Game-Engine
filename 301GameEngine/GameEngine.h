@@ -19,6 +19,8 @@ public:
 	static std::vector<int> subsystems;
 	static std::vector<GameObject*> gameobjects;
 
+	static int levelId;
+
 	GameEngine();
 	~GameEngine();
 	static void initEngine(int argc, char** argv);

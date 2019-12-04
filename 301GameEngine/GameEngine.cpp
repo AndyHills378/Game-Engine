@@ -9,7 +9,7 @@ std::vector<GameObject*> GameEngine::gameobjects;
 int GameEngine::oldTimeSinceStart; ///<The old time since the start of the game (from previous frame) for delta time calculation.
 int GameEngine::newTimeSinceStart; ///<The time since the start of the game for delta time calculation.
 int deltaTime;
-int levelId;
+int GameEngine::levelId;
 bool valid;
 
 GameEngine::GameEngine()
@@ -45,6 +45,15 @@ void GameEngine::initEngine(int argc, char** argv)
 	//Initialise Physics Engine
 	PhysicsEngine::initEngine();
 
+	if (levelId == 1) {
+		//gameobjects.push_back(new GameObject((char*)"level.lua", (char*)"environmentTest.obj", (char*)"environment", 0));
+		gameobjects.push_back(new GameObject((char*)"level.lua", (char*)"mustang.obj", (char*)"mustang", 1));
+	}
+	if (levelId == 2) {
+		//gameobjects.push_back(new GameObject((char*)"level2.lua", (char*)"environmentTest.obj", (char*)"environment", 0));
+		gameobjects.push_back(new GameObject((char*)"level2.lua", (char*)"mustang.obj", (char*)"mustang", 1));
+	}
+
 	//Initialise Network Engine
 	NetworkEngine::initEngine();
 
@@ -54,14 +63,6 @@ void GameEngine::initEngine(int argc, char** argv)
 
 void GameEngine::startEngine()
 {
-	if (levelId == 1) {
-		gameobjects.push_back(new GameObject((char*)"level.lua", (char*)"environmentTest.obj", (char*)"environment", 0));
-		gameobjects.push_back(new GameObject((char*)"level.lua", (char*)"mustang.obj", (char*)"mustang", 1));
-	}
-	if (levelId == 2) {
-		gameobjects.push_back(new GameObject((char*)"level2.lua", (char*)"environmentTest.obj", (char*)"environment", 0));
-		gameobjects.push_back(new GameObject((char*)"level2.lua", (char*)"mustang.obj", (char*)"mustang", 1));
-	}
 	cout << "press ESC to close" << endl;
 	glutMainLoop();
 }

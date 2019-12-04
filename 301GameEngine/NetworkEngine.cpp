@@ -1,6 +1,5 @@
 #include "NetworkEngine.h"
 
-
 ENetAddress address;
 ENetEvent enetEvent;
 ENetHost* client;
@@ -8,13 +7,18 @@ ENetPeer* peer;
 ENetPacket* dataPacket;
 int NetworkEngine::clientCount = 0;
 
-ClientData* clientData;
-ClientPacket* clientPacket;
+ClientData* clientData = new ClientData;
+ClientConnection* clientConnection = new ClientConnection;
+ClientPacket* clientPacket = new ClientPacket;
 
-int* packetType;
+int* packetType = new int;
 int clientIndex = -1;
+ClientConnection* tempClient = new ClientConnection;
 
 int(*NetworkEngine::EventReaction[4])();
+
+GameObject* avatar;
+GameObject* enemy;
 
 NetworkEngine::NetworkEngine()
 {
@@ -26,6 +30,24 @@ NetworkEngine::~NetworkEngine()
 
 void NetworkEngine::initEngine()
 {
+	for (int i = 0; i < GameEngine::gameobjects.size();i++)
+	{
+		if (GameEngine::gameobjects[i]->objectToFollow == true)
+		{
+			avatar = GameEngine::gameobjects[i];
+		}
+	}
+
+	if(GameEngine::levelId == 1) { 
+		enemy = new GameObject((char*)"level.lua", (char*)"mustang.obj", (char*)"mustang2", 3);
+		GameEngine::gameobjects.push_back(enemy);
+	}
+
+	else { 
+		enemy = new GameObject((char*)"level2.lua", (char*)"mustang.obj", (char*)"mustang2", 3);
+		GameEngine::gameobjects.push_back(enemy);
+	}
+
 	if (enet_initialize() != 0)
 	{
 		cout << "you done goofed..." << endl;
@@ -69,46 +91,49 @@ int NetworkEngine::nwAccelerate()
 {
 	for (int i = 0; i < GameEngine::gameobjects.size(); i++)
 	{
-		if (GameEngine::gameobjects[i]->objectToFollow)
+		if (GameEngine::gameobjects[i]->objectToFollow == true)
 		{
-			clientPacket->position = GameEngine::gameobjects[i]->position;
-			clientPacket->heading = GameEngine::gameobjects[i]->heading;
+			clientPacket->position[clientIndex] = GameEngine::gameobjects[i]->position;
+			clientPacket->heading[clientIndex] = GameEngine::gameobjects[i]->heading;
 		}
 	}
 	return 0;
 }
+
 int NetworkEngine::nwDecelerate()
 {
 	for (int i = 0; i < GameEngine::gameobjects.size(); i++)
 	{
-		if (GameEngine::gameobjects[i]->objectToFollow)
+		if (GameEngine::gameobjects[i]->objectToFollow == true)
 		{
-			clientPacket->position = GameEngine::gameobjects[i]->position;
-			clientPacket->heading = GameEngine::gameobjects[i]->heading;
+			clientPacket->position[clientIndex] = GameEngine::gameobjects[i]->position;
+			clientPacket->heading[clientIndex] = GameEngine::gameobjects[i]->heading;
 		}
 	}
 	return 0;
 }
+
 int NetworkEngine::nwTurnLeft()
 {
 	for (int i = 0; i < GameEngine::gameobjects.size(); i++)
 	{
-		if (GameEngine::gameobjects[i]->objectToFollow)
+		if (GameEngine::gameobjects[i]->objectToFollow == true)
 		{
-			clientPacket->position = GameEngine::gameobjects[i]->position;
-			clientPacket->heading = GameEngine::gameobjects[i]->heading;
+			clientPacket->position[clientIndex] = GameEngine::gameobjects[i]->position;
+			clientPacket->heading[clientIndex] = GameEngine::gameobjects[i]->heading;
 		}
 	}
 	return 0;
 }
+
 int NetworkEngine::nwTurnRight()
 {
 	for (int i = 0; i < GameEngine::gameobjects.size(); i++)
 	{
-		if (GameEngine::gameobjects[i]->objectToFollow)
+		if (GameEngine::gameobjects[i]->objectToFollow == true)
 		{
-			clientPacket->position = GameEngine::gameobjects[i]->position;
-			clientPacket->heading = GameEngine::gameobjects[i]->heading;
+			clientPacket->position[0] = GameEngine::gameobjects[i]->position;
+			clientPacket->heading[0] = GameEngine::gameobjects[i]->heading;
 		}
 	}
 	return 0;
@@ -116,13 +141,42 @@ int NetworkEngine::nwTurnRight()
 
 void NetworkEngine::updateEngine(int deltaTime)
 {
+	//*packetType = -1;
 	while (enet_host_service(client, &enetEvent, 0) > 0)
 	{
+
 		switch (enetEvent.type)
 		{
 			case ENET_EVENT_TYPE_RECEIVE:
 			{
-				//cout << "packet received" << endl;
+
+				//cout << "Packet received of type ";
+
+				memcpy(packetType, enetEvent.packet->data, sizeof(int));
+
+				cout << *packetType << "!\n";
+
+				if (*packetType == 0)
+				{
+					memcpy(tempClient, enetEvent.packet->data, sizeof(ClientConnection));
+
+					clientIndex = tempClient->clientIndex;
+
+					cout << "clientIndex: " << clientIndex << "\n";
+				}
+				if (*packetType == 1)
+				{
+					if (tempClient->clientIndex != clientIndex)
+					{
+						memcpy(clientData, enetEvent.packet->data, sizeof(ClientData));
+						enemy->position = glm::vec3(clientData->position[tempClient->clientIndex].x, 
+							clientData->position[tempClient->clientIndex].y, 
+							clientData->position[tempClient->clientIndex].z);
+						cout << "PosX: " << clientData->position[clientIndex].x << 
+							"PosY: " << clientData->position[clientIndex].y << 
+							"PosZ: " << clientData->position[clientIndex].z << endl;
+					}
+				}
 			}
 			for (int i = 0; i < GameEngine::EventQueue.size(); i++)
 			{

@@ -6,7 +6,10 @@ FMOD::Studio::System* AudioEngine::system = NULL;
 FMOD::System* AudioEngine::lowLevelSystem = NULL;
 FMOD::Sound* AudioEngine::sound = NULL;
 FMOD::Channel* AudioEngine::Channel = NULL;
+FMOD::Channel* AudioEngine::BGM = NULL;
+FMOD::Sound* AudioEngine::BGMSound = NULL;
 bool bIsPlaying = false;
+bool BGMPlaying = false;
 
 ///if audioengine breaks use commented code below to work out the error
 //FMOD_RESULT result = 
@@ -75,12 +78,22 @@ void AudioEngine::initEngine()
 
 
 	lowLevelSystem->createSound("car_engine.wav", FMOD_LOOP_OFF, NULL, &sound);
+	lowLevelSystem->createSound("BGM.wav", FMOD_LOOP_NORMAL, NULL, &BGMSound);
 
 	if (sound) {
 		cout << "Sound loaded." << "\n";
 	}
+	if (BGMSound)
+	{
+		cout << "background music loaded" << "\n";
+	}
 
 	sound->setDefaults(16400, 0);
+	BGMSound->setDefaults(16400, 0);
+	
+		//std::cout << FMOD_ErrorString(result) << std::endl;
+	
+	lowLevelSystem->playSound(BGMSound, NULL, false, &BGM);
 
 	int(*p_auAccelerate)() = auAccelerate;
 	int(*p_auDecelerate)() = auDecelerate;

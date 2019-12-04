@@ -2,15 +2,20 @@
 #include "Header.h"
 #include "GameEngine.h"
 
-struct ClientData {
-	int packetType = 0;
+struct ClientConnection {
+	int packetType;
 	int clientIndex;
+};
+
+struct ClientData {
+	vec3 position[2];
+	vec3 heading[2];
 };
 
 struct ClientPacket {
 	int clientIndex;
-	vec3 position;
-	vec3 heading;
+	vec3 position[2];
+	vec3 heading[2];
 };
 
 
