@@ -46,11 +46,11 @@ void GameEngine::initEngine(int argc, char** argv)
 	PhysicsEngine::initEngine();
 
 	if (levelId == 1) {
-		//gameobjects.push_back(new GameObject((char*)"level.lua", (char*)"environmentTest.obj", (char*)"environment", 0));
+		gameobjects.push_back(new GameObject((char*)"level.lua", (char*)"environmentTest.obj", (char*)"environment", 0));
 		gameobjects.push_back(new GameObject((char*)"level.lua", (char*)"mustang.obj", (char*)"mustang", 1));
 	}
 	if (levelId == 2) {
-		//gameobjects.push_back(new GameObject((char*)"level2.lua", (char*)"environmentTest.obj", (char*)"environment", 0));
+		gameobjects.push_back(new GameObject((char*)"level2.lua", (char*)"environmentTest.obj", (char*)"environment", 0));
 		gameobjects.push_back(new GameObject((char*)"level2.lua", (char*)"mustang.obj", (char*)"mustang", 1));
 	}
 
